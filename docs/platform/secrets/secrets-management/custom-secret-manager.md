@@ -1,12 +1,13 @@
 ---
 title: Add a custom secret manager
-description: This topic explains how to create and use a Custom Secret Manager.
-# sidebar_position: 2
 helpdocs_topic_id: mg09uspsx1
 helpdocs_category_id: 48wnu4u0tj
 helpdocs_is_private: false
 helpdocs_is_published: true
+description: This topic explains how to create and use a Custom Secret Manager.
 ---
+
+# Add a custom secret manager
 
 Harness includes a built-in Secrets Management feature that enables you to store encrypted secrets, such as access keys, and use them in your Harness account.
 
@@ -14,21 +15,19 @@ You can also access your encrypted secrets stored in third-party Secret Managers
 
 import Storeauth from '/docs/platform/shared/store-auth-credentials.md'
 
-<Storeauth />
-
 This topic explains how to add and use a Custom Secret Manager in Harness.
 
-### Before you begin
+#### Before you begin
 
-* [Harness Secret Manager Overview](/docs/platform/secrets/secrets-management/harness-secret-manager-overview)
-* [Store authentication credentials](/docs/platform/secrets/secrets-management/store-authentication-credentials)
+* [Harness Secret Manager Overview](harness-secret-manager-overview/)
+* [Store authentication credentials](store-authentication-credentials/)
 
-### Permissions
+#### Permissions
 
 * Create/Edit Secrets
-* Create/Edit Connectors
+*   Create/Edit Connectors
 
-    ![](../../secrets/static/custom-secret-manager-31.png)
+    ![](../static/custom-secret-manager-31.png)
 
 :::info important
 
@@ -37,9 +36,9 @@ This topic explains how to add and use a Custom Secret Manager in Harness.
 
 :::
 
-### Harness Custom Secret Manager Overview
+#### Harness Custom Secret Manager Overview
 
-Harness includes a built-in Secrets Management feature that enables you to store encrypted secrets, such as access keys, and use them in your Harness Account. 
+Harness includes a built-in Secrets Management feature that enables you to store encrypted secrets, such as access keys, and use them in your Harness Account.&#x20;
 
 Harness integrates with the following third-party Secret Managers along with a built-in Secret Manager:
 
@@ -53,31 +52,28 @@ You can use third-party Secrets Managers not integrated with Harness to store en
 
 Your Custom Secret Manager uses a shell script that you can execute either on a delegate or on a remote host which is connected to the delegate. Harness fetches and reads your secrets from the third-party Secret Manager through this shell script.
 
-### Step 1: Create a Secret Manager Template
+#### Step 1: Create a Secret Manager Template
 
 You can create a Secret Manager Template at Account, Org, or Project scope.
 
 This topic shows you how to create a Secret Manager Template at the Project scope.
 
 1. In your Harness Account, go to your Project.
+2.  In Project Setup, select **Templates**, and then select **New Template**.
 
-2. In Project Setup, select **Templates**, and then select **New Template**.
-   
-   ![](../static/custom-secret-manager-32.png)
-
+    ![](../static/custom-secret-manager-32.png)
 3. Select **Secret Manager**. The Secret Manager Template settings appear.
 4. Enter a **Name** for your Secret Manager Template.
 5. Enter a **Version Label**.
-6. Select **Start**.
+6.  Select **Start**.
 
-   ![](../../secrets/static/custom-secret-manager-33.png)
-
+    ![](../static/custom-secret-manager-33.png)
 7. Enter your script in **Script**.
-8. Select **Save**.
+8.  Select **Save**.
 
-   For detailed steps to create a Secret Manager Template, go to [Create a Secret Manager Template](../../templates/create-a-secret-manager-template.md).
+    For detailed steps to create a Secret Manager Template, go to [Create a Secret Manager Template](../../templates/create-a-secret-manager-template.md).
 
-### Step 2: Add a Custom Secret Manager
+#### Step 2: Add a Custom Secret Manager
 
 You can add a Custom Secret Manager at Account, Org, and Project scope.
 
@@ -87,34 +83,29 @@ This topic shows you how to add a Custom Secret Manager in the Project scope.
 
 1. In your Harness Account, go to your Project.
 2. In Project Setup, select **Connectors** and then select **New Connector**.
-3. In **Secret Managers**, select **Custom Secret Manager**. The Custom Secret Manager settings open.
+3.  In **Secret Managers**, select **Custom Secret Manager**. The Custom Secret Manager settings open.
 
-   ![](../../secrets/static/custom-secret-manager-34.png)
-   
-   
+    ![](../static/custom-secret-manager-34.png)
 4. Enter a **Name** for your Custom Secret Manager. Select **Continue**.
 5. Select **Select Template**. The Template Library appears with all the [Secret Manager Templates](../../templates/create-a-secret-manager-template.md) listed.
-6. Select the desired scope and select a Secret Manager Template from the Template Library.
-   
-   ![](../../secrets/static/custom-secret-manager-35.png)
+6.  Select the desired scope and select a Secret Manager Template from the Template Library.
 
-   You can also search for a specific Secret Manager Template by entering its name in **Search**. Once you select the Secret Manager Template, the details are displayed in the Template Studio.
-  
+    ![](../static/custom-secret-manager-35.png)
+
+    You can also search for a specific Secret Manager Template by entering its name in **Search**. Once you select the Secret Manager Template, the details are displayed in the Template Studio.
 7. Select **Use Template**.
-8. Enter values for the required Input Variables. Harness allows you to use [Fixed Values and Runtime Inputs](../../variables-and-expressions/runtime-inputs).
-	
-	![](../static/custom-secret-manager-36.png)
+8.  Enter values for the required Input Variables. Harness allows you to use [Fixed Values and Runtime Inputs](../../variables-and-expressions/runtime-inputs/).
 
-10. Select **Fixed** to make the variable values fixed. Harness won't ask you these values when you create Secrets.
-11. Select **Continue**.
-12. In **Delegates** **Setup**, enter [**Selectors**](../../delegates/manage-delegates/select-delegates-with-selectors.md#option-select-a-delegate-for-a-connector-using-tags) for specific **Delegates** that you want to allow to connect to this Connector. Select **Save and Continue**.
-13. In **Connection Test**, select **Finish** after your connection is successful.
+    ![](../static/custom-secret-manager-36.png)
+9. Select **Fixed** to make the variable values fixed. Harness won't ask you these values when you create Secrets.
+10. Select **Continue**.
+11. In **Delegates** **Setup**, enter [**Selectors**](../../delegates/manage-delegates/select-delegates-with-selectors.md#option-select-a-delegate-for-a-connector-using-tags) for specific **Delegates** that you want to allow to connect to this Connector. Select **Save and Continue**.
+12. In **Connection Test**, select **Finish** after your connection is successful.
 
-### Step 3: Use the Custom Secret Manager
+#### Step 3: Use the Custom Secret Manager
 
-Create an Encrypted Text using the Custom Secrets Manager you created earlier. Enter the name and values of all the Input Variables defined while creating the Shell Script Template. 
+Create an Encrypted Text using the Custom Secrets Manager you created earlier. Enter the name and values of all the Input Variables defined while creating the Shell Script Template.&#x20;
 
-For more information on creating Encrypted Text Secret, go to [Add Encrypted Text](/docs/platform/secrets/add-use-text-secrets).
+For more information on creating Encrypted Text Secret, go to [Add Encrypted Text](../add-use-text-secrets/).
 
 If you want to create a secret on a Target Host Custom Secrets Manager, you must also select the Connection Attribute.
-

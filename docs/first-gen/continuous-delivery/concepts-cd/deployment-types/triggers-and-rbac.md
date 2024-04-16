@@ -1,14 +1,18 @@
 ---
 title: Triggers and RBAC
-description: This content is for Harness FirstGen. Switch to NextGen. A Trigger involves multiple settings, including Service, Environment, and Workflow specifications. Harness examines these components as you se…
-# sidebar_position: 2
 helpdocs_topic_id: su0wpdarqi
 helpdocs_category_id: vbcmo6ltg7
 helpdocs_is_private: false
 helpdocs_is_published: true
+description: >-
+  This content is for Harness FirstGen. Switch to NextGen. A Trigger involves
+  multiple settings, including Service, Environment, and Workflow
+  specifications. Harness examines these components as you se…
 ---
 
-This content is for [Harness FirstGen](/docs/continuous-delivery/get-started/upgrading/upgrade-nextgen-cd.md). Switch to [NextGen](/docs/platform/role-based-access-control/rbac-in-harness).
+# Triggers and RBAC
+
+This content is for [Harness FirstGen](../../../../continuous-delivery/get-started/upgrading/upgrade-nextgen-cd.md). Switch to [NextGen](../../../../platform/role-based-access-control/rbac-in-harness/).
 
 A Trigger involves multiple settings, including Service, Environment, and Workflow specifications. Harness examines these components as you set up a Trigger.
 
@@ -23,21 +27,20 @@ For further details, see [Managing Users and Groups (RBAC)](../../../firstgen-pl
 
 Below are some errors that can occur.
 
-#### User does not have "Deployment: execute" permission
+**User does not have "Deployment: execute" permission**
 
 Error messages of the form `User does not have "Deployment: execute" permission` indicate that your user group's **Application Permissions** > **Action** settings do not include **execute** in the scope of the specified Application and/or Environment. To resolve this, see [Application Permissions](../../../firstgen-platform/security/access-management-howtos/users-and-permissions.md#application-permissions).
 
-#### User not authorized
+**User not authorized**
 
-The following error message indicates that a non-Administrator has tried to submit a Trigger whose **Workflow Variables: Environment** field is configured with a variable, rather than with a static Environment name:
+The following error message indicates that a non-Administrator has tried to submit a Trigger whose **Workflow Variables: Environment** field is configured with a variable, rather than with a static Environment name:
 
-`User not authorized: Only members of the Account Administrator user group can create or update  Triggers with parameterized variables`
+`User not authorized: Only members of the Account Administrator user group can create or update  Triggers with parameterized variables`
 
 Submitting a Pipeline Trigger that includes such a Workflow will generate the same error.
 
 One resolution is to set the **Environment** field to a static value. But if the **Environment** setting must be dynamic, a member of the Account Administrator user group will need to configure and submit the Trigger.
 
-### See Also
+#### See Also
 
 * You can use settings to enforce authorization on some Triggers. See [Trigger a Deployment using cURL](../../model-cd-pipeline/triggers/trigger-a-deployment-using-c-url.md).
-

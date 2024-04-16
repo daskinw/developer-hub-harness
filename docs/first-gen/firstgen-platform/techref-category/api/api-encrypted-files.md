@@ -1,21 +1,22 @@
 ---
 title: Encrypted Files API
-description: Sample GraphQL queries to read and delete Harness secrets that rely on encrypted files.
 sidebar_position: 240
 helpdocs_topic_id: jvhzdi1ztj
 helpdocs_category_id: l2p3i03l4a
 helpdocs_is_private: false
 helpdocs_is_published: true
+description: "Sample GraphQL queries to read and delete Harness\_secrets that rely on encrypted files."
 ---
 
-This topic lists sample queries that read, create, update and delete [Harness secrets](../../security/secrets-management/secret-management.md) that rely on encrypted files.
+# Encrypted Files API
 
+This topic lists sample queries that read, create, update and delete [Harness secrets](../../security/secrets-management/secret-management.md) that rely on encrypted files.
 
 This API is currently in Beta. It supports only Get and Delete operations. For Create and Update operations, use the cURL commands given in this topic and update the parameters as needed. The `!` character at the end of a parameter's name indicates that it is a required parameter.
-## Get a Secret by ID
+
+### Get a Secret by ID
 
 This sample retrieves an existing file secret by its ID:
-
 
 ```
 query{  
@@ -43,10 +44,9 @@ query{
 }
 ```
 
-## Get a Secret by Name
+### Get a Secret by Name
 
 This sample uses a `secretByName` query to retrieve an existing file secret by its name:
-
 
 ```
 query{  
@@ -73,16 +73,16 @@ query{
   }  
 }
 ```
-## Create a Secret
+
+### Create a Secret
 
 This sample creates a file secret.
 
 The UI doesn't support file upload for Create and Update. To do this, use the below cURL commands. You must pass **query** and **file** as two form parameters as shown in the below samples.
 
-### Usage Scope
+#### Usage Scope
 
-The required `CreateSecretInput` input must include a `SecretType`.
-
+The required `CreateSecretInput` input must include a `SecretType`.
 
 ```
 mutation ($secret: CreateSecretInput!) {  
@@ -111,10 +111,10 @@ mutation ($secret: CreateSecretInput!) {
   }  
 }
 ```
-#### Query Variables
 
-For the above query, these sample variables specify the `SecretType`, and include an inline `name` value.
+**Query Variables**
 
+For the above query, these sample variables specify the `SecretType`, and include an inline `name` value.
 
 ```
 {  
@@ -138,8 +138,8 @@ For the above query, these sample variables specify the `SecretType`, and inclu
  }  
 }
 ```
-#### Sample cURL:
 
+**Sample cURL:**
 
 ```
 curl --location --request POST '[https://app.harness.io/gateway/api/graphql?accountId=](https://app.harness.io/gateway/api/graphql?accountId=px7xd_BFRCi-pfWPYXVjvw)<account-id>' \  
@@ -169,10 +169,10 @@ curl --location --request POST '[https://app.harness.io/gateway/api/graphql?acco
    }  
 }"'
 ```
-### Inherit Scope
 
-The required `CreateSecretInput` input must include a `SecretType`. 
+#### Inherit Scope
 
+The required `CreateSecretInput` input must include a `SecretType`.&#x20;
 
 ```
 mutation ($secret: CreateSecretInput!) {  
@@ -191,10 +191,10 @@ mutation ($secret: CreateSecretInput!) {
   }  
 }
 ```
-#### Query Variables
 
-For the above query, these sample variables specify the `SecretType`, and include an inline `name` value.
+**Query Variables**
 
+For the above query, these sample variables specify the `SecretType`, and include an inline `name` value.
 
 ```
 {  
@@ -210,8 +210,8 @@ For the above query, these sample variables specify the `SecretType`, and inclu
  }  
 }
 ```
-#### Sample cURL:
 
+**Sample cURL:**
 
 ```
 curl --location --request POST '[https://app.harness.io/gateway/api/graphql?accountId=](https://app.harness.io/gateway/api/graphql?accountId=px7xd_BFRCi-pfWPYXVjvw)<account-id>' \  
@@ -232,14 +232,14 @@ curl --location --request POST '[https://app.harness.io/gateway/api/graphql?acco
    }  
 }"'
 ```
-## Update a Secret
+
+### Update a Secret
 
 This sample updates an existing secret.
 
-### Usage Scope
+#### Usage Scope
 
 The required `UpdateSecretInput` input must supply an `id` and a `secretType`.
-
 
 ```
 mutation ($secret: UpdateSecretInput!) {  
@@ -268,10 +268,10 @@ mutation ($secret: UpdateSecretInput!) {
   }  
 }
 ```
-#### Query Variables
 
-For the above query, these sample variables specify the `SecretType`, and include an inline `name` value.
+**Query Variables**
 
+For the above query, these sample variables specify the `SecretType`, and include an inline `name` value.
 
 ```
 {  
@@ -295,8 +295,8 @@ For the above query, these sample variables specify the `SecretType`, and inclu
 }  
 
 ```
-#### Sample cURL:
 
+**Sample cURL:**
 
 ```
 curl --location --request POST 'https://app.harness.io/gateway/api/graphql?accountId=<account-id>' \  
@@ -331,10 +331,10 @@ curl --location --request POST 'https://app.harness.io/gateway/api/graphql?accou
 
 
 ```
-### Inherit Scope
+
+#### Inherit Scope
 
 The required `UpdateSecretInput` input must supply an `id` and a `secretType`.
-
 
 ```
 mutation ($secret: UpdateSecretInput!) {  
@@ -354,8 +354,8 @@ mutation ($secret: UpdateSecretInput!) {
 }  
 
 ```
-#### Query Variables
 
+**Query Variables**
 
 ```
 {  
@@ -372,8 +372,8 @@ mutation ($secret: UpdateSecretInput!) {
 }  
 
 ```
-#### Sample cURL:
 
+**Sample cURL:**
 
 ```
 curl --location --request POST '[https://app.harness.io/gateway/api/graphql?accountId=](https://app.harness.io/gateway/api/graphql?accountId=px7xd_BFRCi-pfWPYXVjvw)<account-id>' \  
@@ -396,10 +396,9 @@ curl --location --request POST '[https://app.harness.io/gateway/api/graphql?acco
 }"'
 ```
 
-## Delete a Secret
+### Delete a Secret
 
 This sample deletes a specified secret. The required `DeleteSecretInput` input must supply a `secretId` and a `secretType`.
-
 
 ```
 mutation($secret: DeleteSecretInput!){  
@@ -408,10 +407,10 @@ mutation($secret: DeleteSecretInput!){
   }  
 }
 ```
-### Query Variables
+
+#### Query Variables
 
 Here are query variables for the above `deleteSecret` operation.
-
 
 ```
 {  
@@ -422,10 +421,9 @@ Here are query variables for the above `deleteSecret` operation.
 }
 ```
 
-## Related Reference Material
+### Related Reference Material
 
 * [Harness API](harness-api.md)
 * [Encrypted Text API](api-encrypted-text.md)
 * [SSH Credentials API](api-ssh-credentials.md)
 * [WinRM Credentials API](api-win-rm-credentials.md)
-

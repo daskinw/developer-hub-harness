@@ -1,12 +1,14 @@
 ---
 title: Java SDK reference
-description: This topic explains how to integrate your feature flags with Java SDK.
 sidebar_position: 30
 helpdocs_topic_id: i7et9ebkst
 helpdocs_category_id: kkiqy1f6d7
 helpdocs_is_private: false
 helpdocs_is_published: true
+description: This topic explains how to integrate your feature flags with Java SDK.
 ---
+
+# Java SDK reference
 
 import Sixty from '/docs/feature-flags/shared/p-sdk-run60seconds.md'
 
@@ -14,48 +16,43 @@ import Smpyes from '../shared/note-smp-compatible.md'
 
 import Closeclient from '../shared/close-sdk-client.md'
 
-
-<Smpyes />
-
-
 This topic describes how to use the Harness Feature Flags Java SDK for your Java application.
 
 For getting started quickly, you can use our [sample code from the Java SDK README](https://github.com/harness/ff-java-server-sdk/blob/main/README.md). You can also [clone](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository) and run a sample application from the [Java SDK GitHub Repository.](https://github.com/harness/ff-java-server-sdk)
 
-## Before you begin
+### Before you begin
 
 Make sure you read and understand:
 
-* [Feature Flags Overview](/docs/feature-flags/get-started/overview)
-* [Getting Started with Feature Flags](/docs/feature-flags/get-started/onboarding-guide)
+* [Feature Flags Overview](../../get-started/overview/)
+* [Getting Started with Feature Flags](../../get-started/onboarding-guide/)
 * [Client-Side and Server-Side SDKs](../sdk-overview/client-side-and-server-side-sdks.md)
 * [Communication Strategy Between SDKs and Harness Feature Flags](../sdk-overview/communication-sdks-harness-feature-flags.md)
 
-## Version
+### Version
 
 Latest SDK version can be found on [GitHub Release Page](https://github.com/harness/ff-java-server-sdk/releases)
 
-## Requirements
+### Requirements
 
-To use this SDK, make sure you:  
+To use this SDK, make sure you: &#x20;
 
 * Install JDK 8 or a newer version
 * Install [Maven](https://maven.apache.org/), [Gradle](https://gradle.org/) or an alternative build automation tool for your application
 * [Download the SDK from our GitHub repository](https://github.com/harness/ff-java-server-sdk)
 * Create a Java application, or [clone](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository) our [sample application](https://github.com/harness/ff-java-server-sdk).
-* [Create a Feature Flag on the Harness Platform](/docs/feature-flags/ff-creating-flag/create-a-feature-flag). If you are following along with the SDK README sample code, make sure your flag is called `harnessappdemodarkmode`.
-* [Create an SDK key and make a copy of it](/docs/feature-flags/ff-creating-flag/create-a-project#create-an-sdk-key)
+* [Create a Feature Flag on the Harness Platform](../../ff-creating-flag/create-a-feature-flag/). If you are following along with the SDK README sample code, make sure your flag is called `harnessappdemodarkmode`.
+* [Create an SDK key and make a copy of it](../../ff-creating-flag/create-a-project/#create-an-sdk-key)
 
-## Install the SDK
+### Install the SDK
 
-Install the Feature Flag SDK as a dependency in your application using your application's dependency manager. You can use Maven, Gradle, SBT, etc. for your application. 
+Install the Feature Flag SDK as a dependency in your application using your application's dependency manager. You can use Maven, Gradle, SBT, etc. for your application.&#x20;
 
 Below are the dependencies for Maven and Gradle that use Java SDK version 1.1.10 as an example:
 
-### Install using Maven
+#### Install using Maven
 
 Add the following dependency in your project's pom.xml file:
-
 
 ```
 <dependency>  
@@ -64,82 +61,84 @@ Add the following dependency in your project's pom.xml file:
     <version>1.3.1</version>
 </dependency>
 ```
-If you are using the Harness Java sample application from the [Java SDK GitHub repository](https://github.com/harness/ff-java-server-sdk), do not add the Maven dependency in the `pom.xml` file as it has already been added.
 
-#### Install using Gradle
+If you are using the Harness Java sample application from the [Java SDK GitHub repository](https://github.com/harness/ff-java-server-sdk), do not add the Maven dependency in the `pom.xml` file as it has already been added.
 
+**Install using Gradle**
 
 ```
 implementation group: 'io.harness', name: 'ff-java-server-sdk', version: '1.3.1'
 ```
-## Initialize the SDK
+
+### Initialize the SDK
 
 To initialize the Java SDK, you need to:
 
 1. Add your Server SDK key to connect to your Harness Environment.
 2. Add a Target that you want to Evaluate against a Feature Flag.
-3. Configure the SDK options, if needed. For more details on what features you can configure for this SDK, go to [Configure the SDK](#configure_the_sdk).
+3. Configure the SDK options, if needed. For more details on what features you can configure for this SDK, go to [Configure the SDK](integrate-feature-flag-with-java-sdk.md#configure\_the\_sdk).
 4. Complete the initialization with the SDK using the Server SDK Key, Target, and Configuration parameters you set.
 
-### Add the Server SDK Key
+#### Add the Server SDK Key
 
 After installing the SDK, you must enter the server SDK key that you created in the Harness platform into the apiKey field, for example:
-
 
 ```
 String apiKey = System.getProperty("FF_API_KEY", "<default api key>");
 ```
- 
 
-### Add a Target
+&#x20;
+
+#### Add a Target
 
 <details>
-<summary>What is a Target?</summary> 
+
+<summary>What is a Target?</summary>
+
 Targets are used to control which users see which Variation of a Feature Flag, for example, if you want to do internal testing, you can enable the Flag for some users and not others. When creating a Target, you give it a name and a unique identifier. Often Targets are users but you can create a Target from anything that can be uniquely identified, such as an app or a machine.
+
 </details>
 
-For more information about Targets, go to [Targeting Users With Flags](/docs/feature-flags/ff-target-management/targeting-users-with-flags).
+For more information about Targets, go to [Targeting Users With Flags](../../ff-target-management/targeting-users-with-flags/).
 
 To add a Target, build it and pass in arguments for the following:
 
-
-|  |  |  |  |
-| --- | --- | --- | --- |
-| **Parameter** | **Description** | **Required?** | **Example** |
-| `identifier` | Unique ID for the TargetRead **Regex requirements for Target names and identifiers** below for accepted characters. | Required | `.identifier("HT_1")` |
-| `name` | Name for this Target. This does not have to be unique. **Note**: If you don’t provide a value, the name will be the same as the identifier.Read **Regex requirements for Target names and identifiers** below for accepted characters. | Optional<br />**Note**: If you don't want to send a name, don't send the parameter. Sending an empty argument will cause an error. | `.name("Harness_Target_1")` |
-| `attributes` | Additional data you can store for a Target, such as email addresses or location. | Optional | `.attributes(new HashMap<String, Object>())` |
+|               |                                                                                                                                                                                                                                        |                                                                                                                                                      |                                              |
+| ------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------- |
+| **Parameter** | **Description**                                                                                                                                                                                                                        | **Required?**                                                                                                                                        | **Example**                                  |
+| `identifier`  | Unique ID for the TargetRead **Regex requirements for Target names and identifiers** below for accepted characters.                                                                                                                    | Required                                                                                                                                             | `.identifier("HT_1")`                        |
+| `name`        | Name for this Target. This does not have to be unique. **Note**: If you don’t provide a value, the name will be the same as the identifier.Read **Regex requirements for Target names and identifiers** below for accepted characters. | <p>Optional<br><strong>Note</strong>: If you don't want to send a name, don't send the parameter. Sending an empty argument will cause an error.</p> | `.name("Harness_Target_1")`                  |
+| `attributes`  | Additional data you can store for a Target, such as email addresses or location.                                                                                                                                                       | Optional                                                                                                                                             | `.attributes(new HashMap<String, Object>())` |
 
 <details>
-<summary> Regex requirements for Target names and identifiers </summary>
 
-**Identifier** 
+<summary>Regex requirements for Target names and identifiers</summary>
 
-Regex: `^[A-Za-z0-9.@_-]*$`  
-Must consist of only alphabetical characters, numbers, and the following symbols:  
-. (period)  
-@ (at sign)  
--(dash)  
-\_ (underscore)  
-  
-The characters can be lowercase or uppercase but cannot include accented letters, for example `Cafe_789`.  
-  
-**Name**
-Regex: `^[\\p{L}\\d .@_-]*$`  
-  
-Must consist of only alphabetical characters, numbers, and the following symbols:  
-. (period)  
-@ (at sign)  
--(dash)  
-\_ (underscore)  
- (space)  
-  
+**Identifier**
+
+Regex: `^[A-Za-z0-9.@_-]*$`\
+Must consist of only alphabetical characters, numbers, and the following symbols:\
+. (period)\
+@ (at sign)\
+\-(dash)\
+\_ (underscore)
+
+The characters can be lowercase or uppercase but cannot include accented letters, for example `Cafe_789`.
+
+**Name** Regex: `^[\\p{L}\\d .@_-]*$`
+
+Must consist of only alphabetical characters, numbers, and the following symbols:\
+. (period)\
+@ (at sign)\
+\-(dash)\
+\_ (underscore)\
+(space)
+
 The characters can be lowercase or uppercase and can include accented letters, for example `Café_123`.
 
 </details>
 
 For example:
-
 
 ```
 Target target = Target.builder()  
@@ -148,22 +147,20 @@ Target target = Target.builder()
                    .identifier("HT_1")  
                    .build();
 ```
-### Configure the SDK
+
+#### Configure the SDK
 
 You can configure the following features of the SDK through the `baseConfig`:
 
-
-
-|  |  |  |  |
-| --- | --- | --- | --- |
-| **Name** | **Example** | **Description** | **Default Value** |
-| configUrl | `HarnessConfig.configUrl("https://config.ff.harness.io/api/1.0")` | The URL used to fetch Feature Flag Evaluations. When using the Relay Proxy, change this to: `http://localhost:7000` | `https://config.ff.harness.io/api/1.0` |
-| eventUrl | `HarnessConfig.eventUrl("https://events.ff.harness.io/api/1.0")` | The URL for posting metrics data to the Feature Flag service. When using the Relay Proxy, change this to: `http://localhost:7000` | `https://events.ff.harness.io/api/1.0` |
-| pollIntervalInSeconds | `BaseConfig.pollIntervalInSeconds(60))` | The interval **in seconds** that we poll for changes when you are not using stream mode. | `60` (seconds) |
-| streamEnabled | `BaseConfig.streamEnabled(false)` | Set to `true` to enable streaming mode.Set to `false` to disable streaming mode. | `true` |
-| analyticsEnabled | `BaseConfig.analyticsEnabled(true)` | Set to `true` to enable analytics.Set to `false` to disable analytics.**Note**: When enabled, analytics data is posted every 60 seconds. | `true` |
-| frequency | `BaseConfig.frequency(60))` | The interval **in seconds** of how often to send metrics data.  | `60` |
-
+|                       |                                                                   |                                                                                                                                          |                                        |
+| --------------------- | ----------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------- |
+| **Name**              | **Example**                                                       | **Description**                                                                                                                          | **Default Value**                      |
+| configUrl             | `HarnessConfig.configUrl("https://config.ff.harness.io/api/1.0")` | The URL used to fetch Feature Flag Evaluations. When using the Relay Proxy, change this to: `http://localhost:7000`                      | `https://config.ff.harness.io/api/1.0` |
+| eventUrl              | `HarnessConfig.eventUrl("https://events.ff.harness.io/api/1.0")`  | The URL for posting metrics data to the Feature Flag service. When using the Relay Proxy, change this to: `http://localhost:7000`        | `https://events.ff.harness.io/api/1.0` |
+| pollIntervalInSeconds | `BaseConfig.pollIntervalInSeconds(60))`                           | The interval **in seconds** that we poll for changes when you are not using stream mode.                                                 | `60` (seconds)                         |
+| streamEnabled         | `BaseConfig.streamEnabled(false)`                                 | Set to `true` to enable streaming mode.Set to `false` to disable streaming mode.                                                         | `true`                                 |
+| analyticsEnabled      | `BaseConfig.analyticsEnabled(true)`                               | Set to `true` to enable analytics.Set to `false` to disable analytics.**Note**: When enabled, analytics data is posted every 60 seconds. | `true`                                 |
+| frequency             | `BaseConfig.frequency(60))`                                       | The interval **in seconds** of how often to send metrics data.                                                                           | `60`                                   |
 
 ```
 For example:  
@@ -174,16 +171,16 @@ BaseConfig options = BaseConfig.builder()
         .analyticsEnabled(true)  
         .build();
 ```
- 
 
-When initializing the SDK, you can also configure it to use the Harness Relay Proxy, for more information about how to do this, go to [Use the Relay Proxy](integrate-feature-flag-with-java-sdk.md#use-the-relay-proxy). 
+&#x20;
 
-### Complete the initialization
+When initializing the SDK, you can also configure it to use the Harness Relay Proxy, for more information about how to do this, go to [Use the Relay Proxy](integrate-feature-flag-with-java-sdk.md#use-the-relay-proxy).&#x20;
 
-To complete the initialization, create an instance of the `cfClient` and pass in the Server SDK key, Target, and configuration options. 
+#### Complete the initialization
 
-### Sample of initializing the SDK
+To complete the initialization, create an instance of the `cfClient` and pass in the Server SDK key, Target, and configuration options.&#x20;
 
+#### Sample of initializing the SDK
 
 ```
 // Connector Config  
@@ -202,11 +199,12 @@ BaseConfig options = BaseConfig.builder()
 // Create the client  
 CfClient cfClient = new CfClient(new HarnessConnector(apiKey, connectorConfig), options);
 ```
-## Evaluate a Flag
 
-Evaluating a Flag is when the SDK processes all Flag rules and returns the correct Variation of that Flag for the Target you provide. 
+### Evaluate a Flag
 
-If a matching Flag can’t be found, or the SDK can’t remotely fetch flags, the default value is returned. 
+Evaluating a Flag is when the SDK processes all Flag rules and returns the correct Variation of that Flag for the Target you provide.&#x20;
+
+If a matching Flag can’t be found, or the SDK can’t remotely fetch flags, the default value is returned.&#x20;
 
 There are different methods for the different Variation types and for each method you need to pass in:
 
@@ -216,60 +214,55 @@ There are different methods for the different Variation types and for each metho
 
 For example:
 
-### Evaluate a boolean Variation
-
+#### Evaluate a boolean Variation
 
 ```
 boolean result = cfClient.boolVariation("sample_boolean_flag", target, false);
 ```
-### Evaluate a number Variation
 
+#### Evaluate a number Variation
 
 ```
 double result = cfClient.numberVariation("sample_number_flag", target, 0);
 ```
-### Evaluate a string Variation
 
+#### Evaluate a string Variation
 
 ```
 String result = cfClient.stringVariation("sample_string_flag", target, "");
 ```
-### Evaluate a json Variation
 
+#### Evaluate a json Variation
 
 ```
 JsonObject result = cfClient.jsonVariation("sample_json_flag", target, new JsonObject());
 ```
-## Test your app is connected to Harness
+
+### Test your app is connected to Harness
 
 When you receive a response showing the current status of your Feature Flag, go to the Harness Platform and toggle the Flag on and off. Then, check your app to verify if the Flag Variation displayed is updated with the Variation you toggled.
 
-<Sixty />
+### Close the SDK client
 
-## Close the SDK client
+To close the SDK client:
 
-<Closeclient />
+*   Call the following function>
 
-To close the SDK client: 
+    ```
+    cfClient.close();
+    ```
 
-* Call the following function>
+### Additional options
 
-  ```
-  cfClient.close();
-  ```
-  
-## Additional options
+#### Develop on your local environment
 
-### Develop on your local environment
+By default, you are connected to the Harness environment but you can use a local connector to develop in your local environment. To do this:&#x20;
 
-By default, you are connected to the Harness environment but you can use a local connector to develop in your local environment. To do this: 
-
-1. Create three folders to contain the data for your  flags, segments and metrics, for example:  
-`local/flags`  
-`local/segments`  
-`local/metrics`
+1. Create three folders to contain the data for your  flags, segments and metrics, for example:\
+   `local/flags`\
+   `local/segments`\
+   `local/metrics`
 2. In the flags folder, create files with a `json` extension and the following structure:
-
 
 ```
 {  
@@ -353,8 +346,8 @@ By default, you are connected to the Harness environment but you can use a local
   "version": 0  
 }
 ```
-3. In the segments folder, create files with a `json` extension and the following structure:
 
+3. In the segments folder, create files with a `json` extension and the following structure:
 
 ```
 {  
@@ -421,29 +414,29 @@ By default, you are connected to the Harness environment but you can use a local
    "version": 1  
  }
 ```
- 
+
+&#x20;
 
 4. Leave the metrics folder empty.
 5. Create an instance of `LocalConnector` and pass in the location of your folders.
 6. Pass the instance into the `cfClient` when initializing the SDK.
 
-For example: 
-
+For example:&#x20;
 
 ```
 LocalConnector connector = new LocalConnector(path);  
 CfClient client = new CfClient(connector, BaseConfig.builder().build())
 ```
- 
 
-### Configure your logger
+&#x20;
 
-You can provide your own logger to the SDK and configure it using the standard logging configuration. 
+#### Configure your logger
 
-#### Log4j logger
+You can provide your own logger to the SDK and configure it using the standard logging configuration.&#x20;
+
+**Log4j logger**
 
 If using Log4j you can add the following `log4j2.xml` to your project, for example:
-
 
 ```
 <?xml version="1.0" encoding="UTF-8"?>  
@@ -465,22 +458,20 @@ If using Log4j you can add the following `log4j2.xml` to your project, for examp
     </Loggers>  
 </Configuration>
 ```
-  
 
-### Use the Relay Proxy
+&#x20;&#x20;
+
+#### Use the Relay Proxy
 
 To use the Relay Proxy, you need to change the following URLs in the HarnessConfig class when initializing the SDK to `http://localhost:7000`.
 
+|          |                                                                   |                                                                                                                                   |                                        |
+| -------- | ----------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------- |
+| **Name** | **Example**                                                       | **Description**                                                                                                                   | **Default Value**                      |
+| baseUrl  | `HarnessConfig.configUrl("https://config.ff.harness.io/api/1.0")` | The URL used to fetch Feature Flag Evaluations. When using the Relay Proxy, change this to: `http://localhost:7000`               | `https://config.ff.harness.io/api/1.0` |
+| eventUrl | `HarnessConfig.eventUrl("https://events.ff.harness.io/api/1.0")`  | The URL for posting metrics data to the Feature Flag service. When using the Relay Proxy, change this to: `http://localhost:7000` | `https://events.ff.harness.io/api/1.0` |
 
-
-|  |  |  |  |
-| --- | --- | --- | --- |
-| **Name** | **Example** | **Description** | **Default Value** |
-| baseUrl | `HarnessConfig.configUrl("https://config.ff.harness.io/api/1.0")` | The URL used to fetch Feature Flag Evaluations. When using the Relay Proxy, change this to: `http://localhost:7000` | `https://config.ff.harness.io/api/1.0` |
-| eventUrl | `HarnessConfig.eventUrl("https://events.ff.harness.io/api/1.0")` | The URL for posting metrics data to the Feature Flag service. When using the Relay Proxy, change this to: `http://localhost:7000` | `https://events.ff.harness.io/api/1.0` |
-
-For example: 
-
+For example:&#x20;
 
 ```
 HarnessConfig connectorConfig = HarnessConfig.builder()  
@@ -488,10 +479,10 @@ HarnessConfig connectorConfig = HarnessConfig.builder()
         .eventUrl("http://localhost:7000")  
         .build();
 ```
-## Sample code for a Java application
+
+### Sample code for a Java application
 
 Here is a sample code for integrating with the Java SDK:
-
 
 ```
 package io.harness.ff.examples;  
@@ -562,9 +553,9 @@ public class GettingStarted {
 }
 ```
 
-## Known issues
+### Known issues
 
-### Error when importing the SDK JAR file
+#### Error when importing the SDK JAR file
 
 If you're using the Java server SDK version 1.2.2 or earlier, you may see the following error when importing the SDK JAR file:
 
@@ -572,7 +563,7 @@ If you're using the Java server SDK version 1.2.2 or earlier, you may see the fo
 
 If you get this error, then add the Maven repository `https://jitpack.io` to your build system as follows:
 
-**If using Gradle:** 
+**If using Gradle:**
 
 ```
 repositories {
@@ -591,11 +582,12 @@ repositories {
 </repository>
 ```
 
-## Troubleshooting
+### Troubleshooting
+
 The SDK logs the following codes for certain lifecycle events, for example authentication, which can aid troubleshooting.
 
 | **Code** | **Description**                                                                                               | **Log Level** |
-|----------|:--------------------------------------------------------------------------------------------------------------|---------------|
+| -------- | ------------------------------------------------------------------------------------------------------------- | ------------- |
 | **1000** | Successfully initialized                                                                                      | Info          |
 | **1001** | Failed to initialize due to authentication error                                                              | Error         |
 | **1002** | Failed to initialize due to a missing or empty API key                                                        | Error         |

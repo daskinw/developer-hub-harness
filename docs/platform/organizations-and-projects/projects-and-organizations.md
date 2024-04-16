@@ -1,22 +1,27 @@
 ---
 title: Organizations and projects overview
-description: This topic explains Organizations and Projects in Harness. In this topic --  Before you begin. Visual Summary. What is an Organization?. What is a Project?. What is a Product Module?. Resources Across S…
 sidebar_position: 10
 helpdocs_topic_id: 7fibxie636
 helpdocs_category_id: sy6sod35zi
 helpdocs_is_private: false
 helpdocs_is_published: true
+description: >-
+  This topic explains Organizations and Projects in Harness. In this topic -- 
+  Before you begin. Visual Summary. What is an Organization?. What is a
+  Project?. What is a Product Module?. Resources Across
 ---
+
+# Organizations and projects overview
 
 This topic explains Organizations and Projects in Harness.
 
-### Before you begin
+#### Before you begin
 
-* [RBAC in Harness](/docs/platform/role-based-access-control/rbac-in-harness)
+* [RBAC in Harness](../role-based-access-control/rbac-in-harness/)
 
-### Visual Summary
+#### Visual Summary
 
-Harness enables you to manage access control at the following [scopes](/docs/platform/role-based-access-control/rbac-in-harness#permissions-hierarchy-scopes):
+Harness enables you to manage access control at the following [scopes](../role-based-access-control/rbac-in-harness/#permissions-hierarchy-scopes):
 
 * Account
 * Organization
@@ -24,7 +29,7 @@ Harness enables you to manage access control at the following [scopes](/docs/pla
 
 ![](static/projects-and-organizations-04.png)
 
-### What is an organization?
+#### What is an organization?
 
 Harness organizations (orgs) allow you to group projects that are related and share the same goals. For example, all projects for a business unit or division.
 
@@ -38,7 +43,7 @@ Within each org you can add several Harness projects.
 
 To create a new organization, make sure you have the **Create** permissions for organizations. For more information, see [Create a Harness Org](create-an-organization.md#create-a-harness-org).
 
-### What is a project?
+#### What is a project?
 
 A Harness project is a group of Harness modules, their pipelines and resources. For example, a project might have a Harness CI Pipeline to build code and push an image and a Harness CD Pipeline to deploy that image to a cloud platform
 
@@ -54,27 +59,26 @@ Much like account-level roles, project members can be assigned Project Admin, Me
 
 ![](static/projects-and-organizations-08.png)
 
-### What is a product module?
+#### What is a product module?
 
 Your project can add Harness products as modules, such as Continuous Integration or Continuous Delivery.
 
 ![](static/projects-and-organizations-09.png)
 
-### Resources across scopes
+#### Resources across scopes
 
 The following table lists the resources that are available at various scopes in Harness:
 
-| **Resources** | **Account** | **Org** | **Project** |
-| --- | --- | --- | --- |
-| **Pipeline** | No | No | Yes |
-| **Services** | Yes | Yes | Yes |
-| **Environments** | Yes | Yes | Yes |
-| **Git Management** | No | No | Yes |
-| **Connectors** | Yes | Yes | Yes |
-| **Secrets** | Yes | Yes | Yes |
-| **SMTP Configuration** | Yes | No | No |
-| **Templates** | Yes | Yes | Yes |
-| **Audit Trail** | Yes | Yes | No |
-| **Delegates** | Yes | Yes | Yes |
-| **Governance** | Yes | Yes | Yes |
-
+| **Resources**          | **Account** | **Org** | **Project** |
+| ---------------------- | ----------- | ------- | ----------- |
+| **Pipeline**           | No          | No      | Yes         |
+| **Services**           | Yes         | Yes     | Yes         |
+| **Environments**       | Yes         | Yes     | Yes         |
+| **Git Management**     | No          | No      | Yes         |
+| **Connectors**         | Yes         | Yes     | Yes         |
+| **Secrets**            | Yes         | Yes     | Yes         |
+| **SMTP Configuration** | Yes         | No      | No          |
+| **Templates**          | Yes         | Yes     | Yes         |
+| **Audit Trail**        | Yes         | Yes     | No          |
+| **Delegates**          | Yes         | Yes     | Yes         |
+| **Governance**         | Yes         | Yes     | Yes         |

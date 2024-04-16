@@ -1,74 +1,74 @@
 ---
 title: Tanzu Built-in Variables
-description: Harness includes some variables to help you output PCF deployment information in your Workflows.
-sidebar_position: 150 
+sidebar_position: 150
 helpdocs_topic_id: ojd73hseby
 helpdocs_category_id: emle05cclq
 helpdocs_is_private: false
 helpdocs_is_published: true
+description: >-
+  Harness includes some variables to help you output PCF deployment information
+  in your Workflows.
 ---
+
+# Tanzu Built-in Variables
 
 TAS was formerly Pivotal Cloud Foundry (PCF). The variables in this topic use `pcf` as a result. The variables work the same as before. There is no need to change any existing implementations.Harness includes the following variables to help you output TAS deployment information in your Workflows, such as in the [CF Command](run-cf-cli-commands-and-scripts-in-a-workflow.md#step-run-the-cf-cli-command) or the [Shell Script command](../model-cd-pipeline/workflows/capture-shell-script-step-output.md).
 
 This topic covers the following:
 
-<!-- TOC start -->
-- [Variables List](#variables-list)
-    + [`${service.manifest}` ](#servicemanifest)
-    + [`${service.manifest.repoRoot}`  ](#servicemanifestreporoot)
-    + [`${pcf.newAppRoutes}`  ](#pcfnewapproutes)
-    + [`${pcf.newAppName}`  ](#pcfnewappname)
-    + [`${pcf.newAppGuid}`  ](#pcfnewappguid)
-    + [`${pcf.oldAppName}`  ](#pcfoldappname)
-    + [`${pcf.activeAppName}` and `${pcf.inActiveAppName}`  ](#pcfactiveappname-and-pcfinactiveappname)
-    + [`${pcf.oldAppGuid}`  ](#pcfoldappguid)
-    + [`${pcf.oldAppRoutes}`  ](#pcfoldapproutes)
-    + [`${pcf.finalRoutes}`  ](#pcffinalroutes)
-    + [`${pcf.tempRoutes}`  ](#pcftemproutes)
-    + [`${infra.pcf.cloudProvider.name}`  ](#infrapcfcloudprovidername)
-    + [`${infra.pcf.organization}`  ](#infrapcforganization)
-    + [`${infra.pcf.space}`  ](#infrapcfspace)
-    + [`${host.pcfElement.applicationId}`  ](#hostpcfelementapplicationid)
-    + [`${host.pcfElement.displayName}`  ](#hostpcfelementdisplayname)
-    + [`${host.pcfElement.instanceIndex}`  Shows the [CF\_INSTANCE\_INDEX](https://docs.cloudfoundry.org/devguide/deploy-apps/environment-variable.html#CF-INSTANCE-INDEX). ](#hostpcfelementinstanceindex-shows-the-cf_instance_indexhttpsdocscloudfoundryorgdevguidedeploy-appsenvironment-variablehtmlcf-instance-index)
-- [Harness TAS Environment Variables](#harness-tas-environment-variables)
-- [App Name Variables and Blue Green Deployments](#app-name-variables-and-blue-green-deployments)
-  * [Version to Non-Version](#version-to-non-version)
-    + [Variable Resolution during Successful Deployments](#variable-resolution-during-successful-deployments)
-    + [Failure during App Setup or App Resize](#failure-during-app-setup-or-app-resize)
-    + [Variable Resolution during App Resize Step Failure](#variable-resolution-during-app-resize-step-failure)
-    + [Failure during Swap Route Step](#failure-during-swap-route-step)
-    + [Variables Resolution during Swap Route Step Failure](#variables-resolution-during-swap-route-step-failure)
-  * [Non-Version to Non-Version](#non-version-to-non-version)
-    + [Variables Resolution during Successful Deployments](#variables-resolution-during-successful-deployments)
-    + [Failure during the App Setup or App Resize Steps](#failure-during-the-app-setup-or-app-resize-steps)
-    + [Variables Resolution during App Setup or App Resize Failure](#variables-resolution-during-app-setup-or-app-resize-failure)
-    + [Failure during the Swap Route Step](#failure-during-the-swap-route-step)
-    + [Variables Resolution during Swap Route Failure](#variables-resolution-during-swap-route-failure)
-  * [Non-Version to Version](#non-version-to-version)
-    + [Variables Resolution during a Successful Deployment](#variables-resolution-during-a-successful-deployment)
-    + [Failures during the App Setup or App Resize Steps](#failures-during-the-app-setup-or-app-resize-steps)
-    + [Variables Resolution during App Setup or App Resize Failure](#variables-resolution-during-app-setup-or-app-resize-failure-1)
-    + [Failure during the Swap Route Step](#failure-during-the-swap-route-step-1)
-    + [Variables Resolution during the Swap Route Step Failure](#variables-resolution-during-the-swap-route-step-failure)
-  * [Notes](#notes)
-<!-- TOC end -->
+* [Variables List](pcf-built-in-variables.md#variables-list)
+  * [`${service.manifest}`](pcf-built-in-variables.md#servicemanifest)
+  * [`${service.manifest.repoRoot}`](pcf-built-in-variables.md#servicemanifestreporoot)
+  * [`${pcf.newAppRoutes}`](pcf-built-in-variables.md#pcfnewapproutes)
+  * [`${pcf.newAppName}`](pcf-built-in-variables.md#pcfnewappname)
+  * [`${pcf.newAppGuid}`](pcf-built-in-variables.md#pcfnewappguid)
+  * [`${pcf.oldAppName}`](pcf-built-in-variables.md#pcfoldappname)
+  * [`${pcf.activeAppName}` and `${pcf.inActiveAppName}`](pcf-built-in-variables.md#pcfactiveappname-and-pcfinactiveappname)
+  * [`${pcf.oldAppGuid}`](pcf-built-in-variables.md#pcfoldappguid)
+  * [`${pcf.oldAppRoutes}`](pcf-built-in-variables.md#pcfoldapproutes)
+  * [`${pcf.finalRoutes}`](pcf-built-in-variables.md#pcffinalroutes)
+  * [`${pcf.tempRoutes}`](pcf-built-in-variables.md#pcftemproutes)
+  * [`${infra.pcf.cloudProvider.name}`](pcf-built-in-variables.md#infrapcfcloudprovidername)
+  * [`${infra.pcf.organization}`](pcf-built-in-variables.md#infrapcforganization)
+  * [`${infra.pcf.space}`](pcf-built-in-variables.md#infrapcfspace)
+  * [`${host.pcfElement.applicationId}`](pcf-built-in-variables.md#hostpcfelementapplicationid)
+  * [`${host.pcfElement.displayName}`](pcf-built-in-variables.md#hostpcfelementdisplayname)
+  * \[`${host.pcfElement.instanceIndex}` Shows the [CF\_INSTANCE\_INDEX](https://docs.cloudfoundry.org/devguide/deploy-apps/environment-variable.html#CF-INSTANCE-INDEX). ]\(#hostpcfelementinstanceindex-shows-the-cf\_instance\_indexhttpsdocscloudfoundryorgdevguidedeploy-appsenvironment-variablehtmlcf-instance-index)
+* [Harness TAS Environment Variables](pcf-built-in-variables.md#harness-tas-environment-variables)
+* [App Name Variables and Blue Green Deployments](pcf-built-in-variables.md#app-name-variables-and-blue-green-deployments)
+  * [Version to Non-Version](pcf-built-in-variables.md#version-to-non-version)
+    * [Variable Resolution during Successful Deployments](pcf-built-in-variables.md#variable-resolution-during-successful-deployments)
+    * [Failure during App Setup or App Resize](pcf-built-in-variables.md#failure-during-app-setup-or-app-resize)
+    * [Variable Resolution during App Resize Step Failure](pcf-built-in-variables.md#variable-resolution-during-app-resize-step-failure)
+    * [Failure during Swap Route Step](pcf-built-in-variables.md#failure-during-swap-route-step)
+    * [Variables Resolution during Swap Route Step Failure](pcf-built-in-variables.md#variables-resolution-during-swap-route-step-failure)
+  * [Non-Version to Non-Version](pcf-built-in-variables.md#non-version-to-non-version)
+    * [Variables Resolution during Successful Deployments](pcf-built-in-variables.md#variables-resolution-during-successful-deployments)
+    * [Failure during the App Setup or App Resize Steps](pcf-built-in-variables.md#failure-during-the-app-setup-or-app-resize-steps)
+    * [Variables Resolution during App Setup or App Resize Failure](pcf-built-in-variables.md#variables-resolution-during-app-setup-or-app-resize-failure)
+    * [Failure during the Swap Route Step](pcf-built-in-variables.md#failure-during-the-swap-route-step)
+    * [Variables Resolution during Swap Route Failure](pcf-built-in-variables.md#variables-resolution-during-swap-route-failure)
+  * [Non-Version to Version](pcf-built-in-variables.md#non-version-to-version)
+    * [Variables Resolution during a Successful Deployment](pcf-built-in-variables.md#variables-resolution-during-a-successful-deployment)
+    * [Failures during the App Setup or App Resize Steps](pcf-built-in-variables.md#failures-during-the-app-setup-or-app-resize-steps)
+    * [Variables Resolution during App Setup or App Resize Failure](pcf-built-in-variables.md#variables-resolution-during-app-setup-or-app-resize-failure-1)
+    * [Failure during the Swap Route Step](pcf-built-in-variables.md#failure-during-the-swap-route-step-1)
+    * [Variables Resolution during the Swap Route Step Failure](pcf-built-in-variables.md#variables-resolution-during-the-swap-route-step-failure)
+  * [Notes](pcf-built-in-variables.md#notes)
 
-## Variables List
+### Variables List
 
-:::note
-In Blue/Green deployments, the outputs for the `${pcf.finalRoutes}`, `${pcf.oldAppRoutes}` and `${pcf.tempRoutes}` variables do not change, but the outputs for `${pcf.newAppRoutes}` change as the routes are swapped in the **Swap Routes** or **Rollback** step. Simply put, `${pcf.newAppRoutes}` reflects the routes at a point in time (after the **Swap Routes** or **Rollback** step).
-:::
+:::note In Blue/Green deployments, the outputs for the `${pcf.finalRoutes}`, `${pcf.oldAppRoutes}` and `${pcf.tempRoutes}` variables do not change, but the outputs for `${pcf.newAppRoutes}` change as the routes are swapped in the **Swap Routes** or **Rollback** step. Simply put, `${pcf.newAppRoutes}` reflects the routes at a point in time (after the **Swap Routes** or **Rollback** step). :::
 
-#### `${service.manifest}` 
+**`${service.manifest}`**
 
-Refers to the folder containing your manifest files. See [Scripts and Variables](run-cf-cli-commands-and-scripts-in-a-workflow.md#option-scripts-and-variables). 
+Refers to the folder containing your manifest files. See [Scripts and Variables](run-cf-cli-commands-and-scripts-in-a-workflow.md#option-scripts-and-variables).
 
-####  `${service.manifest.repoRoot}`  
+**`${service.manifest.repoRoot}`**
 
-Refers to the remote Git repo root folder containing your manifest files. See [Scripts and Variables](run-cf-cli-commands-and-scripts-in-a-workflow.md#option-scripts-and-variables). 
+Refers to the remote Git repo root folder containing your manifest files. See [Scripts and Variables](run-cf-cli-commands-and-scripts-in-a-workflow.md#option-scripts-and-variables).
 
-####  `${pcf.newAppRoutes}`  
+**`${pcf.newAppRoutes}`**
 
 An array of all the routes defined in your manifest.yml in your Harness Service.
 
@@ -78,42 +78,35 @@ You can use the route to create a URL in a script, such as `http://${pcf.newAppR
 
 In a Blue/Green deployment, `${pcf.newAppRoutes}` are the same as `${pcf.tempRoutes}` until the Swap Routes step is run, after which `${pcf.newAppRoutes}` is the same as `${pcf.finalRoutes}`.
 
-:::note 
-This variable expression should be used after the **App Setup** step.
-::: 
+:::note This variable expression should be used after the **App Setup** step. :::
 
-####  `${pcf.newAppName}`  
+**`${pcf.newAppName}`**
 
 New app name.
 
-:::note 
-This variable expression should be used after the **App Setup** step.
-::: 
+:::note This variable expression should be used after the **App Setup** step. :::
 
-####  `${pcf.newAppGuid}`  
+**`${pcf.newAppGuid}`**
 
-New app GUID.This variable expression should be used after the **App Setup** step. 
+New app GUID.This variable expression should be used after the **App Setup** step.
 
-####  `${pcf.oldAppName}`  
+**`${pcf.oldAppName}`**
 
 Old app name. This is the app that is replaced by your newly deployed app.
 
-:::note 
-This variable expression should be used after the **App Setup** step.
-::: 
+:::note This variable expression should be used after the **App Setup** step. :::
 
-####  `${pcf.activeAppName}` and `${pcf.inActiveAppName}`  
+**`${pcf.activeAppName}` and `${pcf.inActiveAppName}`**
 
-See [App Name Variables and Blue Green Deployments](pcf-built-in-variables.md#app-name-variables-and-blue-green-deployments) below. 
+See [App Name Variables and Blue Green Deployments](pcf-built-in-variables.md#app-name-variables-and-blue-green-deployments) below.
 
-####  `${pcf.oldAppGuid}`  
+**`${pcf.oldAppGuid}`**
+
 pcf.tempRoutesOld app GUID.
 
-:::note 
-This variable expression should be used after the **App Setup** step.
-::: 
+:::note This variable expression should be used after the **App Setup** step. :::
 
-####  `${pcf.oldAppRoutes}`  
+**`${pcf.oldAppRoutes}`**
 
 An array of the routes that were used for the old app.
 
@@ -121,35 +114,31 @@ You can reference any route in the array using its index, such as `${pcf.oldAppR
 
 You can use the route to create a URL in a script, such as `http://${pcf.oldAppRoutes[0]}`.
 
-:::note 
-This variable expression should be used after the **App Setup** step.
-::: 
+:::note This variable expression should be used after the **App Setup** step. :::
 
-#### `${pcf.finalRoutes}`  
+**`${pcf.finalRoutes}`**
 
-An array of the active routes once deployment is successful.This variable expression should be used after the **App Setup** step. 
+An array of the active routes once deployment is successful.This variable expression should be used after the **App Setup** step.
 
-####  `${pcf.tempRoutes}`  
+**`${pcf.tempRoutes}`**
 
 An array of the temporary routes used for Blue/Green deployments.
 
-:::note 
-This variable expression should be used after the **App Setup** step.
-::: 
+:::note This variable expression should be used after the **App Setup** step. :::
 
-####  `${infra.pcf.cloudProvider.name}`  
+**`${infra.pcf.cloudProvider.name}`**
 
-The Cloud Provider name used in the Infrastructure Definition set up in the Workflow. 
+The Cloud Provider name used in the Infrastructure Definition set up in the Workflow.
 
-####  `${infra.pcf.organization}`  
+**`${infra.pcf.organization}`**
 
-The Organization name used in the Infrastructure Definition set up in the Workflow. 
+The Organization name used in the Infrastructure Definition set up in the Workflow.
 
-####  `${infra.pcf.space}`  
+**`${infra.pcf.space}`**
 
-The Space name used in the Infrastructure Definition set up in the Workflow. 
+The Space name used in the Infrastructure Definition set up in the Workflow.
 
-####  `${host.pcfElement.applicationId}`  
+**`${host.pcfElement.applicationId}`**
 
 Shows the TAS app ID [Environment variable](https://docs.cloudfoundry.org/devguide/deploy-apps/environment-variable.html#view-env). Such as you would see in a cf env command:
 
@@ -161,15 +150,14 @@ Shows the TAS app ID [Environment variable](https://docs.cloudfoundry.org/devgui
     "application_name": "my-app",
     ...
 ```
- 
-####  `${host.pcfElement.displayName}`  
- 
-Shows the TAS app name (`"application_name": "my-app"` in the example above). 
- 
-####  `${host.pcfElement.instanceIndex}`  Shows the [CF\_INSTANCE\_INDEX](https://docs.cloudfoundry.org/devguide/deploy-apps/environment-variable.html#CF-INSTANCE-INDEX). 
+
+**`${host.pcfElement.displayName}`**
+
+Shows the TAS app name (`"application_name": "my-app"` in the example above).
+
+**`${host.pcfElement.instanceIndex}` Shows the** [**CF\_INSTANCE\_INDEX**](https://docs.cloudfoundry.org/devguide/deploy-apps/environment-variable.html#CF-INSTANCE-INDEX)**.**
 
 Here is a script that outputs some of the variables:
-
 
 ```
 echo ${pcf.newAppRoutes[0]}  
@@ -190,8 +178,8 @@ echo ${infra.pcf.cloudProvider.name}
 echo ${infra.pcf.organization}  
 echo ${infra.pcf.space}
 ```
-Here is an example of the output:
 
+Here is an example of the output:
 
 ```
 Executing command ...  
@@ -216,7 +204,8 @@ dev
   
 Command completed with ExitCode (0)
 ```
-## Harness TAS Environment Variables
+
+### Harness TAS Environment Variables
 
 For Blue/Green Workflow deployments only, Harness uses the TAS user-provided [environment variable](https://docs.pivotal.io/application-service/2-9/devguide/deploy-apps/environment-variable.html) `HARNESS_STATUS_IDENTIFIER` to identify new and old (active) apps.
 
@@ -228,7 +217,7 @@ If rollback occurs, Harness restores routes and environment variables for old an
 
 You can view this `HARNESS_STATUS_IDENTIFIER` variable in the TAS app in the TAS console.
 
-## App Name Variables and Blue Green Deployments
+### App Name Variables and Blue Green Deployments
 
 Some Tanzu variables display different information as the [Blue Green deployment](create-a-blue-green-pcf-deployment.md) progresses through its steps:
 
@@ -253,52 +242,48 @@ In each of the above paths, there could be 4 possible outcomes which Harness enc
 
 * Deployment was successful.
 * Deployment failed for one of the following reasons:
-	+ Failure happened during App Setup
-	+ Failure happened during App Resize
-	+ Failure happened during or after Swap Route
+  * Failure happened during App Setup
+  * Failure happened during App Resize
+  * Failure happened during or after Swap Route
 
 Let's look at the 3 app versioning paths and how each deployment outcome changes the resolution of the Tanzu variables for each Blue Green Workflow step.
 
-### Version to Non-Version
+#### Version to Non-Version
 
 Let's look at a successful deployment of this use case:
 
-![](./static/pcf-built-in-variables-13.png)
+![](static/pcf-built-in-variables-13.png)
 
 As you can see, the new successful app version has no version suffix in its name and the previous version app has the suffix `_INACTIVE` added.
 
 Let's look at variable resolution during successful and failed deployments.
 
-#### Variable Resolution during Successful Deployments
+**Variable Resolution during Successful Deployments**
 
-| **Variables** | **After App Setup step** | **After App Resize step** | **After Swap Route step** |
-| --- | --- | --- | --- |
-| `${pcf.oldAppName}` | OrderApp\_2(UUID = 2) | OrderApp\_2(UUID = 2) | OrderApp\_INACTIVE(UUID = 2) |
-| `${pcf.newAppName}` | OrderApp\_INACTIVE(UUID = 3) | OrderApp\_INACTIVE(UUID = 3) | OrderApp(UUID = 3) |
-| `${pcf.activeAppName}` | OrderApp\_2(UUID = 2) | OrderApp\_2(UUID = 2) | OrderApp(UUID = 3) |
+| **Variables**            | **After App Setup step**     | **After App Resize step**    | **After Swap Route step**    |
+| ------------------------ | ---------------------------- | ---------------------------- | ---------------------------- |
+| `${pcf.oldAppName}`      | OrderApp\_2(UUID = 2)        | OrderApp\_2(UUID = 2)        | OrderApp\_INACTIVE(UUID = 2) |
+| `${pcf.newAppName}`      | OrderApp\_INACTIVE(UUID = 3) | OrderApp\_INACTIVE(UUID = 3) | OrderApp(UUID = 3)           |
+| `${pcf.activeAppName}`   | OrderApp\_2(UUID = 2)        | OrderApp\_2(UUID = 2)        | OrderApp(UUID = 3)           |
 | `${pcf.inActiveAppName}` | OrderApp\_INACTIVE(UUID = 3) | OrderApp\_INACTIVE(UUID = 3) | OrderApp\_INACTIVE(UUID = 2) |
 
-#### Failure during App Setup or App Resize
+**Failure during App Setup or App Resize**
 
 If deployment fails during the App Setup or App Resize step, the following actions are taken:
 
-![](./static/pcf-built-in-variables-14.png)
+![](static/pcf-built-in-variables-14.png)
 
 The new app version is deleted and the previous app version is restored.
 
 For the previous inactive application (**OrderApp\_1**), the temp routes and environment variable (**STAGE**) are not restored. To restore these, enable the [Upsize inactive Service Option](create-a-blue-green-pcf-deployment.md#upsize-inactive-service-option) in the Rollback step.
 
-#### Variable Resolution during App Resize Step Failure
+**Variable Resolution during App Resize Step Failure**
 
-| **Variables** | **After App Resize step** | **After Swap Rollback step** | **After App Rollback step** |
-| `${pcf.oldAppName}` | OrderApp\_2(UUID = 2) | OrderApp\_2(UUID = 2) | OrderApp\_2(UUID = 2) |
-| `${pcf.newAppName}` | OrderApp\_INACTIVE(UUID = 3) | OrderApp\_interim(UUID = 3) | NULL |
-| `${pcf.activeAppName}` | OrderApp\_2(UUID = 2) | OrderApp\_2(UUID = 2) | OrderApp\_2(UUID = 2) |
-| `${pcf.inActiveAppName}` | OrderApp\_INACTIVE(UUID = 3) | OrderApp\_1(UUID = 1) | OrderApp\_1(UUID = 1) |
+\| **Variables** | **After App Resize step** | **After Swap Rollback step** | **After App Rollback step** | | `${pcf.oldAppName}` | OrderApp\_2(UUID = 2) | OrderApp\_2(UUID = 2) | OrderApp\_2(UUID = 2) | | `${pcf.newAppName}` | OrderApp\_INACTIVE(UUID = 3) | OrderApp\_interim(UUID = 3) | NULL | | `${pcf.activeAppName}` | OrderApp\_2(UUID = 2) | OrderApp\_2(UUID = 2) | OrderApp\_2(UUID = 2) | | `${pcf.inActiveAppName}` | OrderApp\_INACTIVE(UUID = 3) | OrderApp\_1(UUID = 1) | OrderApp\_1(UUID = 1) |
 
-#### Failure during Swap Route Step
+**Failure during Swap Route Step**
 
-![](./static/pcf-built-in-variables-15.png)
+![](static/pcf-built-in-variables-15.png)
 
 If deployment fails during the Swap Route step, the following actions are taken:
 
@@ -308,20 +293,20 @@ If deployment fails during the Swap Route step, the following actions are taken:
 
 For the previous inactive application (**OrderApp\_1**), the temp routes and environment variable (**STAGE**) are not restored. To restore these, enable the [Upsize inactive Service Option](create-a-blue-green-pcf-deployment.md#upsize-inactive-service-option) in the Rollback step.
 
-#### Variables Resolution during Swap Route Step Failure
+**Variables Resolution during Swap Route Step Failure**
 
-| **Variables** | **After Swap Route step** | **After Swap Rollback step** | **After App Rollback step** |
-| --- | --- | --- | --- |
-| `${pcf.oldAppName}` | OrderApp\_INACTIVE(UUID = 2) | OrderApp\_2(UUID = 2) | OrderApp\_2(UUID = 2) |
-| `${pcf.newAppName}` | OrderApp(UUID = 3) | OrderApp\_interim(UUID = 3) | NULL |
-| `${pcf.activeAppName}` | OrderApp(UUID = 3) | OrderApp\_2(UUID = 2) | OrderApp\_2(UUID = 2) |
-| `${pcf.inActiveAppName}` | OrderApp\_INACTIVE(UUID = 2) | OrderApp\_1(UUID = 1) | OrderApp\_1(UUID = 1) |
+| **Variables**            | **After Swap Route step**    | **After Swap Rollback step** | **After App Rollback step** |
+| ------------------------ | ---------------------------- | ---------------------------- | --------------------------- |
+| `${pcf.oldAppName}`      | OrderApp\_INACTIVE(UUID = 2) | OrderApp\_2(UUID = 2)        | OrderApp\_2(UUID = 2)       |
+| `${pcf.newAppName}`      | OrderApp(UUID = 3)           | OrderApp\_interim(UUID = 3)  | NULL                        |
+| `${pcf.activeAppName}`   | OrderApp(UUID = 3)           | OrderApp\_2(UUID = 2)        | OrderApp\_2(UUID = 2)       |
+| `${pcf.inActiveAppName}` | OrderApp\_INACTIVE(UUID = 2) | OrderApp\_1(UUID = 1)        | OrderApp\_1(UUID = 1)       |
 
-### Non-Version to Non-Version
+#### Non-Version to Non-Version
 
 First, let's look at a successful deployment:
 
-![](./static/pcf-built-in-variables-16.png)
+![](static/pcf-built-in-variables-16.png)
 
 You can see the previous version OverApp (v3) is given the suffix **INACTIVE** and the new version OrderApp (v4) is not given any suffix.
 
@@ -333,43 +318,43 @@ During the App Setup step:
 During the Swap Route step the following actions are taken:
 
 * Prod routes are attached and temp routes are removed from the new application (**OrderApp\_INACTIVE**). The environment variable is set to **ACTIVE**.
-* Temp routes are attached and prod routes are removed from the current active application  
-(**OrderApp**, **UUID = 3**). The environment variable is set to STAGE.
-* New active application is renamed from **OrderApp\_INACTIVE** to **OrderApp**  
-(this is in non-versioning mode).
+* Temp routes are attached and prod routes are removed from the current active application\
+  (**OrderApp**, **UUID = 3**). The environment variable is set to STAGE.
+* New active application is renamed from **OrderApp\_INACTIVE** to **OrderApp**\
+  (this is in non-versioning mode).
 * The current active application is renamed from **OrderApp** to **OrderApp\_INACTIVE**.
 
-#### Variables Resolution during Successful Deployments
+**Variables Resolution during Successful Deployments**
 
-| **Variables** | **After App Setup step** | **After App Resize step** | **After Swap Route step** |
-| --- | --- | --- | --- |
-| `${pcf.oldAppName}` | OrderApp(UUID = 3) | OrderApp(UUID = 3) | OrderApp\_INACTIVE(UUID = 3) |
-| `${pcf.newAppName}` | OrderApp\_INACTIVE(UUID = 4) | OrderApp\_INACTIVE(UUID = 4) | OrderApp(UUID = 4) |
-| `${pcf.activeAppName}` | OrderApp(UUID = 3) | OrderApp(UUID = 3) | OrderApp(UUID = 4) |
+| **Variables**            | **After App Setup step**     | **After App Resize step**    | **After Swap Route step**    |
+| ------------------------ | ---------------------------- | ---------------------------- | ---------------------------- |
+| `${pcf.oldAppName}`      | OrderApp(UUID = 3)           | OrderApp(UUID = 3)           | OrderApp\_INACTIVE(UUID = 3) |
+| `${pcf.newAppName}`      | OrderApp\_INACTIVE(UUID = 4) | OrderApp\_INACTIVE(UUID = 4) | OrderApp(UUID = 4)           |
+| `${pcf.activeAppName}`   | OrderApp(UUID = 3)           | OrderApp(UUID = 3)           | OrderApp(UUID = 4)           |
 | `${pcf.inActiveAppName}` | OrderApp\_INACTIVE(UUID = 4) | OrderApp\_INACTIVE(UUID = 4) | OrderApp\_INACTIVE(UUID = 3) |
 
-#### Failure during the App Setup or App Resize Steps
+**Failure during the App Setup or App Resize Steps**
 
 If deployments fails during App Setup or App Resize steps, the following actions are taken:
 
-![](./static/pcf-built-in-variables-17.png)
+![](static/pcf-built-in-variables-17.png)
 
 The state of the previous active application (OrderApp) was not changed and there is nothing to restore. The new application is deleted. The previous inactive application name is restored.
 
 For the previous inactive application (**OrderApp\_INACTIVE**, **UUID = 2**), the temp routes and environment variable (**STAGE**) are not restored. To restore these, enable the [Upsize inactive Service Option](create-a-blue-green-pcf-deployment.md#upsize-inactive-service-option) in the Rollback step.
 
-#### Variables Resolution during App Setup or App Resize Failure
+**Variables Resolution during App Setup or App Resize Failure**
 
-| **Variables** | **After App Resize step** | **After Swap Rollback step** | **After App Rollback step** |
-| --- | --- | --- | --- |
-| `${pcf.oldAppName}` | OrderApp(UUID = 3) | OrderApp(UUID = 3) | OrderApp(UUID = 3) |
-| `${pcf.newAppName}` | OrderApp\_INACTIVE(UUID = 4) | OrderApp\_interim(UUID = 4) | NULL |
-| `${pcf.activeAppName}` | OrderApp(UUID = 3) | OrderApp(UUID = 3) | OrderApp(UUID = 3) |
+| **Variables**            | **After App Resize step**    | **After Swap Rollback step** | **After App Rollback step**  |
+| ------------------------ | ---------------------------- | ---------------------------- | ---------------------------- |
+| `${pcf.oldAppName}`      | OrderApp(UUID = 3)           | OrderApp(UUID = 3)           | OrderApp(UUID = 3)           |
+| `${pcf.newAppName}`      | OrderApp\_INACTIVE(UUID = 4) | OrderApp\_interim(UUID = 4)  | NULL                         |
+| `${pcf.activeAppName}`   | OrderApp(UUID = 3)           | OrderApp(UUID = 3)           | OrderApp(UUID = 3)           |
 | `${pcf.inActiveAppName}` | OrderApp\_INACTIVE(UUID = 4) | OrderApp\_INACTIVE(UUID = 2) | OrderApp\_INACTIVE(UUID = 2) |
 
-#### Failure during the Swap Route Step
+**Failure during the Swap Route Step**
 
-![](./static/pcf-built-in-variables-18.png)
+![](static/pcf-built-in-variables-18.png)
 
 If deployment fails during the Swap Route step, the following actions are taken:
 
@@ -380,22 +365,22 @@ If deployment fails during the Swap Route step, the following actions are taken:
 
 For the previous inactive application (**OrderApp\_INACTIVE**, **UUID = 2**), the temp routes and environment variable (**STAGE**) are not restored. To restore these, enable the [Upsize inactive Service Option](create-a-blue-green-pcf-deployment.md#upsize-inactive-service-option) in the Rollback step.
 
-#### Variables Resolution during Swap Route Failure
+**Variables Resolution during Swap Route Failure**
 
-| **Variables** | **After Swap Route step** | **After Swap Rollback step** | **After App Rollback step** |
-| --- | --- | --- | --- |
-| `${pcf.oldAppName}` | OrderApp\_INACTIVE(UUID = 3) | OrderApp(UUID = 3) | OrderApp(UUID = 3) |
-| `${pcf.newAppName}` | OrderApp(UUID = 4) | OrderApp\_interim(UUID = 4) | NULL |
-| `${pcf.activeAppName}` | OrderApp(UUID = 4) | OrderApp(UUID = 3) | OrderApp(UUID = 3) |
+| **Variables**            | **After Swap Route step**    | **After Swap Rollback step** | **After App Rollback step**  |
+| ------------------------ | ---------------------------- | ---------------------------- | ---------------------------- |
+| `${pcf.oldAppName}`      | OrderApp\_INACTIVE(UUID = 3) | OrderApp(UUID = 3)           | OrderApp(UUID = 3)           |
+| `${pcf.newAppName}`      | OrderApp(UUID = 4)           | OrderApp\_interim(UUID = 4)  | NULL                         |
+| `${pcf.activeAppName}`   | OrderApp(UUID = 4)           | OrderApp(UUID = 3)           | OrderApp(UUID = 3)           |
 | `${pcf.inActiveAppName}` | OrderApp\_INACTIVE(UUID = 3) | OrderApp\_INACTIVE(UUID = 2) | OrderApp\_INACTIVE(UUID = 2) |
 
- 
+&#x20;
 
-### Non-Version to Version
+#### Non-Version to Version
 
 First, let's look at a successful deployment:
 
-![](./static/pcf-built-in-variables-19.png)
+![](static/pcf-built-in-variables-19.png)
 
 During the App Setup step, the following actions are taken:
 
@@ -406,43 +391,43 @@ During the Swap Route step, the following actions are taken:
 
 * Prod routes are attached and temp routes are removed from the new app (**OrderApp\_INACTIVE**). The environment variable is set to **ACTIVE**.
 * Temp routes are attached and prod routes are removed from the current active application (**OrderApp**). The environment variable is set to **STAGE**.
-* The current active application (**UUID = 3**) is renamed from **OrderApp** to **OrderApp\_3**  
-(this is in non-versioning mode).
+* The current active application (**UUID = 3**) is renamed from **OrderApp** to **OrderApp\_3**\
+  (this is in non-versioning mode).
 * New active app is renamed from **OrderApp\_INACTIVE** to **OrderApp\_4**.
 
 If you change from non-version to version, in the next deployment the new app is created with the suffix **\_\_INACTIVE**. All the apps will be renamed to version mode during the Swap Route step. Harness follows this method to avoid renaming the active app while it is still in use. From the subsequent deployment, the new app will be created in version mode. For example, in above example the new app will be created with name **OrderApp\_5**.
 
-#### Variables Resolution during a Successful Deployment
+**Variables Resolution during a Successful Deployment**
 
-| **Variables** | **After App Setup step** | **After App Resize step** | **After Swap Route step** |
-| --- | --- | --- | --- |
-| `${pcf.oldAppName}` | OrderApp(UUID = 3) | OrderApp(UUID = 3) | OrderApp\_3(UUID = 3) |
-| `${pcf.newAppName}` | OrderApp\_INACTIVE(UUID = 4) | OrderApp\_INACTIVE(UUID = 4) | OrderApp\_4(UUID = 4) |
-| `${pcf.activeAppName}` | OrderApp(UUID = 3) | OrderApp(UUID = 3) | OrderApp\_4(UUID = 4) |
-| `${pcf.inActiveAppName}` | OrderApp\_INACTIVE(UUID = 4) | OrderApp\_INACTIVE(UUID = 4) | OrderApp\_3(UUID = 3) |
+| **Variables**            | **After App Setup step**     | **After App Resize step**    | **After Swap Route step** |
+| ------------------------ | ---------------------------- | ---------------------------- | ------------------------- |
+| `${pcf.oldAppName}`      | OrderApp(UUID = 3)           | OrderApp(UUID = 3)           | OrderApp\_3(UUID = 3)     |
+| `${pcf.newAppName}`      | OrderApp\_INACTIVE(UUID = 4) | OrderApp\_INACTIVE(UUID = 4) | OrderApp\_4(UUID = 4)     |
+| `${pcf.activeAppName}`   | OrderApp(UUID = 3)           | OrderApp(UUID = 3)           | OrderApp\_4(UUID = 4)     |
+| `${pcf.inActiveAppName}` | OrderApp\_INACTIVE(UUID = 4) | OrderApp\_INACTIVE(UUID = 4) | OrderApp\_3(UUID = 3)     |
 
-#### Failures during the App Setup or App Resize Steps
+**Failures during the App Setup or App Resize Steps**
 
 If deployment fails during App Setup or App Resize step, the following actions are taken:
 
-![](./static/pcf-built-in-variables-20.png)
+![](static/pcf-built-in-variables-20.png)
 
 The state of the previous active app (**OrderApp**) was not changed so there is nothing to restore. The new app is deleted. The previous inactive app name is restored.
 
 For the previous inactive application (**OrderApp\_INACTIVE**, **UUID = 2**), the temp routes and environment variable (**STAGE**) are not restored. To restore these, enable the [Upsize inactive Service Option](create-a-blue-green-pcf-deployment.md#upsize-inactive-service-option) in the Rollback step.
 
-#### Variables Resolution during App Setup or App Resize Failure
+**Variables Resolution during App Setup or App Resize Failure**
 
-| **Variables** | **After App Resize step** | **After Swap Rollback step** | **After App Rollback step** |
-| --- | --- | --- | --- |
-| `${pcf.oldAppName}` | OrderApp(UUID = 3) | OrderApp(UUID = 3) | OrderApp(UUID = 3) |
-| `${pcf.newAppName}` | OrderApp\_INACTIVE(UUID = 4) | OrderApp\_interim(UUID = 4) | NULL |
-| `${pcf.activeAppName}` | OrderApp(UUID = 3) | OrderApp(UUID = 3) | OrderApp(UUID = 3) |
-| `${pcf.inActiveAppName}` |  |  |  |
+| **Variables**            | **After App Resize step**    | **After Swap Rollback step** | **After App Rollback step** |
+| ------------------------ | ---------------------------- | ---------------------------- | --------------------------- |
+| `${pcf.oldAppName}`      | OrderApp(UUID = 3)           | OrderApp(UUID = 3)           | OrderApp(UUID = 3)          |
+| `${pcf.newAppName}`      | OrderApp\_INACTIVE(UUID = 4) | OrderApp\_interim(UUID = 4)  | NULL                        |
+| `${pcf.activeAppName}`   | OrderApp(UUID = 3)           | OrderApp(UUID = 3)           | OrderApp(UUID = 3)          |
+| `${pcf.inActiveAppName}` |                              |                              |                             |
 
-#### Failure during the Swap Route Step
+**Failure during the Swap Route Step**
 
-![](./static/pcf-built-in-variables-21.png)
+![](static/pcf-built-in-variables-21.png)
 
 If there failures during the Swap Route step, the following actions are taken:
 
@@ -453,22 +438,21 @@ If there failures during the Swap Route step, the following actions are taken:
 
 For the previous inactive application (**OrderApp\_INACTIVE**, **UUID = 2**), the temp routes and environment variable (**STAGE**) are not restored. To restore these, enable the [Upsize inactive Service Option](create-a-blue-green-pcf-deployment.md#upsize-inactive-service-option) in the Rollback step.
 
-#### Variables Resolution during the Swap Route Step Failure
+**Variables Resolution during the Swap Route Step Failure**
 
-| **Variables** | **After Swap Route step** | **After Swap Rollback step** | **After App Rollback step** |
-| --- | --- | --- | --- |
-| `${pcf.oldAppName}` | OrderApp\_3(UUID = 3) | OrderApp(UUID = 3) | OrderApp(UUID = 3) |
-| `${pcf.newAppName}` | OrderApp\_4(UUID = 4) | OrderApp\_interim(UUID = 4) | NULL |
-| `${pcf.activeAppName}` | OrderApp\_4(UUID = 4) | OrderApp(UUID = 3) | OrderApp(UUID = 3) |
-| `${pcf.inActiveAppName}` | OrderApp\_3(UUID = 3) | OrderApp\_INACTIVE(UUID = 2) | OrderApp\_INACTIVE(UUID = 2) |
+| **Variables**            | **After Swap Route step** | **After Swap Rollback step** | **After App Rollback step**  |
+| ------------------------ | ------------------------- | ---------------------------- | ---------------------------- |
+| `${pcf.oldAppName}`      | OrderApp\_3(UUID = 3)     | OrderApp(UUID = 3)           | OrderApp(UUID = 3)           |
+| `${pcf.newAppName}`      | OrderApp\_4(UUID = 4)     | OrderApp\_interim(UUID = 4)  | NULL                         |
+| `${pcf.activeAppName}`   | OrderApp\_4(UUID = 4)     | OrderApp(UUID = 3)           | OrderApp(UUID = 3)           |
+| `${pcf.inActiveAppName}` | OrderApp\_3(UUID = 3)     | OrderApp\_INACTIVE(UUID = 2) | OrderApp\_INACTIVE(UUID = 2) |
 
-### Notes
+#### Notes
 
 * During rollback, the new app is always deleted in every scenario.
 * The variables `${pcf.activeAppName}` and `${pcf.inActiveAppName}` are available only in Blue Green deployments after the App Setup step.
 * If deployment fails during the Swap Routes step, then the variables `${pcf.activeAppName}` and `${pcf.inActiveAppName}` might be in inconsistent state.
-	+ These variables will hold the right value after the Swap Routes rollback and hence must be used after Swap Routes rollback step.
+  * These variables will hold the right value after the Swap Routes rollback and hence must be used after Swap Routes rollback step.
 * If the [Upsize inactive Service Option](create-a-blue-green-pcf-deployment.md#upsize-inactive-service-option) in not enabled then the environment variable **HARNESS\_\_STAGE\_\_IDENTIFIER = STAGE** will not be set to the inactive app during rollback.
-	+ In next deployment, the `${pcf.inActiveAppName}` variable may not resolve to the correct name as **STAGE** is used to identify inactive app.
+  * In next deployment, the `${pcf.inActiveAppName}` variable may not resolve to the correct name as **STAGE** is used to identify inactive app.
 * During rollback, the new app name will be changed to `<AppName>__interim` and later deleted. Consequently, `${pcf.newAppName}` will be updated and resolve accordingly.
-

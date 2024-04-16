@@ -1,12 +1,14 @@
 ---
 title: Go SDK reference
-description: This topic explains how to integrate your feature flags with Go SDK.
 sidebar_position: 20
 helpdocs_topic_id: 4c8wljx60w
 helpdocs_category_id: kkiqy1f6d7
 helpdocs_is_private: false
 helpdocs_is_published: true
+description: This topic explains how to integrate your feature flags with Go SDK.
 ---
+
+# Go SDK reference
 
 import Sixty from '/docs/feature-flags/shared/p-sdk-run60seconds.md'
 
@@ -14,93 +16,86 @@ import Smpyes from '../shared/note-smp-compatible.md'
 
 import Closeclient from '../shared/close-sdk-client.md'
 
-
-<Smpyes />
-
-
-This topic describes how to use the Harness Feature Flags Go SDK for your Go application. 
+This topic describes how to use the Harness Feature Flags Go SDK for your Go application.&#x20;
 
 For getting started quickly, you can use our [sample code from the SDK README](https://github.com/harness/ff-golang-server-sdk). You can also [clone](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository) and run a sample application from the [Go SDK GitHub Repository.](https://github.com/harness/ff-golang-server-sdk)
 
-## Before you begin
+### Before you begin
 
 Make sure you read and understand:
 
-* [Feature Flags Overview](../../get-started/overview)
-* [Getting Started with Feature Flags](/docs/feature-flags/get-started/onboarding-guide)
+* [Feature Flags Overview](../../get-started/overview/)
+* [Getting Started with Feature Flags](../../get-started/onboarding-guide/)
 * [Client-Side and Server-Side SDKs](../sdk-overview/client-side-and-server-side-sdks.md)
 * [Communication Strategy Between SDKs and Harness Feature Flags](../sdk-overview/communication-sdks-harness-feature-flags.md)
 
-## Version
+### Version
 
 Latest SDK version can be found on [GitHub Release Page](https://github.com/harness/ff-golang-server-sdk/releases)
 
-## Requirements
+### Requirements
 
 To use this SDK, make sure you:
 
-- Starting with SDK version v0.1.21, Golang version 1.20 or later is required.
-- Earlier versions of the SDK require Golang versions newer than 1.6 but older than 1.19.
-- For installation details, please refer to [Golang's official installation guide](https://go.dev/doc/install).
+* Starting with SDK version v0.1.21, Golang version 1.20 or later is required.
+* Earlier versions of the SDK require Golang versions newer than 1.6 but older than 1.19.
+* For installation details, please refer to [Golang's official installation guide](https://go.dev/doc/install).
 * [Download the SDK from our GitHub repository](https://github.com/harness/ff-golang-server-sdk)
-* Create a Go application, or [clone](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository) our [sample application](https://github.com/harness/ff-golang-server-sdk/blob/main/examples/getting_started.go).
-* [Create a Feature Flag on the Harness Platform](/docs/feature-flags/ff-creating-flag/create-a-feature-flag). If you are following along with the SDK README sample code, make sure your flag is called `harnessappdemodarkmode`.
-* [Create an SDK key and make a copy of it](/docs/feature-flags/ff-creating-flag/create-a-project#create-an-sdk-key).
+* Create a Go application, or [clone](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository) our [sample application](https://github.com/harness/ff-golang-server-sdk/blob/main/examples/getting\_started.go).
+* [Create a Feature Flag on the Harness Platform](../../ff-creating-flag/create-a-feature-flag/). If you are following along with the SDK README sample code, make sure your flag is called `harnessappdemodarkmode`.
+* [Create an SDK key and make a copy of it](../../ff-creating-flag/create-a-project/#create-an-sdk-key).
 
-## Install the SDK
+### Install the SDK
 
 Install the SDK using the following Go command:
-
 
 ```
 go get github.com/harness/ff-golang-server-sdk
 ```
-## Import the SDK
 
-Import the SDK using the following Go command: 
+### Import the SDK
 
+Import the SDK using the following Go command:&#x20;
 
 ```
 import harness "github.com/harness/ff-golang-server-sdk/client"
 ```
-## Initialize the SDK
+
+### Initialize the SDK
 
 To initialize the Go SDK, you need to:
 
 1. Add your Server SDK Key to connect to your Harness Environment.
 2. (Optional) Configure the SDK options. For more details on what features you can configure for this SDK, go to [Configure the SDK](feature-flag-sdks-go-application.md#configure-the-sdk).
-3. Complete the initialization by creating an instance of the Feature Flag client and  passing in the Server SDK Key and Configuration.
+3. Complete the initialization by creating an instance of the Feature Flag client and  passing in the Server SDK Key and Configuration.
 4. Add a Target that you want to Evaluate against a Feature Flag.
 
-### Add the Server SDK Key
+#### Add the Server SDK Key
 
 To connect to the correct Environment that you set up on the Harness Platform, you need to add the Server SDK Key from that Environment. Input the Server SDK Key into the `sdkKey` parameter. For example:
-
 
 ```
 client, err := harness.NewCfClient(sdkKey)
 ```
-### Configure the SDK
+
+#### Configure the SDK
 
 You can configure the following features of the SDK:
 
-
-
-|  |  |  |  |
-| --- | --- | --- | --- |
-| **Name** | **Example** | **Description** | **Default Value** |
-| baseUrl | `harness.WithURL("https://config.ff.harness.io/api/1.0")` | The URL used to fetch Feature Flag Evaluations. When using the Relay Proxy, change this to: `http://localhost:7000` | `https://config.ff.harness.io/api/1.0` |
-| eventUrl | `harness.WithEventsURL("https://events.ff.harness.io/api/1.0")` | The URL for posting metrics data to the Feature Flag service. When using the Relay Proxy, change this to: `http://localhost:7000` | `https://events.ff.harness.io/api/1.0` |
-| pollInterval | `harness.WithPullInterval(60))` | The interval **in seconds** that we poll for changes when you are using stream mode. | `60 (seconds)` |
-| streamEnabled | `harness.WithStreamEnabled(false)` | Set to `true` to enable streaming mode.Set to `false` to disable streaming mode. | `true` |
-| analyticsEnabled | `harness.WithAnalyticsEnabled(false)` | Set to `true` to enable analytics.Set to `false` to disable analytics.**Note**: Analytics are not cached. | `true` |
+|                  |                                                                 |                                                                                                                                   |                                        |
+| ---------------- | --------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------- |
+| **Name**         | **Example**                                                     | **Description**                                                                                                                   | **Default Value**                      |
+| baseUrl          | `harness.WithURL("https://config.ff.harness.io/api/1.0")`       | The URL used to fetch Feature Flag Evaluations. When using the Relay Proxy, change this to: `http://localhost:7000`               | `https://config.ff.harness.io/api/1.0` |
+| eventUrl         | `harness.WithEventsURL("https://events.ff.harness.io/api/1.0")` | The URL for posting metrics data to the Feature Flag service. When using the Relay Proxy, change this to: `http://localhost:7000` | `https://events.ff.harness.io/api/1.0` |
+| pollInterval     | `harness.WithPullInterval(60))`                                 | The interval **in seconds** that we poll for changes when you are using stream mode.                                              | `60 (seconds)`                         |
+| streamEnabled    | `harness.WithStreamEnabled(false)`                              | Set to `true` to enable streaming mode.Set to `false` to disable streaming mode.                                                  | `true`                                 |
+| analyticsEnabled | `harness.WithAnalyticsEnabled(false)`                           | Set to `true` to enable analytics.Set to `false` to disable analytics.**Note**: Analytics are not cached.                         | `true`                                 |
 
 For further configuration options and samples, such as configuring your logger or using the SDK with the Relay Proxy, go to [Additional Options](feature-flag-sdks-go-application.md#additional-options).
 
-### Complete the initialization
+#### Complete the initialization
 
-Complete  the initialization by creating an instance of the Feature Flag client and passing in the `sdkKey`, and any configuration options. For example:
-
+Complete  the initialization by creating an instance of the Feature Flag client and passing in the `sdkKey`, and any configuration options. For example:
 
 ```
 // Create Options  
@@ -110,11 +105,10 @@ client, err := harness.NewCfClient(myApiKey, 
  harness.WithPullInterval(1),  
  harness.WithStreamEnabled(false))
 ```
-### Block initialization 
 
-By default, when initializing the Harness Feature Flags client, the initialization process is non-blocking. This means that the client creation call returns immediately,
-allowing your application to continue its startup process without waiting for the client to be fully initialized. If you evaluate a flag before the client has finished initializing,
-the default variation you provided can be returned as the evaluation result, because the SDK has not finished caching your remote Flag configuration stored in Harness.
+#### Block initialization
+
+By default, when initializing the Harness Feature Flags client, the initialization process is non-blocking. This means that the client creation call returns immediately, allowing your application to continue its startup process without waiting for the client to be fully initialized. If you evaluate a flag before the client has finished initializing, the default variation you provided can be returned as the evaluation result, because the SDK has not finished caching your remote Flag configuration stored in Harness.
 
 You can choose to wait for the client to finish initializing before continuing. To achieve this, you can use the `WithWaitForInitialized` option, which blocks until the client is fully initialized. Example usage:
 
@@ -127,7 +121,6 @@ log.ErrorF("could not connect to FF servers %s", err)
 
 result, err := client.BoolVariation("identifier_of_your_boolean_flag", &target, false)
 ```
-
 
 In this example, WaitForInitialized blocks for up to 5 authentication attempts. If the client is not initialized within 5 authentication attempts, it returns an error.
 
@@ -142,59 +135,58 @@ log.Fatalf("client did not initialize in time: %s", err)
 }
 ```
 
-### Add a target
+#### Add a target
 
 <details>
-<summary>What is a Target?</summary> 
+
+<summary>What is a Target?</summary>
+
 Targets are used to control which users see which Variation of a Feature Flag, for example, if you want to do internal testing, you can enable the Flag for some users and not others. When creating a Target, you give it a name and a unique identifier. Often Targets are users but you can create a Target from anything that can be uniquely identified, such as an app or a machine.
+
 </details>
 
-For more information about Targets, go to [Targeting Users With Flags](/docs/feature-flags/ff-target-management/targeting-users-with-flags).
-
+For more information about Targets, go to [Targeting Users With Flags](../../ff-target-management/targeting-users-with-flags/).
 
 To add a Target, build it and pass in arguments for the following:
 
-
-
-|  |  |  |  |
-| --- | --- | --- | --- |
-| **Parameter** | **Description** | **Required?** | **Example** |
-| `Identifier` | Unique ID for the Target.Read **Regex requirements for Target names and identifiers** below for accepted characters. | Required | `Identifier: "HT_1"` |
-| `Name` | Name for this Target. This does not have to be unique. **Note**: If you don’t provide a value, the name will be the same as the identifier.Read **Regex requirements for Target names and identifiers** below for accepted characters. | Optional**Note**: If you don't want to send a name, don't send the parameter. Sending an empty argument will cause an error. |  `Name: "Harness_Target_1"` |
-| `Attributes` | Additional data you can store for a Target, such as email addresses or location. | Optional | `Attributes: &map[string]interface{}{"email":"demo@harness.io"},` |
+|               |                                                                                                                                                                                                                                        |                                                                                                                              |                                                                   |
+| ------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------- |
+| **Parameter** | **Description**                                                                                                                                                                                                                        | **Required?**                                                                                                                | **Example**                                                       |
+| `Identifier`  | Unique ID for the Target.Read **Regex requirements for Target names and identifiers** below for accepted characters.                                                                                                                   | Required                                                                                                                     | `Identifier: "HT_1"`                                              |
+| `Name`        | Name for this Target. This does not have to be unique. **Note**: If you don’t provide a value, the name will be the same as the identifier.Read **Regex requirements for Target names and identifiers** below for accepted characters. | Optional**Note**: If you don't want to send a name, don't send the parameter. Sending an empty argument will cause an error. | `Name: "Harness_Target_1"`                                        |
+| `Attributes`  | Additional data you can store for a Target, such as email addresses or location.                                                                                                                                                       | Optional                                                                                                                     | `Attributes: &map[string]interface{}{"email":"demo@harness.io"},` |
 
 <details>
-<summary> Regex requirements for Target names and identifiers </summary>
 
-**Identifier** 
+<summary>Regex requirements for Target names and identifiers</summary>
 
-Regex: `^[A-Za-z0-9.@_-]*$`  
-Must consist of only alphabetical characters, numbers, and the following symbols:  
-. (period)  
-@ (at sign)  
--(dash)  
-\_ (underscore)  
-  
-The characters can be lowercase or uppercase but cannot include accented letters, for example `Cafe_789`.  
-  
-**Name**
-Regex: `^[\\p{L}\\d .@_-]*$`  
-  
-Must consist of only alphabetical characters, numbers, and the following symbols:  
-. (period)  
-@ (at sign)  
--(dash)  
-\_ (underscore)  
- (space)  
-  
+**Identifier**
+
+Regex: `^[A-Za-z0-9.@_-]*$`\
+Must consist of only alphabetical characters, numbers, and the following symbols:\
+. (period)\
+@ (at sign)\
+\-(dash)\
+\_ (underscore)
+
+The characters can be lowercase or uppercase but cannot include accented letters, for example `Cafe_789`.
+
+**Name** Regex: `^[\\p{L}\\d .@_-]*$`
+
+Must consist of only alphabetical characters, numbers, and the following symbols:\
+. (period)\
+@ (at sign)\
+\-(dash)\
+\_ (underscore)\
+(space)
+
 The characters can be lowercase or uppercase and can include accented letters, for example `Café_123`.
 
 </details>
 
 For example:
 
-#### Create a Target
-
+**Create a Target**
 
 ```
 target2 := evaluation.Target{  
@@ -203,10 +195,10 @@ target2 := evaluation.Target{
  Attributes: &map[string]interface{}{"email":"demo@harness.io"},  
 }
 ```
-#### Create a Target with the builder
+
+**Create a Target with the builder**
 
 If you create a Target with the builder, use `Custom` instead of `Attributes`.
-
 
 ```
 target := dto.NewTargetBuilder("HT_1").  
@@ -214,9 +206,10 @@ target := dto.NewTargetBuilder("HT_1").
  Custom("email", "demo@harness.io").  
  Build()
 ```
-## Evaluate a Flag
 
-Evaluating a Flag is when the SDK processes all Flag rules and returns the correct Variation of that Flag for the Target you provide. 
+### Evaluate a Flag
+
+Evaluating a Flag is when the SDK processes all Flag rules and returns the correct Variation of that Flag for the Target you provide.&#x20;
 
 If a matching Flag can’t be found, or the SDK can’t remotely fetch flags, the default value is returned. This will be indicated by:
 
@@ -231,26 +224,25 @@ There are different methods for the different Variation types and for each metho
 
 For example:
 
-### Evaluate a string Variation
-
+#### Evaluate a string Variation
 
 ```
 client.StringVariation(flagName, &target, "default_string")
 ```
-### Evaluate a boolean Variation
 
+#### Evaluate a boolean Variation
 
 ```
 showFeature, err := client.BoolVariation(featureFlagKey, &target, false)
 ```
-### Evaluate a number Variation
 
+#### Evaluate a number Variation
 
 ```
 client.NumberVariation(flagName, &target, -1)
 ```
-### Evaluate a JSON Variation
 
+#### Evaluate a JSON Variation
 
 ```
 client.JSONVariation(flagName, &target, types.JSON{"darkmode": false})
@@ -262,32 +254,27 @@ If you evaluate a feature flag when initialization fails, the default variation 
 
 :::
 
-## Test Your App is Connected to Harness
+### Test Your App is Connected to Harness
 
 When you receive a response showing the current status of your Feature Flag, go to the Harness Platform and toggle the Flag on and off. Then, check your app to verify if the Flag Variation displayed is updated with the Variation you toggled.
 
-<Sixty />
-
-## Close the SDK client
-
-<Closeclient />
+### Close the SDK client
 
 To close the SDK client:
 
-* Assuming you have initialized an SDK client instance named `client`, call the following function:
+*   Assuming you have initialized an SDK client instance named `client`, call the following function:
 
     ```
     client.close()
     ```
 
-## Additional options
+### Additional options
 
-### Configure your logger
+#### Configure your logger
 
-The SDK has a default logger, however, you can provide your own logger to the SDK by passing it in as a configuration option. 
+The SDK has a default logger, however, you can provide your own logger to the SDK by passing it in as a configuration option.&#x20;
 
 For example, the following creates an instance of the logrus logger and passes it in as a configuration option:
-
 
 ```
 logger := logrus.New()  
@@ -296,10 +283,10 @@ logger.SetLevel(logrus.ErrorLevel)
  // Create a feature flag client  
 client, err := harness.NewCfClient(sdkKey, harness.WithLogger(logger))
 ```
-### Use the Relay Proxy
 
-When using your Feature Flag SDKs with a [Harness Relay Proxy](/docs/feature-flags/relay-proxy/) you need to change the default URL and events URL to `http://localhost:7000` when initializing the SDK. For example:
+#### Use the Relay Proxy
 
+When using your Feature Flag SDKs with a [Harness Relay Proxy](../../relay-proxy/) you need to change the default URL and events URL to `http://localhost:7000` when initializing the SDK. For example:
 
 ```
 client, err := harness.NewCfClient(apiKey,  
@@ -307,7 +294,7 @@ harness.WithURL("http://localhost:7000"),
 harness.WithEventsURL("http://localhost:7000"))
 ```
 
-### Configure your HTTP Client
+#### Configure your HTTP Client
 
 The SDK has a default HTTP client, however, you can provide your own HTTP client to the SDK by passing it in as a configuration option.
 
@@ -333,10 +320,9 @@ httpClient := http.Client{Transport: transport}
 
 For a full example of providing custom CAs for Harness Self-Managed Enterprise Edition, see our [TLS Example](https://github.com/harness/ff-golang-server-sdk/blob/main/examples/tls/example.go)
 
-## Sample code for a Go application
+### Sample code for a Go application
 
 Here is a sample code for integrating with the Go SDK:
-
 
 ```
 package main  
@@ -409,11 +395,12 @@ package main
 }
 ```
 
-## Troubleshooting
+### Troubleshooting
+
 The SDK logs the following codes for certain lifecycle events, for example authentication, which can aid troubleshooting.
 
 | **Code** | **Description**                                                                                               | **Log Level** |
-|----------|:--------------------------------------------------------------------------------------------------------------|---------------|
+| -------- | ------------------------------------------------------------------------------------------------------------- | ------------- |
 | **1000** | Successfully initialized                                                                                      | Info          |
 | **1001** | Failed to initialize due to authentication error                                                              | Error         |
 | **1002** | Failed to initialize due to a missing or empty API key                                                        | Error         |

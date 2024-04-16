@@ -1,16 +1,16 @@
 ---
 title: Resume Pipeline Deployments
-description: Describes how to resume Pipeline deployments that fail during execution.
 sidebar_position: 80
 helpdocs_topic_id: 4dvyslwbun
 helpdocs_category_id: cwefyz0jos
 helpdocs_is_private: false
 helpdocs_is_published: true
+description: Describes how to resume Pipeline deployments that fail during execution.
 ---
 
-:::warning
-This content is for [Harness FirstGen](/docs/continuous-delivery/get-started/upgrading/upgrade-nextgen-cd.md). Switch to [NextGen](/docs/continuous-delivery/manage-deployments/deployment-concepts).
-:::
+# Resume Pipeline Deployments
+
+:::warning This content is for [Harness FirstGen](../../../../continuous-delivery/get-started/upgrading/upgrade-nextgen-cd.md). Switch to [NextGen](../../../../continuous-delivery/manage-deployments/deployment-concepts/). :::
 
 You can resume Pipeline deployment executions that meet the following criteria:
 
@@ -25,14 +25,13 @@ Harness provides an option to resume your Pipeline deployment from any previousl
 
 The stages after the resumed stage are executed. Stages preceding the stage you selected are not executed again.
 
-
-### Before You Begin
+#### Before You Begin
 
 * [Pipelines](../../model-cd-pipeline/pipelines/pipeline-configuration.md)
 * [Create Pipeline Templates](../../model-cd-pipeline/pipelines/templatize-pipelines.md)
 * [Pipeline Skip Conditions](../../model-cd-pipeline/pipelines/skip-conditions.md)
 
-### Limitations
+#### Limitations
 
 You can't modify any of the below mentioned settings:
 
@@ -44,42 +43,40 @@ You can't modify any of the below mentioned settings:
 
 **Aborting** and **Rollback** are different. When you abort, Harness does not clean up any deployed resources or rollback to a previous release and infrastructure.
 
-### Review: Permissions
+#### Review: Permissions
 
 To resume a Pipeline, a Harness User must belong to a User Group that has the following Application Permissions:
 
 * **Permission Type:** Deployments, **Action:** Execute Pipeline
-* **Permission Type:** Deployments, **Action:** Execute Pipeline, **Application:** &lt;Application&gt;
-* **Permission Type:** Deployments, **Action:** Execute Pipeline, **Environment:** &lt;Environment Type&gt;, **Application:** &lt;Application&gt;, but only to &lt;Environment Type&gt;
+* **Permission Type:** Deployments, **Action:** Execute Pipeline, **Application:** \<Application>
+* **Permission Type:** Deployments, **Action:** Execute Pipeline, **Environment:** \<Environment Type>, **Application:** \<Application>, but only to \<Environment Type>
 
-### Step: Resume Pipeline
+#### Step: Resume Pipeline
 
-1. From the **Continuous Deployment**, go to your **Deployments**.
+1.  From the **Continuous Deployment**, go to your **Deployments**.
 
-   ![](./static/resume-a-pipeline-deployment-00.png)
+    ![](static/resume-a-pipeline-deployment-00.png)
+2.  Click on the failed deployment that you would want to resume and click on the **Resume Pipeline** icon.
 
-2. Click on the failed deployment that you would want to resume and click on the **Resume Pipeline** icon.
+    ![](static/resume-a-pipeline-deployment-01.png)
+3.  In **Resume Pipeline**, select the stage from where you want to resume your Pipeline deployment and click **Resume**.
 
-   ![](./static/resume-a-pipeline-deployment-01.png)
-
-3. In **Resume Pipeline**, select the stage from where you want to resume your Pipeline deployment and click **Resume**.
-
-   ![](./static/resume-a-pipeline-deployment-02.png)
+    ![](static/resume-a-pipeline-deployment-02.png)
 
 Harness will execute the stage you choose and all the subsequent stages.
 
-#### Multiple Workflow Sets Running in Parallel
+**Multiple Workflow Sets Running in Parallel**
 
 Resume capability runs at the stage level. Even if you have multiple Workflow sets running in parallel, they belong to the same stage. In that case, the resume option is run for the whole set and the full stage gets resumed.
 
 For example, in the following image, **To-Do List K8s Rolling** and **Failing** are set up to execute in parallel. They belong to the same stage, STAGE 4. Even if one of them fails, both the stages will rerun when you resume the Pipeline deployment.
 
-![](./static/resume-a-pipeline-deployment-03.png)
+![](static/resume-a-pipeline-deployment-03.png)
 
-### Option: View Execution History
+#### Option: View Execution History
 
 1. To view the execution history, go to the **Deployments** page.
-2. Click on the  history button to view the execution history. It lists the detail of the previous executions.![](./static/resume-a-pipeline-deployment-04.png)
+2. Click on the  history button to view the execution history. It lists the detail of the previous executions.![](static/resume-a-pipeline-deployment-04.png)
 
 You can click on the previously failed execution to view its detail.
 

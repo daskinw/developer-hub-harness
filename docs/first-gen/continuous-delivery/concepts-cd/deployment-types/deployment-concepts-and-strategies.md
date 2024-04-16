@@ -1,35 +1,36 @@
 ---
 title: Deployment Concepts and Strategies (FirstGen)
-description: Quick overview of deployment strategies.
 sidebar_position: 10
 helpdocs_topic_id: 325x7awntc
 helpdocs_category_id: vbcmo6ltg7
 helpdocs_is_private: false
 helpdocs_is_published: true
+description: Quick overview of deployment strategies.
 ---
 
-This content is for [Harness FirstGen](/docs/continuous-delivery/get-started/upgrading/upgrade-nextgen-cd.md). Switch to [NextGen](/docs/continuous-delivery/manage-deployments/deployment-concepts.md).
+# Deployment Concepts and Strategies (FirstGen)
 
-You have likely heard terms like *blue/green* and *canary* when it comes to deploying code and applications into production. These are common deployment strategies, available in Harness as Workflow types, along with many others.
+This content is for [Harness FirstGen](../../../../continuous-delivery/get-started/upgrading/upgrade-nextgen-cd.md). Switch to [NextGen](../../../../continuous-delivery/manage-deployments/deployment-concepts.md).
 
-[![](./static/deployment-concepts-and-strategies-02.png)](./static/deployment-concepts-and-strategies-02.png)
+You have likely heard terms like _blue/green_ and _canary_ when it comes to deploying code and applications into production. These are common deployment strategies, available in Harness as Workflow types, along with many others.
+
+[![](static/deployment-concepts-and-strategies-02.png)](static/deployment-concepts-and-strategies-02.png)
 
 This topic will explain these strategies to give you an idea of how to approach deployments in Harness, and to help you decide what strategy is best for you.
 
-
-### Build Deployment
+#### Build Deployment
 
 A Build Deployment runs a build process, such as a Jenkins job that creates a WAR file and deposits it in a repo, or builds an AMI in AWS EC2.
 
-#### When to use Build Deployments
+**When to use Build Deployments**
 
 Typically, you use Build deployments as part of an Artifact Build and Deploy pipeline.
 
 An Artifact Build and Deploy pipeline runs a build process, deposits the built artifact (or metadata) in the Artifact Source or Harness, and deploys the build to a deployment environment. It is a simple, but useful deployment commonly used for traditional file-based and AMI deployments.
 
-See  [Build and Deploy Pipelines Overview](../../build-deploy/build-and-deploy-pipelines-overview.md).
+See  [Build and Deploy Pipelines Overview](../../build-deploy/build-and-deploy-pipelines-overview.md).
 
-#### Build Workflow for Push Events
+**Build Workflow for Push Events**
 
 Build Workflows can also be used to build an artifact because the source has been updated.
 
@@ -39,100 +40,98 @@ You simply add a Build Workflow at the beginning of the Pipeline to build the ar
 
 See [Triggers](../../model-cd-pipeline/triggers/add-a-trigger-2.md) for information on Webhook triggers.
 
-### Basic Deployment
+#### Basic Deployment
 
 With Basic Deployment, all nodes within a single environment are updated at the same time with a single new service/artifact version.
 
-#### When to use Basic Deployments
+**When to use Basic Deployments**
 
 * Your app/service is not business, mission, or revenue critical
 * You’re deploying off-hours and no one is using the app/service
 * Your experimenting with deployments and it's okay if the app/service fails
 
-##### Pros
+**Pros**
 
 * Simple and fast.
 * Useful for learning Harness.
 
-##### Cons
+**Cons**
 
 * Risk, outages, slower rollback.
 
 Not too long ago, Basic deployment was how developers rolled out applications. Typically, someone in Ops updates the servers at midnight and then you hope all goes well.
 
-[![](./static/deployment-concepts-and-strategies-04.png)](./static/deployment-concepts-and-strategies-04.png)
+[![](static/deployment-concepts-and-strategies-04.png)](static/deployment-concepts-and-strategies-04.png)
 
 Basic deployments are supported in Harness for a number of platforms as a way for you to experiment with deployments. They are not intended for production deployments because they are not as safe as Canary or Blue/Green deployments.
 
-### Multi-Service Deployment
+#### Multi-Service Deployment
 
-With Multi-Service Deployment, all nodes within a single environment are updated at the same time with *multiple* new services/artifacts.
+With Multi-Service Deployment, all nodes within a single environment are updated at the same time with _multiple_ new services/artifacts.
 
-#### When to use Multi-Service Deployments
+**When to use Multi-Service Deployments**
 
-* When your app has service/version dependencies.
+* When your app has service/version dependencies.
 * You’re deploying off-hours and no one is using the app/service.
 
-##### Pros
+**Pros**
 
 * Simple, fast, and with less risk than Basic deployment.
 
-##### Cons
+**Cons**
 
 * Risk, difficult to test/verify all service dependencies, outages, slow rollback.
 
-[![](./static/deployment-concepts-and-strategies-06.png)](./static/deployment-concepts-and-strategies-06.png)
+[![](static/deployment-concepts-and-strategies-06.png)](static/deployment-concepts-and-strategies-06.png)
 
-
-
-### Rolling Deployment
+#### Rolling Deployment
 
 With a Rolling Deployment, all nodes within a single environment are incrementally updated one-by-one or in N batches (as defined by a window size) with a new service/artifact version.
 
-#### When to use Rolling Deployments
+**When to use Rolling Deployments**
 
 * When you need to support both new and old deployments.
 * Load balancing scenarios that require reduced downtime.
 
 One use of Rolling deployments is as the stage following a Canary deployment in a deployment pipeline. For example, in the first stage you can perform a Canary deployment to a QA environment and verify each group of nodes and, once successful, you perform a Rolling to production.
 
-##### Pros
+**Pros**
 
 * Simple, relatively simple to rollback, less risk than Basic deployment.
 * Gradual app rollout with increasing traffic.
 
-##### Cons
+**Cons**
 
 * Verification gates between nodes difficult and slow.
 * App/DB needs to support both new and old artifacts. Manual checks/verification at each increment could take a long time.
 * Lost transactions and logged-off users are also something to take into consideration.
 
-[![](./static/deployment-concepts-and-strategies-08.png)](./static/deployment-concepts-and-strategies-08.png)
+[![](static/deployment-concepts-and-strategies-08.png)](static/deployment-concepts-and-strategies-08.png)
 
-See  [Create a Kubernetes Rolling Deployment (FirstGen)](/docs/first-gen/continuous-delivery/kubernetes-deployments/create-a-kubernetes-rolling-deployment.md).
+See  [Create a Kubernetes Rolling Deployment (FirstGen)](../../kubernetes-deployments/create-a-kubernetes-rolling-deployment.md).
 
-### Blue/Green Deployment
+#### Blue/Green Deployment
 
-With Blue/Green Deployment, two identical environments called **blue** (staging) and **green** (production) run simultaneously with different versions or service/artifact.
+With Blue/Green Deployment, two identical environments called **blue** (staging) and **green** (production) run simultaneously with different versions or service/artifact.
 
-QA and UAT are typically done on the blue environment. When satisfied, traffic is flipped (via a load balancer) from the green environment (current version) to the blue environment (new version).
+QA and UAT are typically done on the blue environment. When satisfied, traffic is flipped (via a load balancer) from the green environment (current version) to the blue environment (new version).
 
 You can then decommission the old environment once deployment is successful.
 
 Some vendorscalls this a red/black deployment.
 
-#### When to use Blue/Green Deployments
+**When to use Blue/Green Deployments**
 
 * When you want to perform verification in a full production environment.
 * When you want zero downtime.
 
-##### Pros
+**Pros**
 
 * Simple, fast, well understood, and easy to implement: switch is almost instantaneous.
 * Less risk relative to other deployment strategies.
 * Rapid rollback (flip traffic back to old environment)
 
-##### Cons
+**Cons**
 
 * Replicating a production environment can be complex and expensive (i.e. microservice downstream dependencies).
 * QA/UAT test coverage may not identify all anomalies & regressions in blue environment.
@@ -140,20 +139,20 @@ Some vendorscalls this a red/black deployment.
 * Current transactions and sessions will be lost due to the physical switch from one machine serving the traffic to another one.
 * Database compatibility (schema changes, backward compatibility).
 
-[![](./static/deployment-concepts-and-strategies-10.png)](./static/deployment-concepts-and-strategies-10.png)
+[![](static/deployment-concepts-and-strategies-10.png)](static/deployment-concepts-and-strategies-10.png)
 
 See:
 
 * [ECS Blue/Green Workflows](../../aws-deployments/ecs-deployment/ecs-blue-green-workflows.md)
 * [AMI Blue/Green Deployment](../../aws-deployments/ami-deployments/ami-blue-green.md)
-* [Kubernetes Blue/Green Deployment](/docs/continuous-delivery/deploy-srv-diff-platforms/kubernetes/kubernetes-executions/create-a-kubernetes-blue-green-deployment)
+* [Kubernetes Blue/Green Deployment](../../../../continuous-delivery/deploy-srv-diff-platforms/kubernetes/kubernetes-executions/create-a-kubernetes-blue-green-deployment/)
 * [Pivotal Cloud Foundry Deployments](../../pcf-deployments/pcf-tutorial-overview.md)
 
-### Canary Deployment
+#### Canary Deployment
 
 With Canary Deployment, all nodes in a single environment are incrementally updated in small phases, with each phase requiring a verification/gate to proceed to the next phase.
 
-#### When to use Canary Deployments
+**When to use Canary Deployments**
 
 When you want to verify whether the new version of the application is working correctly in your production environment.
 
@@ -171,13 +170,13 @@ This is currently the most common way to deploy apps/services into production.
 **Cons:**
 
 * Scripting canary deployments can be complex (Harness automates this process).
-* Manual verification can take time (Harness automates this process with Continuous Verification).
+* Manual verification can take time (Harness automates this process with Continuous Verification).
 * Required monitoring and instrumentation for testing in production (APM, Log, Infra, End User, etc).
 * Database compatibility (schema changes, backward compatibility).
 
 This is a standard Canary deployment:
 
-[![](./static/deployment-concepts-and-strategies-12.png)](./static/deployment-concepts-and-strategies-12.png)
+[![](static/deployment-concepts-and-strategies-12.png)](static/deployment-concepts-and-strategies-12.png)
 
 For Kubernetes, Harness does this a little different.
 
@@ -185,14 +184,14 @@ In Phase 1 we do a canary to the same group but we leave the production version 
 
 In Phase 2 we do a rolling deployment with the production version and scale down the older version.
 
-![](./static/deployment-concepts-and-strategies-14.png)
+![](static/deployment-concepts-and-strategies-14.png)
 
 For examples, see:
 
 * [AMI Canary Deployment](../../aws-deployments/ami-deployments/ami-canary.md)
 * [Create a Kubernetes Canary Deployment](../../kubernetes-deployments/create-a-kubernetes-canary-deployment.md)
 
-### A/B Testing
+#### A/B Testing
 
 Different versions of the same service/artifact run simultaneously as “experiments” in the same environment (typically production) for a period of time. Experiments are either controlled by the deployment of distinct artifacts or through the use of feature flags/toggling and/or AB testing tools (e.g. Optimizely).
 
@@ -202,19 +201,19 @@ After experiments are concluded, the environment is typically updated with the o
 
 The biggest difference between AB testing and the other strategies is that AB testing deploys many versions of the same service/artifact to an environment with no immediate goal of updating all nodes with a specific version. It’s about testing multiple ideas vs. deploying one specific tested idea.
 
-#### Pros
+**Pros**
 
 Fast, easy and cheap way to test new features in production. Lots of tools exist to enable this.
 
-#### Cons
+**Cons**
 
 * Experiments can sometimes break app/service/user experience.
 * Scripting AB tests can be complex.
 * Database compatibility (schema changes, backward compatibility)
 
-[![](./static/deployment-concepts-and-strategies-15.png)](./static/deployment-concepts-and-strategies-15.png)
+[![](static/deployment-concepts-and-strategies-15.png)](static/deployment-concepts-and-strategies-15.png)
 
-### Which Deployment Strategy Should I Use?
+#### Which Deployment Strategy Should I Use?
 
 It depends entirely on the type of application/service and environment. Most Harness customers are currently using blue/green or canary deployments for mission-critical applications.
 
@@ -222,7 +221,6 @@ In many cases, customers are migrating from blue/green to canary so they can tes
 
 You can also combine many of the above deployment strategies into a single strategy. For example, at Harness, we have customers doing multi-service canary deployments.
 
-### Next Steps
+#### Next Steps
 
 * [Harness Key Concepts](../../../starthere-firstgen/harness-key-concepts.md)
-

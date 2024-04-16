@@ -1,6 +1,5 @@
 ---
 title: Split tests (parallelism)
-description: Split tests for any language. Use parallelism to improve test times.
 sidebar_position: 40
 helpdocs_topic_id: kce8mgionj
 helpdocs_category_id: kncngmy17o
@@ -8,37 +7,38 @@ helpdocs_is_private: false
 helpdocs_is_published: true
 redirect_from:
   - /docs/platform/pipelines/speed-up-ci-test-pipelines-using-parallelism
-  - /docs/continuous-integration/use-ci/optimize-and-more/speed-up-ci-test-pipelines-using-parallelism
+  - >-
+    /docs/continuous-integration/use-ci/optimize-and-more/speed-up-ci-test-pipelines-using-parallelism
+description: Split tests for any language. Use parallelism to improve test times.
 ---
 
+# Split tests (parallelism)
 
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
+import Tabs from '@theme/Tabs'; import TabItem from '@theme/TabItem';
 
+With Harness CI, you can split tests for any language or test tool. This uses test splitting and the parallelism [looping strategy](../../../platform/pipelines/looping-strategies/looping-strategies-matrix-repeat-and-parallelism/) to improve test times.
 
-With Harness CI, you can split tests for any language or test tool. This uses test splitting and the parallelism [looping strategy](/docs/platform/pipelines/looping-strategies/looping-strategies-matrix-repeat-and-parallelism) to improve test times.
+When you [run tests in Harness CI](run-tests-in-ci.md), you use **Run** and **Run Tests** steps. You can enable test splitting on either of these steps. **However, the specific steps you take to configure test splitting depend on which step you use.**
 
-When you [run tests in Harness CI](./run-tests-in-ci.md), you use **Run** and **Run Tests** steps. You can enable test splitting on either of these steps. **However, the specific steps you take to configure test splitting depend on which step you use.**
-
-**This topic explains parallelism and test splitting in *Run* steps. For test splitting/parallelism in *Run Tests* steps, go to [Split tests (parallelism) with TI](./test-intelligence/ti-test-splitting.md).**
+**This topic explains parallelism and test splitting in **_**Run**_** steps. For test splitting/parallelism in **_**Run Tests**_** steps, go to** [**Split tests (parallelism) with TI**](test-intelligence/ti-test-splitting.md)**.**
 
 :::warning Does this topic apply to you?
 
 This topic explains how to set up parallelism and test splitting in **Run** steps.
 
-For test splitting in **Run Tests** steps, go to [Split tests (parallelism) with TI](./test-intelligence/ti-test-splitting.md).
+For test splitting in **Run Tests** steps, go to [Split tests (parallelism) with TI](test-intelligence/ti-test-splitting.md).
 
 :::
 
 To split tests in a **Run** step, you need to:
 
-<!-- no toc -->
-1. [Define a parallelism strategy.](#define-a-parallelism-strategy)
-2. [Define a test splitting strategy.](#define-a-test-splitting-strategy)
-3. [Produce test reports in JUnit XML format](#produce-test-reports).
-4. [Run the pipeline and inspect the test results.](#logs-and-results)
+1. [Define a parallelism strategy.](speed-up-ci-test-pipelines-using-parallelism.md#define-a-parallelism-strategy)
+2. [Define a test splitting strategy.](speed-up-ci-test-pipelines-using-parallelism.md#define-a-test-splitting-strategy)
+3. [Produce test reports in JUnit XML format](speed-up-ci-test-pipelines-using-parallelism.md#produce-test-reports).
+4. [Run the pipeline and inspect the test results.](speed-up-ci-test-pipelines-using-parallelism.md#logs-and-results)
 
 <details>
+
 <summary>Learn more about test splitting and parallelism</summary>
 
 Most CI pipelines are set up to run tests for every new commit. By default, tests run sequentially. If there are a lot of tests to run, developers might have to wait longer than necessary for test results. Similarly, if there are frequent commits, your builds might start to queue due to concurrency limits.
@@ -55,23 +55,15 @@ Note that this example only calculates the runtime for the tests. Additional tim
 
 Time saved can improve over subsequent runs. If you use a timing strategy to split tests, Harness must collect timing data during the first parallel run. Therefore, on the first parallel run, Harness divides tests by file size. Then, on subsequent runs, Harness uses the timing data from earlier runs to split tests by time. With each subsequent run, Harness further refines test splitting based on newer timing data.
 
-<figure>
+<img src="static/speed-up-ci-test-pipelines-using-parallelism-50.png" alt="This diagram demonstrates how parallelism can accelerate your CI pipelines. Without parallelism, the tests run one after the other. With parallelism enabled, Harness first splits tests into four groups based on file size, already significantly reducing the overall run time. Using timing data collected in the first parallel run, subsequent runs split tests by test time, further optimizing run time. With each subsequent run, test partitioning is refined based on the newest timing data." data-size="original">
 
-![](./static/speed-up-ci-test-pipelines-using-parallelism-50.png)
+Parallelism is one of the [looping strategies](../../../platform/pipelines/looping-strategies/looping-strategies-matrix-repeat-and-parallelism/) available in Harness pipelines, and parallelism isn't limited to splitting tests. You can use parallelism to [speed things up](../optimize-and-more/optimizing-ci-build-times.md) whenever it's possible to divide pipeline, step, or stage tasks into multiple sets and run them concurrently.
 
-<figcaption>This diagram demonstrates how parallelism can accelerate your CI pipelines. Without parallelism, the tests run one after the other. With parallelism enabled, Harness first splits tests into four groups based on file size, already significantly reducing the overall run time. Using timing data collected in the first parallel run, subsequent runs split tests by test time, further optimizing run time. With each subsequent run, test partitioning is refined based on the newest timing data.</figcaption>
-</figure>
-
-Parallelism is one of the [looping strategies](/docs/platform/pipelines/looping-strategies/looping-strategies-matrix-repeat-and-parallelism) available in Harness pipelines, and parallelism isn't limited to splitting tests. You can use parallelism to [speed things up](../optimize-and-more/optimizing-ci-build-times.md) whenever it's possible to divide pipeline, step, or stage tasks into multiple sets and run them concurrently.
-
-When using parallelism, it's important to take into account resource limitations that exist in your build infrastructure. For more information, go to [Best Practices for Looping Strategies](/docs/platform/pipelines/looping-strategies/best-practices-for-looping-strategies.md).
+When using parallelism, it's important to take into account resource limitations that exist in your build infrastructure. For more information, go to [Best Practices for Looping Strategies](../../../platform/pipelines/looping-strategies/best-practices-for-looping-strategies.md).
 
 </details>
 
-Here are examples of test splitting and parallelism applied to Run steps. For more YAML examples of test splitting, go to [YAML Examples: Test splitting](#yaml-examples-test-splitting).
-
-<Tabs>
-  <TabItem value="hc" label="Harness Cloud build infrastructure" default>
+Here are examples of test splitting and parallelism applied to Run steps. For more YAML examples of test splitting, go to [YAML Examples: Test splitting](speed-up-ci-test-pipelines-using-parallelism.md#yaml-examples-test-splitting).
 
 This example uses [Harness Cloud build infrastructure](../set-up-build-infrastructure/use-harness-cloud-build-infrastructure.md).
 
@@ -123,10 +115,7 @@ This example uses [Harness Cloud build infrastructure](../set-up-build-infrastru
                           - "**/result_<+strategy.iteration>.xml" ## Using the expression '<+strategy.iteration>' in the file name ensures that the results of parallel runs don't overwrite each other.
 ```
 
-</TabItem>
-  <TabItem value="oth" label="Other build infrastructures">
-
-This example uses a [Kubernetes cluster build infrastructure](/docs/category/set-up-kubernetes-cluster-build-infrastructures).
+This example uses a [Kubernetes cluster build infrastructure](../../../category/set-up-kubernetes-cluster-build-infrastructures/).
 
 ```yaml
     - stage:
@@ -180,14 +169,12 @@ This example uses a [Kubernetes cluster build infrastructure](/docs/category/set
               os: Linux
 ```
 
-</TabItem>
-</Tabs>
+### Define a parallelism strategy
 
-## Define a parallelism strategy
-
-In the context of test splitting, the `parallelism` strategy defines the number of workloads into which tests can be divided. Each parallel instance (or workload) is a duplicate of the stage where you've defined a parallelism strategy, but each instance runs different tests according to the [test splitting strategy](#define-a-test-splitting-strategy).
+In the context of test splitting, the `parallelism` strategy defines the number of workloads into which tests can be divided. Each parallel instance (or workload) is a duplicate of the stage where you've defined a parallelism strategy, but each instance runs different tests according to the [test splitting strategy](speed-up-ci-test-pipelines-using-parallelism.md#define-a-test-splitting-strategy).
 
 <details>
+
 <summary>Learn more about parallel workloads</summary>
 
 To demonstrate how tests are split into concurrent (parallel) workloads, assume that you use the `file_size` splitting strategy to divide 20 tests into four workloads. To tell Harness to create four workloads, you would set your parallelism strategy to `parallelism: 4`. Then use the `file_size` splitting strategy in your **Run** step's commands. When the pipeline runs, `file_size` splits the 20 tests into four workloads based on the file size. For the purpose of this example, assume all files are roughly the same size, and, therefore, each parallel instance runs five different tests:
@@ -207,9 +194,6 @@ The four instances run concurrently, but they might finish at different times de
 
 </details>
 
-<Tabs>
-  <TabItem value="Visual" label="Visual editor">
-
 Define the parallelism strategy on the stage where your tests run.
 
 :::warning
@@ -220,65 +204,55 @@ You can configure parallelism strategies on stages or steps. **Harness recommend
 
 1. In your pipeline, select the stage where your tests run, and then select the **Advanced** tab.
 2. Under **Looping Strategies**, select **Parallelism**.
-3. Set the `parallelism` value to the number of workloads that you want to divide your tests into. For example, if you want to create four workloads, set `parallelism: 4`.
+3.  Set the `parallelism` value to the number of workloads that you want to divide your tests into. For example, if you want to create four workloads, set `parallelism: 4`.
 
-   ![Define parallelism in a Run step.](./static/speed-up-ci-test-pipelines-using-parallelism-53.png)
+    ![Define parallelism in a Run step.](static/speed-up-ci-test-pipelines-using-parallelism-53.png)
+4.  Optional: Define `maxConcurrency`. This is a strategy to [optimize parallelism](speed-up-ci-test-pipelines-using-parallelism.md#optimize-parallelism).
 
-4. Optional: Define `maxConcurrency`. This is a strategy to [optimize parallelism](#optimize-parallelism).
+    ```yaml
+    parallelism: 8
+    maxConcurrency: 2
+    ```
+5.  Add the following [stage variables](../../../platform/pipelines/add-a-stage.md#stage-variables) to the stage where you defined the parallelism strategy:
 
-   ```yaml
-   parallelism: 8
-   maxConcurrency: 2
-   ```
+    * `HARNESS_NODE_TOTAL: <+strategy.iterations>` - This variable specifies the total number of parallel instances.
+    * `HARNESS_NODE_INDEX: <+strategy.iteration>` - This variable specifies the index value of the currently-running parallel instance. Parallel instances are zero-indexed, so this value ranges from `0` to `parallelism-1`.
 
-5. Add the following [stage variables](/docs/platform/pipelines/add-a-stage.md#stage-variables) to the stage where you defined the parallelism strategy:
+    You can use these variables when you [define a test splitting strategy](speed-up-ci-test-pipelines-using-parallelism.md#define-a-test-splitting-strategy) to create commands that can be used for all parallel instances. You can also use them to create helpful step logs to help you differentiate parallel instances, such as `echo "${HARNESS_NODE_INDEX} of ${HARNESS_NODE_TOTAL}"`.
+6.  Use `strategy.parallelism` to define a parallelism strategy on the stage where your tests run.
 
-   * `HARNESS_NODE_TOTAL: <+strategy.iterations>` - This variable specifies the total number of parallel instances.
-   * `HARNESS_NODE_INDEX: <+strategy.iteration>` - This variable specifies the index value of the currently-running parallel instance. Parallel instances are zero-indexed, so this value ranges from `0` to `parallelism-1`.
+    ```yaml
+            strategy: ## Declares a looping strategy.
+             parallelism: 8 ## Specify the number of workloads. This example creates 8 workloads.
+             maxConcurrency: 2 ## Optional setting to optimize parallelism. Limits the number of workloads that can run at once.
+    ```
 
-   You can use these variables when you [define a test splitting strategy](#define-a-test-splitting-strategy) to create commands that can be used for all parallel instances. You can also use them to create helpful step logs to help you differentiate parallel instances, such as `echo "${HARNESS_NODE_INDEX} of ${HARNESS_NODE_TOTAL}"`.
+    :::warning
 
-</TabItem>
-  <TabItem value="YAML" label="YAML editor" default>
+    You can configure parallelism strategies on stages or steps. **Harness recommends using stage-level parallelism for test splitting.**
 
-1. Use `strategy.parallelism` to define a parallelism strategy on the stage where your tests run.
+    :::
+7.  Add the following [stage variables](../../../platform/pipelines/add-a-stage.md#stage-variables) to the stage where you defined the parallelism strategy:
 
-   ```yaml
-           strategy: ## Declares a looping strategy.
-            parallelism: 8 ## Specify the number of workloads. This example creates 8 workloads.
-            maxConcurrency: 2 ## Optional setting to optimize parallelism. Limits the number of workloads that can run at once.
-   ```
+    * `HARNESS_NODE_TOTAL: <+strategy.iterations>` - This variable specifies the total number of parallel instances.
+    * `HARNESS_NODE_INDEX: <+strategy.iteration>` - This variable specifies the index value of the currently-running parallel instance. Parallel instances are zero-indexed, so this value ranges from `0` to `parallelism-1`.
 
-   :::warning
+    You can use these variables when you [define a test splitting strategy](speed-up-ci-test-pipelines-using-parallelism.md#define-a-test-splitting-strategy) to create commands that can be used for all parallel instances. You can also use them to create helpful step logs to help you differentiate parallel instances, such as `echo "${HARNESS_NODE_INDEX} of ${HARNESS_NODE_TOTAL}"`.
 
-   You can configure parallelism strategies on stages or steps. **Harness recommends using stage-level parallelism for test splitting.**
-
-   :::
-
-2. Add the following [stage variables](/docs/platform/pipelines/add-a-stage.md#stage-variables) to the stage where you defined the parallelism strategy:
-
-   * `HARNESS_NODE_TOTAL: <+strategy.iterations>` - This variable specifies the total number of parallel instances.
-   * `HARNESS_NODE_INDEX: <+strategy.iteration>` - This variable specifies the index value of the currently-running parallel instance. Parallel instances are zero-indexed, so this value ranges from `0` to `parallelism-1`.
-
-   You can use these variables when you [define a test splitting strategy](#define-a-test-splitting-strategy) to create commands that can be used for all parallel instances. You can also use them to create helpful step logs to help you differentiate parallel instances, such as `echo "${HARNESS_NODE_INDEX} of ${HARNESS_NODE_TOTAL}"`.
-
-</TabItem>
-</Tabs>
-
-### Optimize parallelism
+#### Optimize parallelism
 
 In general, a higher `parallelism` value means a faster pipeline run time, because the tests can be divided into more parallel instances. However, this depends on your test suite and resource limitations in your build infrastructure. For example, if you try to run 10 groups of tests, but your build infrastructure can't handle 10 parallel instances, the pipeline can fail or take longer than expected.
 
 To optimize your parallelism strategy:
 
-* Try different parallelism values to determine your infrastructure's limits. Parallelism impacts [resource allocation](/docs/continuous-integration/use-ci/set-up-build-infrastructure/resource-limits) for the pipeline. A pipeline with five sequential stages can require fewer resources than a pipeline running five parallel instances of a stage, because the second pipeline has to run all five instances at once.
+* Try different parallelism values to determine your infrastructure's limits. Parallelism impacts [resource allocation](../set-up-build-infrastructure/resource-limits/) for the pipeline. A pipeline with five sequential stages can require fewer resources than a pipeline running five parallel instances of a stage, because the second pipeline has to run all five instances at once.
 * Use `maxConcurrency` to control the flow of parallel instances and avoid overtaxing infrastructure resources. Concurrency limits the number of parallel instances that can run at once and queues additional instances.
-   * For example, if you set `parallelism: 12`, Harness attempts to run 12 instances of the stage at once. If you set `parallelism: 12` and `maxConcurrency: 3`, Harness generates 12 instances of the stage, but only runs three instances at a time. The remaining nine instances are queued, and the queued instances start running as space clears in the concurrency limit (when prior instances finish).
-   * Concurrency allows you to divide tests into more workloads without overloading your system resources.
-   * There are resource requirements to *generate* parallel instances (even if they are not all running at the same time) and handle queues. Try different combinations of `parallelism` and `maxConcurrency` values to determine your ideal configuration.
-* Review the [Best practices for looping strategies](/docs/platform/pipelines/looping-strategies/best-practices-for-looping-strategies.md), including [how to calculate ideal concurrency](/docs/platform/pipelines/looping-strategies/best-practices-for-looping-strategies#how-to-calculate-ideal-concurrency).
+  * For example, if you set `parallelism: 12`, Harness attempts to run 12 instances of the stage at once. If you set `parallelism: 12` and `maxConcurrency: 3`, Harness generates 12 instances of the stage, but only runs three instances at a time. The remaining nine instances are queued, and the queued instances start running as space clears in the concurrency limit (when prior instances finish).
+  * Concurrency allows you to divide tests into more workloads without overloading your system resources.
+  * There are resource requirements to _generate_ parallel instances (even if they are not all running at the same time) and handle queues. Try different combinations of `parallelism` and `maxConcurrency` values to determine your ideal configuration.
+* Review the [Best practices for looping strategies](../../../platform/pipelines/looping-strategies/best-practices-for-looping-strategies.md), including [how to calculate ideal concurrency](../../../platform/pipelines/looping-strategies/best-practices-for-looping-strategies/#how-to-calculate-ideal-concurrency).
 
-## Define a test splitting strategy
+### Define a test splitting strategy
 
 The test splitting strategy determines how you want to divide the tests, such as by number of tests or test timing.
 
@@ -306,32 +280,32 @@ echo $FILES
 pytest -v --junitxml="result_<+strategy.iteration>.xml" $FILES
 ```
 
-### Binary path
+#### Binary path
 
 Call the `split_tests` binary. The path depends on your build infrastructure.
 
 * For Harness Cloud, use `./split_tests`.
 * For other build infrastructures, use `/addon/bin/split_tests`.
-* For steps running in containers, rather that on the host, use `usr/bin/split_tests`. You must also declare this path in [shared paths](/docs/continuous-integration/use-ci/set-up-build-infrastructure/ci-stage-settings.md#shared-paths).
+* For steps running in containers, rather that on the host, use `usr/bin/split_tests`. You must also declare this path in [shared paths](../set-up-build-infrastructure/ci-stage-settings.md#shared-paths).
 
-### Glob or file-path
+#### Glob or file-path
 
 Specify the set of all tests that you want to run across all parallel instances.
 
-Whether you use `--glob` or `--file-path` is determined by [`--split-by`](#split-by).
+Whether you use `--glob` or `--file-path` is determined by [`--split-by`](speed-up-ci-test-pipelines-using-parallelism.md#split-by).
 
 * For `--split-by file_timing` or `--split-by file_size`, you can use a glob expression to specify the set of files to split, such as `--glob "**/test_*.py"`.
-* For `--split-by class_timing`, `--split-by testcase_timing`, and `--split-by testsuite_timing`, you must provide a text file of the elements to split. For example, if you want to split by Java class timing, you could specify the set of classes to split and test in a new-line-delineated string and then reference the text file in with `--file-path FILE_NAME.txt`:
+*   For `--split-by class_timing`, `--split-by testcase_timing`, and `--split-by testsuite_timing`, you must provide a text file of the elements to split. For example, if you want to split by Java class timing, you could specify the set of classes to split and test in a new-line-delineated string and then reference the text file in with `--file-path FILE_NAME.txt`:
 
-   ```shell
-   # Generate a list of classes and store in classname.txt
-   echo 'io.harness.jhttp.server.PathResolverTest\nio.harness.jhttp.processor.DirectoryIndexTest\nio.harness.jhttp.functional.HttpClientTest\nio.harness.jhttp.processor.ResourceNotFoundTest'> classnames.txt
+    ```shell
+    # Generate a list of classes and store in classname.txt
+    echo 'io.harness.jhttp.server.PathResolverTest\nio.harness.jhttp.processor.DirectoryIndexTest\nio.harness.jhttp.functional.HttpClientTest\nio.harness.jhttp.processor.ResourceNotFoundTest'> classnames.txt
 
-   # Run split_tests on elements in classname.txt
-   CLASSES=`/addon/bin/split_tests --split-by class_timing --file-path classnames.txt`
-   ```
+    # Run split_tests on elements in classname.txt
+    CLASSES=`/addon/bin/split_tests --split-by class_timing --file-path classnames.txt`
+    ```
 
-### Split-by
+#### Split-by
 
 Specify a test splitting strategy, such as test timing or file size. If unspecified, the default is `--split-by file_timing`.
 
@@ -343,11 +317,11 @@ The `split_tests` binary supports these test splitting strategies:
 * `--split-by testcase_timing`: Split tests into groups based on the timing data for individual test cases. This strategy requires timing data from the previous run. If timing data isn't available, `split_tests` falls back to `--split-by file_size`.
 * `--split-by testsuite_timing`: Split tests into groups based on the timing data for individual test suites. This strategy requires timing data from the previous run. If timing data isn't available, `split_tests` falls back to `--split-by file_size`.
 
-### Split-index and split-total
+#### Split-index and split-total
 
 Harness automatically runs the `--split-index` and `--split-total` commands to create groups of tests files based on the total number of parallel instances (`--split-total`) and assign specific test files for each individual instance (`--split-index`).
 
-Harness automatically populates the `HARNESS_NODE_INDEX` and `HARNESS_NODE_TOTAL` environment variables supplied to these commands from the environment variables you declared when you [defined a parallelism strategy](#define-a-parallelism-strategy).
+Harness automatically populates the `HARNESS_NODE_INDEX` and `HARNESS_NODE_TOTAL` environment variables supplied to these commands from the environment variables you declared when you [defined a parallelism strategy](speed-up-ci-test-pipelines-using-parallelism.md#define-a-parallelism-strategy).
 
 If you need these commands to use different values, you can include them with your split tests commands:
 
@@ -356,7 +330,7 @@ If you need these commands to use different values, you can include them with yo
 --split-total ${HARNESS_NODE_TOTAL}
 ```
 
-### Split tests output
+#### Split tests output
 
 `split_tests` stores list of test files assigned to the current instance in a variable. For example, the following command stores the list of tests in `$FILES`:
 
@@ -380,96 +354,80 @@ You can include `echo $FILES` to print the list of assigned tests in each step's
 + FILES=test_file_1.py test_file_2.py test_file_6.py test_file_9.py test_file_10.py test_file_12.py test_file_13.py
 ```
 
-### Test splitting for Test Intelligence
+#### Test splitting for Test Intelligence
 
 Test splitting is configured differently in **Run Tests** steps than in **Run** steps.
 
-If you define a parallelism strategy on a **Run Tests** step, Harness automatically splits tests by class timing. For information about enabling test splitting in a **Run Tests** step, go to [Split tests (parallelism) with TI](./test-intelligence/ti-test-splitting.md).
+If you define a parallelism strategy on a **Run Tests** step, Harness automatically splits tests by class timing. For information about enabling test splitting in a **Run Tests** step, go to [Split tests (parallelism) with TI](test-intelligence/ti-test-splitting.md).
 
-## Produce test reports
-
-<Tabs>
-  <TabItem value="Visual" label="Visual editor">
+### Produce test reports
 
 1. Edit the step where your tests run.
 2. Make sure your test tool's commands produce test results. The specific commands required to produce test results files depends on the specific language, test runner, and formatter you use.
 3. To publish your test results in the Harness UI, your test results must be in [JUnit](https://junit.org/junit5/) XML format.
-
    * Configure your test runner and formatter to publish your test reports in JUnit XML format and include file names in the XML output.
-   * Some tools have built-in converters and some tools require an additional formatter for JUnit conversion. For more information, go to [Format test reports](./test-report-ref.md).
+   * Some tools have built-in converters and some tools require an additional formatter for JUnit conversion. For more information, go to [Format test reports](test-report-ref.md).
    * For example, if you use `pytest`, you can set `junit_family=xunit1` in your code repo's `pytest.ini` file, or you can include `-o junit_family="xunit1"` in the step's **Command**.
+4.  With stage-level parallelism, results files are automatically output as separate stage artifacts.
 
-4. With stage-level parallelism, results files are automatically output as separate stage artifacts.
+    If you want the individual results files to have unique names, you can use an [expression](../../../platform/variables-and-expressions/harness-variables/) or variable in the results file name, such as `result_<+strategy.iteration>.xml` or `result_${HARNESS_NODE_INDEX}.xml`. You might need to modify your test tool configurations to support this report naming convention.
 
-   If you want the individual results files to have unique names, you can use an [expression](/docs/platform/variables-and-expressions/harness-variables) or variable in the results file name, such as `result_<+strategy.iteration>.xml` or `result_${HARNESS_NODE_INDEX}.xml`. You might need to modify your test tool configurations to support this report naming convention.
+    :::warning
 
-   :::warning
+    **Harness recommends stage-level parallelism for test splitting.** However, if you [defined the parallelism strategy](speed-up-ci-test-pipelines-using-parallelism.md#define-a-parallelism-strategy) on a step (instead of a stage), you _must_ use an [expression](../../../platform/variables-and-expressions/harness-variables/) or variable in the results file name, such as `result_<+strategy.iteration>.xml` or `result_${HARNESS_NODE_INDEX}.xml`, to ensure each parallel instance produces a uniquely-named results file. If you don't use an expression or variable in the results file name, the files overwrite each other or fail due to same-name conflicts. How you enable this varies by language and test tool. For this reason, among others, **Harness recommends using stage-level parallelism for test splitting**.
 
-   **Harness recommends stage-level parallelism for test splitting.** However, if you [defined the parallelism strategy](#define-a-parallelism-strategy) on a step (instead of a stage), you *must* use an [expression](/docs/platform/variables-and-expressions/harness-variables) or variable in the results file name, such as `result_<+strategy.iteration>.xml` or `result_${HARNESS_NODE_INDEX}.xml`, to ensure each parallel instance produces a uniquely-named results file. If you don't use an expression or variable in the results file name, the files overwrite each other or fail due to same-name conflicts. How you enable this varies by language and test tool. For this reason, among others, **Harness recommends using stage-level parallelism for test splitting**.
+    :::
+5.  Add the **Report Path** under **Optional Configuration**, such as `**/result.xml` or `**/result_<+strategy.iteration>.xml`.
 
-   :::
-
-5. Add the **Report Path** under **Optional Configuration**, such as `**/result.xml` or `**/result_<+strategy.iteration>.xml`.
-
-   ![Define Report Paths in a Run step](./static/speed-up-ci-test-pipelines-using-parallelism-54.png)
-
-</TabItem>
-  <TabItem value="YAML" label="YAML editor" default>
-
-1. Edit the step where your tests run.
-2. Make sure your test tool's commands produce test results. The specific commands required to produce test results files depends on the specific language, test runner, and formatter you use.
-3. To publish your test results in the Harness UI, your test results must be in [JUnit](https://junit.org/junit5/) XML format.
-
+    ![Define Report Paths in a Run step](static/speed-up-ci-test-pipelines-using-parallelism-54.png)
+6. Edit the step where your tests run.
+7. Make sure your test tool's commands produce test results. The specific commands required to produce test results files depends on the specific language, test runner, and formatter you use.
+8. To publish your test results in the Harness UI, your test results must be in [JUnit](https://junit.org/junit5/) XML format.
    * Configure your test runner and formatter to publish your test reports in JUnit XML format and include file names in the XML output.
-   * Some tools have built-in converters and some tools require an additional formatter for JUnit conversion. For more information, go to [Format test reports](./test-report-ref.md).
+   * Some tools have built-in converters and some tools require an additional formatter for JUnit conversion. For more information, go to [Format test reports](test-report-ref.md).
    * For example, if you use `pytest`, you can set `junit_family=xunit1` in your code repo's `pytest.ini` file, or you can include `-o junit_family="xunit1"` in the step's **Command**.
+9.  With stage-level parallelism, results files are automatically output as separate stage artifacts.
 
-4. With stage-level parallelism, results files are automatically output as separate stage artifacts.
+    If you want the individual results files to have unique names, you can use an [expression](../../../platform/variables-and-expressions/harness-variables/) or variable in the results file name, such as `result_<+strategy.iteration>.xml` or `result_${HARNESS_NODE_INDEX}.xml`. You might need to modify your test tool configurations to support this report naming convention.
 
-   If you want the individual results files to have unique names, you can use an [expression](/docs/platform/variables-and-expressions/harness-variables) or variable in the results file name, such as `result_<+strategy.iteration>.xml` or `result_${HARNESS_NODE_INDEX}.xml`. You might need to modify your test tool configurations to support this report naming convention.
+    :::warning
 
-   :::warning
+    **Harness recommends stage-level parallelism for test splitting.** However, if you [defined the parallelism strategy](speed-up-ci-test-pipelines-using-parallelism.md#define-a-parallelism-strategy) on a step (instead of a stage), you _must_ use an [expression](../../../platform/variables-and-expressions/harness-variables/) or variable in the results file name, such as `result_<+strategy.iteration>.xml` or `result_${HARNESS_NODE_INDEX}.xml`, to ensure each parallel instance produces a uniquely-named results file. If you don't use an expression or variable in the results file name, the files overwrite each other or fail due to same-name conflicts. How you enable this varies by language and test tool. For this reason, among others, **Harness recommends using stage-level parallelism for test splitting**.
 
-   **Harness recommends stage-level parallelism for test splitting.** However, if you [defined the parallelism strategy](#define-a-parallelism-strategy) on a step (instead of a stage), you *must* use an [expression](/docs/platform/variables-and-expressions/harness-variables) or variable in the results file name, such as `result_<+strategy.iteration>.xml` or `result_${HARNESS_NODE_INDEX}.xml`, to ensure each parallel instance produces a uniquely-named results file. If you don't use an expression or variable in the results file name, the files overwrite each other or fail due to same-name conflicts. How you enable this varies by language and test tool. For this reason, among others, **Harness recommends using stage-level parallelism for test splitting**.
+    :::
+10. Add the **Report Path** under **Optional Configuration**, such as `**/result.xml` or `**/result_<+strategy.iteration>.xml`.
 
-   :::
+    ```yaml
+                      type: Run
+                      name: tests
+                      identifier: tests
+                      spec:
+                        ...
+                        reports: ## Start of reports section.
+                           type: JUnit ## Specify format as JUnit.
+                              spec:
+                                 paths: - "**/result_*.xml" ## Specify the results file path.
+    ```
 
-5. Add the **Report Path** under **Optional Configuration**, such as `**/result.xml` or `**/result_<+strategy.iteration>.xml`.
+### Logs and results
 
-   ```yaml
-                     type: Run
-                     name: tests
-                     identifier: tests
-                     spec:
-                       ...
-                       reports: ## Start of reports section.
-                          type: JUnit ## Specify format as JUnit.
-                             spec:
-                                paths: - "**/result_*.xml" ## Specify the results file path.
-   ```
+When you run the pipeline, you can observe the parallel instances running on the [Build details page](../viewing-builds/).
 
-</TabItem>
-</Tabs>
-
-## Logs and results
-
-When you run the pipeline, you can observe the parallel instances running on the [Build details page](../viewing-builds).
-
-When the build finishes, go to the **Tests** tab to [view the results](./viewing-tests). Use the **Test Executions** stage dropdown menu to view results for each parallel instance.
+When the build finishes, go to the **Tests** tab to [view the results](viewing-tests/). Use the **Test Executions** stage dropdown menu to view results for each parallel instance.
 
 :::info
 
-If you use a timing [split strategy](#split-by), Harness must collect timing data during the first parallel run. Therefore, on the first parallel run, Harness divides tests by file size. Then, on subsequent runs, Harness can use the timing data from earlier runs to split tests by time.
+If you use a timing [split strategy](speed-up-ci-test-pipelines-using-parallelism.md#split-by), Harness must collect timing data during the first parallel run. Therefore, on the first parallel run, Harness divides tests by file size. Then, on subsequent runs, Harness can use the timing data from earlier runs to split tests by time.
 
-Time saved can improve over subsequent runs.  With each subsequent run, Harness further refines test splitting based on newer timing data.
+Time saved can improve over subsequent runs. With each subsequent run, Harness further refines test splitting based on newer timing data.
 
 :::
 
-## YAML examples: Test splitting
+### YAML examples: Test splitting
 
 With Harness CI, you can split tests for any language or tool. Here are some examples of test splitting for different languages and tools.
 
-### Go
+#### Go
 
 ```yaml
           strategy:
@@ -508,7 +466,7 @@ With Harness CI, you can split tests for any language or tool. Here are some exa
                           - "report_<+strategy.iteration>.xml"
 ```
 
-### Java
+#### Java
 
 This example use Maven.
 
@@ -546,7 +504,7 @@ This example use Maven.
                           - target/surefire-reports/*.xml"
 ```
 
-### JavaScript
+#### JavaScript
 
 This example uses Mocha.
 
@@ -587,7 +545,7 @@ This example uses Mocha.
                           - "/harness/junit/test-results.xml"
 ```
 
-### PHP
+#### PHP
 
 ```yaml
           strategy:
@@ -624,8 +582,7 @@ This example uses Mocha.
                           - "/harness/phpunit/junit.xml"
 ```
 
-
-### Python
+#### Python
 
 This example uses pytest.
 
@@ -664,7 +621,7 @@ This example uses pytest.
                           - "**/result.xml"
 ```
 
-### Ruby
+#### Ruby
 
 This example uses Minitest.
 
@@ -703,7 +660,7 @@ This example uses Minitest.
                           - "**/result.xml"
 ```
 
-### C/C++
+#### C/C++
 
 This example uses CTest. Note that CTest has parallelize functions built-in as well.
 
@@ -743,7 +700,7 @@ This example uses CTest. Note that CTest has parallelize functions built-in as w
                           - "/harness/build/out.xml"
 ```
 
-### C#
+#### C\#
 
 ```yaml
           strategy:

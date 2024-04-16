@@ -1,31 +1,28 @@
 ---
 title: Node pool recommendations
-description: Harness Cloud Cost Management (CCM) provides recommendations for your Kubernetes clusters. This topic describes how CCM computes node pool recommendations and how you can use them to potentially reduce monthly costs.
-# sidebar_position: 2
 helpdocs_topic_id: x75xp0xime
 helpdocs_category_id: viib5j7fek
 helpdocs_is_private: false
 helpdocs_is_published: true
+description: >-
+  Harness Cloud Cost Management (CCM) provides recommendations for your
+  Kubernetes clusters. This topic describes how CCM computes node pool
+  recommendations and how you can use them to potentially reduc
 ---
 
 # Optimize Kubernetes costs with node pool recommendations
+
 One of the most impactful ways to reduce spend on Kubernetes infrastructure is to make sure your clusters are optimally sized for the workloads and node pools they run. Harness CCM recommends optimal compute resources for your workloads and node pools to help you reduce costs and improve performance.
 
 Recommendations are produced by analyzing your historical utilization metrics. CCM recommends you choose the optimal resource configuration based on your utilization data and requests metrics for pods.
 
 This topic describes how CCM computes node pool recommendations and how you can use them to potentially reduce monthly costs.
 
+:::note Before using recommendations in your cluster environment, ensure that you evaluate their impact thoroughly. The person reviewing the recommendations should be able to understand the impacts identified in the recommendations, as well as the impact on the infrastructure and business.
 
-:::note
-Before using recommendations in your cluster environment, ensure that you evaluate their impact thoroughly. The person reviewing the recommendations should be able to understand the impacts identified in the recommendations, as well as the impact on the infrastructure and business.  
-  
-Using recommendations without proper assessment could result in unexpected changes, such as issues with system performance or poor reliability.
-:::
+Using recommendations without proper assessment could result in unexpected changes, such as issues with system performance or poor reliability. :::
 
-
-:::info
-Recommendations will not be generated for nodepools with multiple instance families. This applies to both native-managed clusters and clusters that are managed by third-party tools like spot.io.
-:::
+:::info Recommendations will not be generated for nodepools with multiple instance families. This applies to both native-managed clusters and clusters that are managed by third-party tools like spot.io. :::
 
 ## Before You begin
 
@@ -36,17 +33,15 @@ Recommendations will not be generated for nodepools with multiple instance famil
 
 Harness CCM uses labels to process node pool recommendations. Make sure to add one of the labels listed in the following table for the respective cloud providers:
 
-
-
-|  **Cloud provider**| **Labels** |
-| --- | --- |
-| Amazon Web Services (AWS) |<ul><li>`eks.amazonaws.com/nodegroup​`</li> <li>`alpha.eksctl.io/nodegroup-name​`</li><li> `node-pool-name​`</li><li> `kops.k8s.io/instancegroup`</li><li>`nodegroup​`</li></ul>|
-| Google Cloud Platform (GCP) |  <ul><li>`cloud.google.com/gke-nodepool`</li><li> `nodegroup​`</li><li>`kops.k8s.io/instancegroup`</li></ul>|
-| Microsoft Azure | <ul><li> `Agentpool​`</li><li> `node-pool-name​` </li><li> `nodegroup​`</li><li>`kops.k8s.io/instancegroup`</li></ul>|
+| **Cloud provider**          | **Labels**                                                                                                                                                                                                                           |
+| --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Amazon Web Services (AWS)   | <ul><li><code>eks.amazonaws.com/nodegroup​</code></li><li><code>alpha.eksctl.io/nodegroup-name​</code></li><li><code>node-pool-name​</code></li><li><code>kops.k8s.io/instancegroup</code></li><li><code>nodegroup​</code></li></ul> |
+| Google Cloud Platform (GCP) | <ul><li><code>cloud.google.com/gke-nodepool</code></li><li><code>nodegroup​</code></li><li><code>kops.k8s.io/instancegroup</code></li></ul>                                                                                          |
+| Microsoft Azure             | <ul><li><code>Agentpool​</code></li><li><code>node-pool-name​</code></li><li><code>nodegroup​</code></li><li><code>kops.k8s.io/instancegroup</code></li></ul>                                                                        |
 
 ## How are node pool recommendations computed?
 
-The node pool recommendations are computed by analyzing historical utilization data and requests metrics of Pods. CCM recommends the optimal resource configurations for the Spot and On-demand instances. It uses the following parameters to determine the maximum node counts:
+The node pool recommendations are computed by analyzing historical utilization data and requests metrics of Pods. CCM recommends the optimal resource configurations for the Spot and On-demand instances. It uses the following parameters to determine the maximum node counts:
 
 * Total CPUs
 * Total memory
@@ -55,12 +50,11 @@ The node pool recommendations are computed by analyzing historical utilization 
 
 The recommendations are calculated by aggregating the resource utilization and request across all pods running across nodes in the node pool. You can select the number of days to compute recommendations based on the utilization data. The available options are last 1 day, 7 days, and 30 days.
 
-
 ```
 CPU, Memory: Max at a given instant [Aggregated Max(resource Utilization, requests)]
 ```
-Let's try to understand how the recommendations are computed using the following example. Assume there are two nodes in a node pool, each with two pods running.
 
+Let's try to understand how the recommendations are computed using the following example. Assume there are two nodes in a node pool, each with two pods running.
 
 ```
 Time Instant 1:  
@@ -88,8 +82,8 @@ Node2:
   Pod2:  
   Util → 0.3 vCPU, Request → 1 vCPU
 ```
-The recommendations are calculated as the following:
 
+The recommendations are calculated as the following:
 
 ```
 Time Instant 1: [ Max (2.1, 4) + Max (1.4, 1)+ Max (1.1, 4)+ Max (0.9,1)] = [4 + 1.4 + 4 + 1] => 10.4  
@@ -98,10 +92,10 @@ Time Instant 2: [ Max (2.2, 4) + Max (1.5, 1)+ Max (2, 4)+ Max (0.3,1)] = [4 + 1
   
 So the Max CPU recommendation would be: Max (10.4, 10.5) = **10.5 vCPU**
 ```
+
 Similarly, for memory, nodes will be the max number of nodes in the observation interval.
 
 Node pool recommendations also offer the flexibility of tuning the recommendations by setting the resource configuration preferences. See **Tune Recommendations**.
-
 
 ### Tune and share recommendations
 
@@ -120,7 +114,7 @@ To tune your recommendations, set your preferences for the following resources:
 
 #### Option: Preferred resource needs
 
-The value for CPU and memory is auto-populated by aggregating the resource utilization and request across all pods running across nodes in the node pool. 
+The value for CPU and memory is auto-populated by aggregating the resource utilization and request across all pods running across nodes in the node pool.
 
 * **CPU (vCPU)**: Set preferences for the CPU.
 * **RAM (GiB)**: Set preferences for memory.
@@ -128,7 +122,7 @@ The value for CPU and memory is auto-populated by aggregating the resource utili
 
 By default, the recommendation computation adds a 15% buffer to the recommended resources. This option allows you to add an additional buffer to your resources.
 
-![](./static/node-pool-recommendations-09.png)
+![](static/node-pool-recommendations-09.png)
 
 Once you apply the preferences, modified values are used for calculating the recommendations.
 
@@ -136,13 +130,13 @@ Once you apply the preferences, modified values are used for calculating the rec
 
 The maximum workload that is observed based on the historical utilization that is scheduled on the nodes is used to calculate the value for this field. You can customize your CPU (vCPU) and RAM options (GiB).
 
-![](./static/node-pool-recommendations-10.png)
+![](static/node-pool-recommendations-10.png)
 
 #### Option: Preferred minimum node count
 
 This option allows you to set the number of minimum nodes that are used for the recommendation. Use the **+** button to increase the node count and click **-** to decrease the node count.
 
-![](./static/node-pool-recommendations-11.png)
+![](static/node-pool-recommendations-11.png)
 
 #### Option: Preferred instance families
 
@@ -152,15 +146,13 @@ In **Preferred Instance families**, click **add preferred instance families**.
 
 Select your preferences and click **Save Preferences**. The category of the instance families will depend on the cloud provider type. The following example shows the GKE.
 
-![](./static/node-pool-recommendations-12.png)
+![](static/node-pool-recommendations-12.png)
 
 Once, you've made all the changes, click **Apply Preferences** or click **Reset to default**.
 
-![](./static/node-pool-recommendations-13.png)
+![](static/node-pool-recommendations-13.png)
 
-:::important note
-For nodepool recommendations, we base our calculations using public pricing data, which may differ from actual price.
-:::
+:::important note For nodepool recommendations, we base our calculations using public pricing data, which may differ from actual price. :::
 
 #### Sharing recommendations
 
@@ -172,5 +164,4 @@ Capturing your changes in the URL enables you to share your tuned recommendation
 
 ### Next steps
 
-* [Optimize Kubernetes Costs with Workload Recommendations](/docs/cloud-cost-management/use-ccm-cost-optimization/ccm-recommendations/workload-recommendations)
-
+* [Optimize Kubernetes Costs with Workload Recommendations](../../use-ccm-cost-optimization/ccm-recommendations/workload-recommendations/)

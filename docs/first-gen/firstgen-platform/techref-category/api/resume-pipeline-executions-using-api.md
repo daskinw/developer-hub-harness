@@ -1,12 +1,17 @@
 ---
 title: Resume Pipeline Executions using API
-description: You can use the resumeExecution API to resume Pipeline deployment executions that meet the following criteria --  Failed. Aborted. Expired. Rejected. You cannot resume Successful or Paused executions. T…
 sidebar_position: 150
 helpdocs_topic_id: 612oq2dsqy
 helpdocs_category_id: l2p3i03l4a
 helpdocs_is_private: false
 helpdocs_is_published: true
+description: >-
+  You can use the resumeExecution API to resume Pipeline deployment executions
+  that meet the following criteria --  Failed. Aborted. Expired. Rejected. You
+  cannot resume Successful or Paused executions.
 ---
+
+# Resume Pipeline Executions using API
 
 You can use the **resumeExecution** API to resume Pipeline deployment executions that meet the following criteria:
 
@@ -17,19 +22,18 @@ You can use the **resumeExecution** API to resume Pipeline deployment executions
 
 You cannot resume Successful or Paused executions.This is similar to resuming Pipeline executions in the Harness Manager. See [Resume Pipeline Deployments](../../../continuous-delivery/concepts-cd/deployments-overview/resume-a-pipeline-deployment.md).
 
-
-### Before You Begin
+#### Before You Begin
 
 * [Use Pipelines API](use-pipelines-api.md)
 * [Pipelines](../../../continuous-delivery/model-cd-pipeline/pipelines/pipeline-configuration.md)
 * [Create Pipeline Templates](../../../continuous-delivery/model-cd-pipeline/pipelines/templatize-pipelines.md)
 * [Pipeline Skip Conditions](../../../continuous-delivery/model-cd-pipeline/pipelines/skip-conditions.md)
 
-### Supported Platforms and Technologies
+#### Supported Platforms and Technologies
 
-See [Supported Platforms and Technologies](../../../starthere-firstgen/supported-platforms.md).
+See [Supported Platforms and Technologies](../../../starthere-firstgen/supported-platforms.md).
 
-### Limitations
+#### Limitations
 
 You can't modify any of the below mentioned settings:
 
@@ -39,15 +43,15 @@ You can't modify any of the below mentioned settings:
 * The templatization can't be changed.
 * You cannot add any new stage or change any of the existing stages.
 
-### Review: Permissions
+#### Review: Permissions
 
 To resume a Pipeline using resumeExecution, a Harness User must belong to a User Group that has the following Application Permissions:
 
 * **Permission Type:** Deployments, **Action:** Execute Pipeline
-* **Permission Type:** Deployments, **Action:** Execute Pipeline, **Application:**  &lt;Application&gt;
-* **Permission Type:** Deployments, **Action:** Execute Pipeline, **Environment:**&lt;Environment Type&gt;, **Application:** &lt;Application&gt;, but only to &lt;Environment Type&gt;
+* **Permission Type:** Deployments, **Action:** Execute Pipeline, **Application:** \<Application>
+* **Permission Type:** Deployments, **Action:** Execute Pipeline, **Environment:**\<Environment Type>, **Application:** \<Application>, but only to \<Environment Type>
 
-### Review: What Can Be Resumed
+#### Review: What Can Be Resumed
 
 You can resume Pipeline executions that meet the following criteria:
 
@@ -60,14 +64,13 @@ You cannot resume Successful or Paused executions.This includes Pipelines with d
 
 * Pipelines with [runtime inputs](../../../continuous-delivery/model-cd-pipeline/pipelines/pipeline-configuration.md).
 * [Templated Pipelines](../../../continuous-delivery/model-cd-pipeline/pipelines/templatize-pipelines.md).
-* Pipelines with [Approval stages](/docs/category/add-approvals) (approved or rejected).
+* Pipelines with [Approval stages](../../../../category/add-approvals/) (approved or rejected).
 * Pipelines with parallel stage executions. In this case, both stages are resumed.
 * Pipelines with [skip conditions](../../../continuous-delivery/model-cd-pipeline/pipelines/skip-conditions.md).
 
-### Step: Resume Pipeline
+#### Step: Resume Pipeline
 
 Here's an example of the resumeExecution API mutation:
-
 
 ```
 mutation{  
@@ -83,10 +86,10 @@ mutation{
   }  
 }
 ```
+
 You simply need to provide the Application ID, Pipeline execution ID, and the name of the stage where you want to resume the execution.
 
 To see the status of a Pipeline execution and see if it can be resumed:
-
 
 ```
 {  
@@ -120,8 +123,8 @@ To see the status of a Pipeline execution and see if it can be resumed:
   }  
 }
 ```
-Note that `pipelineExecutionId` is the execution ID for a Pipeline's deployment. It is not the Pipeline ID.This will give you output with the stage names and statuses for the Pipeline, which you can use with `resumeExecution`:
 
+Note that `pipelineExecutionId` is the execution ID for a Pipeline's deployment. It is not the Pipeline ID.This will give you output with the stage names and statuses for the Pipeline, which you can use with `resumeExecution`:
 
 ```
 {  
@@ -148,7 +151,7 @@ Note that `pipelineExecutionId` is the execution ID for a Pipeline's deploymen
         },  
 ...
 ```
-### See Also
+
+#### See Also
 
 * [Resume Pipeline Deployments](../../../continuous-delivery/concepts-cd/deployments-overview/resume-a-pipeline-deployment.md)
-

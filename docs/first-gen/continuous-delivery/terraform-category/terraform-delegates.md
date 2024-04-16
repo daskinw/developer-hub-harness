@@ -1,12 +1,16 @@
 ---
 title: Set Up Your Harness Account for Terraform
-description: Set up the Harness Delegates, Cloud Providers, and Source Repo Providers for Terraform integration.
 sidebar_position: 20
 helpdocs_topic_id: llp7a6lr1c
 helpdocs_category_id: gkm7rtubpk
 helpdocs_is_private: false
 helpdocs_is_published: true
+description: >-
+  Set up the Harness Delegates, Cloud Providers, and Source Repo Providers for
+  Terraform integration.
 ---
+
+# Set Up Your Harness Account for Terraform
 
 The first step in integrating your Terraform scripts and processes is setting up the necessary Harness account components: Delegates, Cloud Providers, and Source Repo Providers.
 
@@ -14,7 +18,7 @@ This topic describes how to set up these components for Terraform.
 
 Once your account is set up, you can begin integrating your Terraform scripts. See [Add Terraform Scripts](add-terraform-scripts.md).
 
-### Before You Begin
+#### Before You Begin
 
 * [Harness Key Concepts](../../starthere-firstgen/harness-key-concepts.md)
 * Get an overview of how Harness integrates Terraform: [Terraform Provisioning with Harness](../concepts-cd/deployment-types/terraform-provisioning-with-harness.md)
@@ -22,7 +26,7 @@ Once your account is set up, you can begin integrating your Terraform scripts. S
 * [Add Cloud Providers](../../firstgen-platform/account/manage-connectors/cloud-providers.md)
 * [Add Source Repo Providers](../../firstgen-platform/account/manage-connectors/add-source-repo-providers.md)
 
-### Step 1: Set Up Harness Delegates
+#### Step 1: Set Up Harness Delegates
 
 A Harness Delegate performs the Terraform provisioning in your Terraform scripts. When installing the Delegate for your Terraform provisioning, consider the following:
 
@@ -32,9 +36,10 @@ A Harness Delegate performs the Terraform provisioning in your Terraform scripts
 * While all Harness Delegates can use Terraform, you might want to select a Delegate type (Shell Script, Kubernetes, ECS, etc) similar to the type of infrastructure you are provisioning.
 * If you are provisioning AWS AMIs and ASGs, you'll likely use Shell Script Delegates on EC2 instances or ECS Delegates.
 * If you are provisioning Kubernetes clusters, you will likely use Kubernetes Delegates.
+
 1. To install a Delegate, follow the steps in [Delegate Installation and Management](../../firstgen-platform/account/manage-delegates/delegate-installation.md). Once the Delegate is installed, it will be listed on the Harness Delegates page.
 
-#### Delegate Selectors
+**Delegate Selectors**
 
 If needed, add a Delegate Selector to your Delegates. When you add a **Terraform Provisioner** step to your Harness Workflows, you can use the Delegate Selector to ensure specific Delegates perform the operations.
 
@@ -42,7 +47,7 @@ If you do not specify a Selector in the **Terraform Provisioner** step, Harness 
 
 To add Selectors, see [Delegate Installation and Management](../../firstgen-platform/account/manage-delegates/delegate-installation.md).
 
-#### Permissions
+**Permissions**
 
 The Harness Delegate requires permissions according to the deployment platform and the operations of the Terraform scripts.
 
@@ -50,14 +55,13 @@ In many cases, all credentials are provided by the account used to set up the Ha
 
 In some cases, access keys, secrets, and SSH keys are needed. You can add these in Harness [Secrets Management](../../firstgen-platform/security/secrets-management/secret-management.md). You can then select them in the **Terraform Provisioner** step in your Harness Workflows.
 
-For ECS Delegates, you can add an IAM role to the ECS Delegate task definition. For more information, see  [Trust Relationships and Roles](../../firstgen-platform/account/manage-delegates/delegate-installation.md#trust-relationships-and-roles).
+For ECS Delegates, you can add an IAM role to the ECS Delegate task definition. For more information, see  [Trust Relationships and Roles](../../firstgen-platform/account/manage-delegates/delegate-installation.md#trust-relationships-and-roles).
 
-### Step 2: Install Terraform on Delegates
+#### Step 2: Install Terraform on Delegates
 
 Terraform must be installed on the Delegate to use a Harness Terraform Provisioner. You can install Terraform manually or use the `INIT_SCRIPT` environment variable in the Delegate YAML.
 
 See [Run Initialization Scripts on Delegates](../../firstgen-platform/account/manage-delegates/run-initialization-scripts-on-delegates.md).
-
 
 ```
 # Install TF  
@@ -68,13 +72,14 @@ mv ./terraform /usr/bin/
 # Check TF install  
 terraform --version
 ```
+
 Terraform is now installed on the Delegate.
 
 If you will be using a Cloud Provider that uses Delegate Selectors to identify Delegates (AWS Cloud Provider), add a Selector to this Delegate. For more information, see [Delegate Installation and Management](../../firstgen-platform/account/manage-delegates/delegate-installation.md).
 
 The Delegate needs to be able to obtain the Terraform Provider you specify in the modules in your Terraform script. For example, `provider "acme"`. On the Delegate, Terraform will download and initialize any providers that are not already initialized.
 
-### Step 3: Set Up the Cloud Provider
+#### Step 3: Set Up the Cloud Provider
 
 Add a Harness Cloud Provider to connect Harness to your target platform (AWS, Kubernetes cluster, etc).
 
@@ -86,19 +91,18 @@ If you are provisioning infrastructure on a platform that requires specific perm
 
 When the Cloud Provider uses the installed Delegate for credentials (via its Delegate Selector), it assumes the permissions/roles used by the Delegate.
 
-### Step 4: Connect Harness to Your Script Repo
+#### Step 4: Connect Harness to Your Script Repo
 
 To use your Terraform script in Harness, you host the script in a Git repo and add a Harness Source Repo Provider that connects Harness to the repo. For steps on adding the Source Repo Provider, see [Add Source Repo Providers](../../firstgen-platform/account/manage-connectors/add-source-repo-providers.md).
 
 Here is an example of a Source Repo Provider and the GitHub repo it is using:
 
-![](./static/terraform-delegates-00.png)
+![](static/terraform-delegates-00.png)
 
 In the image above, there is no branch added in the Source Repo Provider **Branch Name** field as this is the master branch, and the **ec2** folder in the repo is not entered in the Source Repo Provider. Later, when you use the Source Repo Provider in your Terraform Provisioner, you can specify the branch and root directory:
 
-![](./static/terraform-delegates-01.png)
+![](static/terraform-delegates-01.png)
 
 If you are using a private Git repo, an SSH key for the private repo is required on the Harness Delegate running Terraform to download the root module. You can copy the SSH key over to the Delegate. For more information, see [Using SSH Keys for Cloning Modules](https://www.terraform.io/docs/enterprise/workspaces/ssh-keys.html) (from HashiCorp) and [Adding a new SSH key to your GitHub account](https://help.github.com/en/articles/adding-a-new-ssh-key-to-your-github-account) (from Github).### Next Steps
 
 Once your account is set up, you can begin integrating your Terraform scripts. See [Add Terraform Scripts](add-terraform-scripts.md).
-

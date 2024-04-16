@@ -1,12 +1,16 @@
 ---
 title: Traditional Deployments (SSH) Overview
-description: Traditional deployments use application package files and a runtime environment (Tomcat, JBoss) in Harness. For How-tos on Traditional deployments, see Traditional (SSH) Deployments How-tos. You can…
-# sidebar_position: 2
 helpdocs_topic_id: aig5tw1zvo
 helpdocs_category_id: vbcmo6ltg7
 helpdocs_is_private: false
 helpdocs_is_published: true
+description: >-
+  Traditional deployments use application package files and a runtime
+  environment (Tomcat, JBoss) in Harness. For How-tos on Traditional
+  deployments, see Traditional (SSH) Deployments How-tos. You can…
 ---
+
+# Traditional Deployments (SSH) Overview
 
 Traditional deployments use application package files and a runtime environment (Tomcat, JBoss) in Harness.
 
@@ -16,17 +20,17 @@ These deployments are different from Harness deployments using container orchest
 
 For a Build and Deploy Pipeline using a Traditional deployment, see [Artifact Build and Deploy Pipelines Overview](artifact-build-and-deploy-pipelines-overview.md).Traditional deployments involve obtaining an application package from an artifact source, such as a WAR file in an AWS S3 bucket, and deploying it to a target host, such as a virtual machine.
 
-### Supported Packaging Formats
+#### Supported Packaging Formats
 
 Harness supports the following traditional deployment packaging formats: WAR, JAR, TAR, RPM, ZIP, Docker, and custom files.
 
-All of these formats are also supported by other Harness deployment types, such as Kubernetes, Helm, PCF, ECS, etc.  This guide is concerned with traditional deployments outside of the container orchestration platforms.
+All of these formats are also supported by other Harness deployment types, such as Kubernetes, Helm, PCF, ECS, etc.  This guide is concerned with traditional deployments outside of the container orchestration platforms.
 
-### Supported Platforms and Technologies
+#### Supported Platforms and Technologies
 
 See **SSH** in [Supported Platforms and Technologies](../../../starthere-firstgen/supported-platforms.md).
 
-### Deployment Summary
+#### Deployment Summary
 
 For a general overview of how Harness works, see [Harness Key Concepts](../../../starthere-firstgen/harness-key-concepts.md).
 
@@ -37,16 +41,16 @@ The following list describes the major steps involved in a Traditional deploymen
 3. Add a connection to your cloud provider. This is a connection to your deployment infrastructure, either physical or hosted in a cloud platform like AWS, GCP, or Azure. See [Add Cloud Providers](../../../firstgen-platform/account/manage-connectors/cloud-providers.md).
 4. Create the Harness Application for your deploying your application packages.
 5. Create the Harness Service using the SSH type.
-	1. Add your packaged application file(s) as an Artifact Source.
-6. Create the Harness Environment containing the [Infrastructure Definition](/docs/first-gen/continuous-delivery/model-cd-pipeline/environments/environment-configuration) definition of your deployment infrastructure.
+   1. Add your packaged application file(s) as an Artifact Source.
+6. Create the Harness Environment containing the [Infrastructure Definition](../../model-cd-pipeline/environments/environment-configuration/) definition of your deployment infrastructure.
 7. Create the Basic Deployment Workflow.
 8. Deploy the Workflow.
 9. Next steps:
-	1. Create a Harness Pipeline for your deployment, including Workflows and Approval steps. For more information, see [Pipelines](../../model-cd-pipeline/pipelines/pipeline-configuration.md) and [Approvals](../../model-cd-pipeline/approvals/approvals.md).
-	2. Create a Harness Trigger to automatically deploy your Workflows or Pipeline according to your criteria. For more information, see [Triggers](../../model-cd-pipeline/triggers/add-a-trigger-2.md).
-	3. Create Harness Infrastructure Provisioners for your deployment environments. For more information, see [Infrastructure Provisioners](../../model-cd-pipeline/infrastructure-provisioner/add-an-infra-provisioner.md).
+   1. Create a Harness Pipeline for your deployment, including Workflows and Approval steps. For more information, see [Pipelines](../../model-cd-pipeline/pipelines/pipeline-configuration.md) and [Approvals](../../model-cd-pipeline/approvals/approvals.md).
+   2. Create a Harness Trigger to automatically deploy your Workflows or Pipeline according to your criteria. For more information, see [Triggers](../../model-cd-pipeline/triggers/add-a-trigger-2.md).
+   3. Create Harness Infrastructure Provisioners for your deployment environments. For more information, see [Infrastructure Provisioners](../../model-cd-pipeline/infrastructure-provisioner/add-an-infra-provisioner.md).
 
-### Next Step
+#### Next Step
 
 Traditional Deployments How-tos:
 
@@ -56,4 +60,3 @@ Traditional Deployments How-tos:
 * [Define Your Traditional (SSH) Target Infrastructure](../../traditional-deployments/define-your-traditional-ssh-target-infrastructure.md)
 * [Create Default Application Directories and Variables](../../model-cd-pipeline/applications/set-default-application-directories-as-variables.md)
 * [Create a Basic Workflow for Traditional (SSH) Deployments](../../traditional-deployments/create-a-basic-workflow-for-traditional-ssh-deployments.md)
-

@@ -1,29 +1,29 @@
 ---
 title: Fetch Artifact Source Details Using GraphQL APIs
-description: This topic describes how to add connections for Artifacts in ArtifactSources.
 sidebar_position: 70
 helpdocs_topic_id: 0z2b5a1x4x
 helpdocs_category_id: l2p3i03l4a
 helpdocs_is_private: false
 helpdocs_is_published: true
+description: This topic describes how to add connections for Artifacts in ArtifactSources.
 ---
 
-This topic describes how to fetch Artifact Source details using GraphQL APIs. The Artifact Source defines where the Artifact Collection step will look for the built artifact during the Build Workflow. The Artifact Source for the Service lists the file(s) that you want to be copied to the target host(s). 
+# Fetch Artifact Source Details Using GraphQL APIs
 
+This topic describes how to fetch Artifact Source details using GraphQL APIs. The Artifact Source defines where the Artifact Collection step will look for the built artifact during the Build Workflow. The Artifact Source for the Service lists the file(s) that you want to be copied to the target host(s).
 
-### Before You Begin
+#### Before You Begin
 
 * [Harness API](harness-api.md)
 * [Service Types and Artifact Sources](../../../continuous-delivery/model-cd-pipeline/setup-services/service-types-and-artifact-sources.md)
 
-### Step: Fetch Artifact Source from a Service
+#### Step: Fetch Artifact Source from a Service
 
 Use this sample query to get the `Artifact Source` and `Artifact History` from a Harness Service. [Provide a Service ID](artifact-source-api.md#step-fetch-the-service-id) to fetch the details.
 
 The Artifact History pulls artifact build and version metadata from the Artifact Source.
 
-##### Request
-
+**Request**
 
 ```
 query{  
@@ -41,8 +41,8 @@ query{
   }  
 }
 ```
-##### Response
 
+**Response**
 
 ```
 {  
@@ -70,12 +70,12 @@ query{
   }  
 }
 ```
-### Step: Fetch Artifact Source ID from an Artifact
+
+#### Step: Fetch Artifact Source ID from an Artifact
 
 Use this sample query to get the `Artifact Source ID` from an Artifact.
 
-##### Request
-
+**Request**
 
 ```
 {  
@@ -97,8 +97,8 @@ Use this sample query to get the `Artifact Source ID` from an Artifact.
   }  
 }
 ```
-##### Response
 
+**Response**
 
 ```
 {  
@@ -117,12 +117,12 @@ Use this sample query to get the `Artifact Source ID` from an Artifact.
   }  
 }
 ```
-### Step: Fetch the Service ID
 
- Use this sample query to get the `id` and the `name` of a Service.
+#### Step: Fetch the Service ID
 
-##### Request
+&#x20;Use this sample query to get the `id` and the `name` of a Service.
 
+**Request**
 
 ```
 {  
@@ -142,8 +142,8 @@ Use this sample query to get the `Artifact Source ID` from an Artifact.
   }  
 }
 ```
-##### Response
 
+**Response**
 
 ```
 {  
@@ -162,5 +162,5 @@ Use this sample query to get the `Artifact Source ID` from an Artifact.
   }  
 }
 ```
-### 
 
+####

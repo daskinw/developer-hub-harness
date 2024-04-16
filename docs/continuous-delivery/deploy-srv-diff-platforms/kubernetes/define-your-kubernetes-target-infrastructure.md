@@ -1,15 +1,16 @@
 ---
 title: Kubernetes infrastructure
-description: Specify the Kubernetes cluster you want to target for your deployment.
 sidebar_position: 4
 helpdocs_topic_id: 0ud2ut4vt2
 helpdocs_category_id: y2cksg5q0x
 helpdocs_is_private: false
 helpdocs_is_published: true
+description: Specify the Kubernetes cluster you want to target for your deployment.
 ---
 
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
+# Kubernetes infrastructure
+
+import Tabs from '@theme/Tabs'; import TabItem from '@theme/TabItem';
 
 When you set up a Deploy stage, you specify the Kubernetes cluster and namespace where you want to deploy your service. In Harness, this is called the **Infrastructure Definition**.
 
@@ -25,30 +26,30 @@ For Amazon Elastic Kubernetes Service (Amazon EKS) and OpenShift, use [Specify a
 
 :::
 
-## Important notes
+### Important notes
 
-- When using names in Harness Kubernetes stages, remember that Kubernetes service and pod names follow RFC-1035 and must consist of lowercase alphanumeric characters or '-', start with an alphabetic character, and end with an alphanumeric character.
+* When using names in Harness Kubernetes stages, remember that Kubernetes service and pod names follow RFC-1035 and must consist of lowercase alphanumeric characters or '-', start with an alphabetic character, and end with an alphanumeric character.
 
-### Harness role permissions required
+#### Harness role permissions required
 
 The following Harness role is required:
 
-- **Environments**: `View/Create`, `Edit`, `Access`, `Delete`.
+* **Environments**: `View/Create`, `Edit`, `Access`, `Delete`.
 
-For more information on roles, go to [Add and manage roles](/docs/platform/role-based-access-control/add-manage-roles).
+For more information on roles, go to [Add and manage roles](../../../platform/role-based-access-control/add-manage-roles/).
 
-## Pre-existing and dynamically provisioned infrastructure
+### Pre-existing and dynamically provisioned infrastructure
 
 There are two methods of specifying the deployment target infrastructure:
 
-- **Pre-existing**: the target infrastructure already exists and you simply need to provide the required settings.
-- **Dynamically provisioned**: the target infrastructure will be dynamically provisioned on-the-fly as part of the deployment process.
+* **Pre-existing**: the target infrastructure already exists and you simply need to provide the required settings.
+* **Dynamically provisioned**: the target infrastructure will be dynamically provisioned on-the-fly as part of the deployment process.
 
 These methods are described below.
 
-For details on Harness provisioning, go to [Provisioning overview](/docs/continuous-delivery/cd-infrastructure/provisioning-overview).
+For details on Harness provisioning, go to [Provisioning overview](../../cd-infrastructure/provisioning-overview/).
 
-## Pre-existing infrastructure
+### Pre-existing infrastructure
 
 For a pre-existing infrastructure, you provide Harness with the target cluster and namespace for the deployment.
 
@@ -66,22 +67,19 @@ To define the target infrastructure, do the following:
 
 Each of the connection methods are described below.
 
-### Direct
+#### Direct
 
 This method avoids vendor-specific settings. A direct connection is a vendor-agnostic connection to the Kubernetes cluster.
 
-A direct connection uses a [Harness Kubernetes cluster connector](/docs/platform/connectors/cloud-providers/ref-cloud-providers/kubernetes-cluster-connector-settings-reference/) to connect a cluster on any platform.
+A direct connection uses a [Harness Kubernetes cluster connector](../../../platform/connectors/cloud-providers/ref-cloud-providers/kubernetes-cluster-connector-settings-reference/) to connect a cluster on any platform.
 
 :::note
 
-For details on using OpenShift, go to [Using OpenShift with Harness Kubernetes](/docs/continuous-delivery/deploy-srv-diff-platforms/kubernetes/cd-k8s-ref/using-open-shift-with-harness-kubernetes).
+For details on using OpenShift, go to [Using OpenShift with Harness Kubernetes](cd-k8s-ref/using-open-shift-with-harness-kubernetes/).
 
 :::
 
 Enter the following settings.
-
-<Tabs>
-  <TabItem value="YAML" label="YAML" default>
 
 Here is the YAML for the Harness Kubernetes Cluster connector used in the Infrastructure Definition.
 
@@ -122,18 +120,9 @@ infrastructureDefinition:
   allowSimultaneousDeployments: false
 ```
 
-</TabItem>
-  <TabItem value="API" label="API">
-
 Use the Harness [`createInfrastructure` API](https://apidocs.harness.io/tag/Infrastructures#operation/createInfrastructure).
 
-</TabItem>
-  <TabItem value="Terraform Provider" label="Terraform Provider">
-
-Use the [harness_platform_infrastructure](https://registry.terraform.io/providers/harness/harness/latest/docs/resources/platform_infrastructure) resource to create the infrastructure definition.
-
-</TabItem>
-  <TabItem value="Pipeline Studio" label="Pipeline Studio">
+Use the [harness\_platform\_infrastructure](https://registry.terraform.io/providers/harness/harness/latest/docs/resources/platform\_infrastructure) resource to create the infrastructure definition.
 
 To add an Infrastructure Definition with the Direct connection method, do the following:
 
@@ -148,15 +137,9 @@ To add an Infrastructure Definition with the Direct connection method, do the fo
 9. In **Namespace**, enter the name of an existing namespace where you want to deploy your service.
 10. Select **Save**.
 
-</TabItem>
-</Tabs>
+#### Google Kubernetes Engine (GKE)
 
-### Google Kubernetes Engine (GKE)
-
-- **GCP Workload Identity:** if you installed the Harness Kubernetes Delegate in a GCP Kubernetes cluster (GKE) that has GCP Workload Identity enabled, the GCP Connector will use the GCP Workload Identity if it inherits its credentials from that Delegate (using the **Use the credentials of a specific Harness Delegate** option).
-
-<Tabs>
-  <TabItem value="YAML" label="YAML" default>
+* **GCP Workload Identity:** if you installed the Harness Kubernetes Delegate in a GCP Kubernetes cluster (GKE) that has GCP Workload Identity enabled, the GCP Connector will use the GCP Workload Identity if it inherits its credentials from that Delegate (using the **Use the credentials of a specific Harness Delegate** option).
 
 Here is the YAML for the GCP connector used in the Infrastructure Definition.
 
@@ -197,18 +180,9 @@ infrastructureDefinition:
   allowSimultaneousDeployments: false
 ```
 
-</TabItem>
-  <TabItem value="API" label="API">
-
 Use the Harness [`createInfrastructure` API](https://apidocs.harness.io/tag/Infrastructures#operation/createInfrastructure).
 
-</TabItem>
-  <TabItem value="Terraform Provider" label="Terraform Provider">
-
-Use the [harness_platform_infrastructure](https://registry.terraform.io/providers/harness/harness/latest/docs/resources/platform_infrastructure) resource to create the infrastructure definition.
-
-</TabItem>
-  <TabItem value="Pipeline Studio" label="Pipeline Studio">
+Use the [harness\_platform\_infrastructure](https://registry.terraform.io/providers/harness/harness/latest/docs/resources/platform\_infrastructure) resource to create the infrastructure definition.
 
 To add an Infrastructure Definition with the GKE connection method, do the following:
 
@@ -224,13 +198,7 @@ To add an Infrastructure Definition with the GKE connection method, do the follo
 10. In **Namespace**, enter the name of an existing namespace where you want to deploy your service.
 11. Select **Save**.
 
-</TabItem>
-</Tabs>
-
-### Microsoft Azure Kubernetes Service (AKS)
-
-<Tabs>
-  <TabItem value="YAML" label="YAML" default>
+#### Microsoft Azure Kubernetes Service (AKS)
 
 Here is the YAML for a AKS Infrastructure Definition. In this example, AKS parameters are set as runtime inputs so you can select the cluster to use when you deploy.
 
@@ -255,18 +223,9 @@ infrastructureDefinition:
   allowSimultaneousDeployments: false
 ```
 
-</TabItem>
-  <TabItem value="API" label="API">
-
 Use the Harness [`createInfrastructure` API](https://apidocs.harness.io/tag/Infrastructures#operation/createInfrastructure).
 
-</TabItem>
-  <TabItem value="Terraform Provider" label="Terraform Provider">
-
-Use the [harness_platform_infrastructure](https://registry.terraform.io/providers/harness/harness/latest/docs/resources/platform_infrastructure) resource to create the infrastructure definition.
-
-</TabItem>
-  <TabItem value="Pipeline Studio" label="Pipeline Studio">
+Use the [harness\_platform\_infrastructure](https://registry.terraform.io/providers/harness/harness/latest/docs/resources/platform\_infrastructure) resource to create the infrastructure definition.
 
 To add an Infrastructure Definition with the AKS connection method, do the following:
 
@@ -283,13 +242,7 @@ To add an Infrastructure Definition with the AKS connection method, do the follo
 11. In **Namespace**, enter the name of an existing namespace where you want to deploy your service.
 12. Select **Save**.
 
-</TabItem>
-</Tabs>
-
-### AWS Elastic Kubernetes Service (EKS)
-
-<Tabs>
-  <TabItem value="YAML" label="YAML" default>
+#### AWS Elastic Kubernetes Service (EKS)
 
 Here is the YAML for an EKS Infrastructure Definition.
 
@@ -312,18 +265,9 @@ infrastructureDefinition:
   allowSimultaneousDeployments: false
 ```
 
-</TabItem>
-  <TabItem value="API" label="API">
-
 Use the Harness [`createInfrastructure` API](https://apidocs.harness.io/tag/Infrastructures#operation/createInfrastructure).
 
-</TabItem>
-  <TabItem value="Terraform Provider" label="Terraform Provider">
-
-Use the [harness_platform_infrastructure](https://registry.terraform.io/providers/harness/harness/latest/docs/resources/platform_infrastructure) resource to create the infrastructure definition.
-
-</TabItem>
-  <TabItem value="Pipeline Studio" label="Pipeline Studio">
+Use the [harness\_platform\_infrastructure](https://registry.terraform.io/providers/harness/harness/latest/docs/resources/platform\_infrastructure) resource to create the infrastructure definition.
 
 To add an Infrastructure Definition with the EKS connection method, do the following:
 
@@ -338,10 +282,7 @@ To add an Infrastructure Definition with the EKS connection method, do the follo
 9. In **Namespace**, enter the name of an existing namespace where you want to deploy your service.
 10. Select **Save**.
 
-</TabItem>
-</Tabs>
-
-### Rancher
+#### Rancher
 
 Harness supports the ability to perform Kubernetes deployments into Rancher-managed Kubernetes clusters.
 
@@ -351,22 +292,17 @@ This documentation assumes you are familiar with Rancher, have a Rancher account
 
 Here's a short video that demonstrates Harness Rancher integration:
 
-<DocVideo src="https://www.loom.com/share/b68b91beb2304d7099333a468017376b" />
-
 To use Rancher with Harness, you set up a Harness Rancher connector. Next, you set up a Rancher infrastructure definition in a Harness environment. Lastly, you select that infrastructure definition in the Harness pipeline stage that is deploying to the Rancher cluster.
 
 To set up a Harness Rancher connector you need:
 
-- The URL of the Rancher endpoint.
-  - This is the domain name you use to connect to Rancher, such as `https://rancher-internal.dev.mycompany.io`. Make sure to include the URL scheme.
-- The bearer token for the Rancher account to use.
-  - The Rancher bearer token you use must be able to use the `/v3/clusters/{clusterName}?action=generateKubeconfig` and `/v3/clusters` APIs. The Rancher user account you use to generate the token must have the Rancher **Cluster Owner** role or a **Global Permission** that enables cluster administration. Go to [Cluster and Project Roles](https://rancher.com/docs/rancher/v2.0-v2.4/en/admin-settings/rbac/cluster-project-roles/) and [Global Permissions](https://rancher.com/docs/rancher/v2.6/en/admin-settings/rbac/global-permissions/) from Rancher.
-  - For steps on creating a bear token, go to [API Keys](https://ranchermanager.docs.rancher.com/v2.5/reference-guides/user-settings/api-keys) from Rancher.
-  - When you create the token, you can scope it to specific clusters. A scope will limit the API key so that it will only work against the Kubernetes API of the specified clusters. If you scope the bearer token to specific clusters, Harness will only be able to query and target that list of clusters when deploying.
-  - If you set an expiration period for the token, make sure that its expiration date will not impact your Harness deployments.
-
-<Tabs>
-  <TabItem value="YAML" label="YAML" default>
+* The URL of the Rancher endpoint.
+  * This is the domain name you use to connect to Rancher, such as `https://rancher-internal.dev.mycompany.io`. Make sure to include the URL scheme.
+* The bearer token for the Rancher account to use.
+  * The Rancher bearer token you use must be able to use the `/v3/clusters/{clusterName}?action=generateKubeconfig` and `/v3/clusters` APIs. The Rancher user account you use to generate the token must have the Rancher **Cluster Owner** role or a **Global Permission** that enables cluster administration. Go to [Cluster and Project Roles](https://rancher.com/docs/rancher/v2.0-v2.4/en/admin-settings/rbac/cluster-project-roles/) and [Global Permissions](https://rancher.com/docs/rancher/v2.6/en/admin-settings/rbac/global-permissions/) from Rancher.
+  * For steps on creating a bear token, go to [API Keys](https://ranchermanager.docs.rancher.com/v2.5/reference-guides/user-settings/api-keys) from Rancher.
+  * When you create the token, you can scope it to specific clusters. A scope will limit the API key so that it will only work against the Kubernetes API of the specified clusters. If you scope the bearer token to specific clusters, Harness will only be able to query and target that list of clusters when deploying.
+  * If you set an expiration period for the token, make sure that its expiration date will not impact your Harness deployments.
 
 Here is the YAML for the Rancher connector used in the Infrastructure Definition.
 
@@ -411,18 +347,9 @@ infrastructureDefinition:
   allowSimultaneousDeployments: false
 ```
 
-</TabItem>
-  <TabItem value="API" label="API">
-
 Use the Harness [`createInfrastructure` API](https://apidocs.harness.io/tag/Infrastructures#operation/createInfrastructure).
 
-</TabItem>
-  <TabItem value="Terraform Provider" label="Terraform Provider">
-
-Use the [harness_platform_infrastructure](https://registry.terraform.io/providers/harness/harness/latest/docs/resources/platform_infrastructure) resource to create the **Infrastructure Definition**.
-
-</TabItem>
-  <TabItem value="Harness Manager" label="Harness Manager">
+Use the [harness\_platform\_infrastructure](https://registry.terraform.io/providers/harness/harness/latest/docs/resources/platform\_infrastructure) resource to create the **Infrastructure Definition**.
 
 To create the Harness Rancher connector, do the following:
 
@@ -450,64 +377,58 @@ To add an **Infrastructure Definition** with the Rancher connection method, do t
 10. In **Namespace**, enter the name of an existing namespace where you want to deploy your service.
 11. Select **Save**.
 
-</TabItem>
-</Tabs>
-
-## Dynamically provisioned infrastructure
+### Dynamically provisioned infrastructure
 
 Here is a summary of the steps to dynamically provision the target infrastructure for a deployment:
 
-1. **Add dynamic provisioning to the CD stage**:
+1.  **Add dynamic provisioning to the CD stage**:
 
-   1. In a Harness Deploy stage, in **Environment**, enable the option **Provision your target infrastructure dynamically during the execution of your Pipeline**.
-   2. Select the type of provisioner that you want to use.
+    1. In a Harness Deploy stage, in **Environment**, enable the option **Provision your target infrastructure dynamically during the execution of your Pipeline**.
+    2. Select the type of provisioner that you want to use.
 
-   Harness automatically adds the provisioner steps for the provisioner type you selected. 3. Configure the provisioner steps to run your provisioning scripts. 4. Select or create a Harness infrastructure in **Environment**.
-
+    Harness automatically adds the provisioner steps for the provisioner type you selected. 3. Configure the provisioner steps to run your provisioning scripts. 4. Select or create a Harness infrastructure in **Environment**.
 2. **Map the provisioner outputs to the Infrastructure Definition**:
    1. In the Harness infrastructure, enable the option **Map Dynamically Provisioned Infrastructure**.
    2. Map the provisioning script/template outputs to the required infrastructure settings.
 
 These steps are explained in detail below.
 
-### Adding dynamic provisioning to the stage
+#### Adding dynamic provisioning to the stage
 
 To add dynamic provisioning to a Harness pipeline Deploy stage, do the following:
 
 1. In a Harness Deploy stage, in **Environment**, enable the option **Provision your target infrastructure dynamically during the execution of your Pipeline**.
-2. Select the type of provisioner that you want to use.
+2.  Select the type of provisioner that you want to use.
 
-   <DocImage path={require('./static/efc24ba5c3a84df44e72c2b421e33032f5f5313359592690f35bd64a4c885491.png')} width="60%" height="60%" title="Click to view full size image" />
+    \<DocImage path={require('./static/efc24ba5c3a84df44e72c2b421e33032f5f5313359592690f35bd64a4c885491.png')} width="60%" height="60%" title="Click to view full size image" />
 
-   Harness automatically adds the necessary provisioner steps.
-
+    Harness automatically adds the necessary provisioner steps.
 3. Set up the provisioner steps to run your provisioning scripts.
 
 For documentation on each of the required steps for the provisioner you selected, go to the following topics:
 
-- Terraform:
-  - [Terraform Plan](/docs/continuous-delivery/cd-infrastructure/terraform-infra/run-a-terraform-plan-with-the-terraform-plan-step)
-  - [Terraform Apply](/docs/continuous-delivery/cd-infrastructure/terraform-infra/run-a-terraform-plan-with-the-terraform-apply-step)
-  - [Terraform Rollback](/docs/continuous-delivery/cd-infrastructure/terraform-infra/rollback-provisioned-infra-with-the-terraform-rollback-step). To see the Terraform Rollback step, toggle the **Rollback** setting.
-- [Terragrunt](/docs/continuous-delivery/cd-infrastructure/terragrunt-howtos)
-- [Terraform Cloud](/docs/continuous-delivery/cd-infrastructure/terraform-infra/terraform-cloud-deployments)
-- CloudFormation:
-  - [Create Stack](/docs/continuous-delivery/cd-infrastructure/cloudformation-infra/provision-with-the-cloud-formation-create-stack-step)
-  - [Delete Stack](/docs/continuous-delivery/cd-infrastructure/cloudformation-infra/remove-provisioned-infra-with-the-cloud-formation-delete-step)
-  - [Rollback Stack](/docs/continuous-delivery/cd-infrastructure/cloudformation-infra/rollback-provisioned-infra-with-the-cloud-formation-rollback-step). To see the Rollback Stack step, toggle the **Rollback** setting.
-- [Azure Resource Management (ARM)](/docs/continuous-delivery/cd-infrastructure/azure-arm-provisioning)
-- [Azure Blueprint](/docs/continuous-delivery/cd-infrastructure/azure-blueprint-provisioning)
-- [Shell Script](/docs/continuous-delivery/cd-infrastructure/shell-script-provisioning)
+* Terraform:
+  * [Terraform Plan](../../cd-infrastructure/terraform-infra/run-a-terraform-plan-with-the-terraform-plan-step/)
+  * [Terraform Apply](../../cd-infrastructure/terraform-infra/run-a-terraform-plan-with-the-terraform-apply-step/)
+  * [Terraform Rollback](../../cd-infrastructure/terraform-infra/rollback-provisioned-infra-with-the-terraform-rollback-step/). To see the Terraform Rollback step, toggle the **Rollback** setting.
+* [Terragrunt](../../cd-infrastructure/terragrunt-howtos/)
+* [Terraform Cloud](../../cd-infrastructure/terraform-infra/terraform-cloud-deployments/)
+* CloudFormation:
+  * [Create Stack](../../cd-infrastructure/cloudformation-infra/provision-with-the-cloud-formation-create-stack-step/)
+  * [Delete Stack](../../cd-infrastructure/cloudformation-infra/remove-provisioned-infra-with-the-cloud-formation-delete-step/)
+  * [Rollback Stack](../../cd-infrastructure/cloudformation-infra/rollback-provisioned-infra-with-the-cloud-formation-rollback-step/). To see the Rollback Stack step, toggle the **Rollback** setting.
+* [Azure Resource Management (ARM)](../../cd-infrastructure/azure-arm-provisioning/)
+* [Azure Blueprint](../../cd-infrastructure/azure-blueprint-provisioning/)
+* [Shell Script](../../cd-infrastructure/shell-script-provisioning/)
 
-### Mapping provisioner output
+#### Mapping provisioner output
 
 Once you set up dynamic provisioning in the stage, you must map outputs from your provisioning script/template to specific settings in the Harness Infrastructure Definition used in the stage.
 
 1. In the same CD Deploy stage where you enabled dynamic provisioning, select or create (**New Infrastructure**) a Harness infrastructure.
-2. In the Harness infrastructure, in **Cluster Details**, enable the option **Map Dynamically Provisioned Infrastructure**.
+2.  In the Harness infrastructure, in **Cluster Details**, enable the option **Map Dynamically Provisioned Infrastructure**.
 
-   The **Cluster Details** section adds a Provisioner setting and configures it as a runtime input.
-
+    The **Cluster Details** section adds a Provisioner setting and configures it as a runtime input.
 3. Map the provisioning script/template outputs to the required infrastructure settings.
 
 To provision the target deployment infrastructure, Harness needs specific infrastructure information from your provisioning script. You provide this information by mapping specific Infrastructure Definition settings in Harness to outputs from your script.
@@ -539,9 +460,9 @@ output "default_namespace" {
 
 In the Harness Infrastructure Definition, you map that output to the **Namespace** setting using an expression in the format `<+provisioner.OUTPUT_NAME>`, such as `<+provisioner.default_namespace>`.
 
-<DocImage path={require('./static/77880a34dd7812c1e5567a5ef69f86754467f5a0ebefaba06268eedef8ca0aaf.png')} width="60%" height="60%" title="Click to view full size image" />
+\<DocImage path={require('./static/77880a34dd7812c1e5567a5ef69f86754467f5a0ebefaba06268eedef8ca0aaf.png')} width="60%" height="60%" title="Click to view full size image" />
 
-### Mapping requirements for connection methods
+#### Mapping requirements for connection methods
 
 The following table shows the **Infrastructure Definition** settings that are mapped to provisioner outputs for each connection method.
 
@@ -555,12 +476,10 @@ The following table shows the **Infrastructure Definition** settings that are ma
 
 Here are examples for each connection method:
 
-<Tabs>
-  <TabItem value="Direct" label="Direct" default>
-
 Here's an example of a dynamic provisioning script using Terraform and how to map its namespace output to the required Harness Infrastructure Definition settings for the connection method.
 
 <details>
+
 <summary>Terraform provisioner example</summary>
 
 ```yaml
@@ -649,12 +568,10 @@ Here is what the mapping looks like in the Harness Infrastructure Definition:
 
 ![picture 2](static/e28d3d0e12716a01bc44af6eb489a739acf8e4e2109558293c1014450a429b31.png)
 
-</TabItem>
-  <TabItem value="GKE" label="GKE">
-
 Here's an example of a dynamic provisioning script using Terraform and how to map its namespace output to the required Harness Infrastructure Definition settings for the connection method.
 
 <details>
+
 <summary>Terraform provisioner example</summary>
 
 ```yaml
@@ -700,12 +617,10 @@ Here is what the mapping looks like in the Harness Infrastructure Definition:
 
 ![picture 3](static/26f06dc2b4dc1421395bcd41a796a21d63e88593a968868045f0da7ba8662d67.png)
 
-</TabItem>
-  <TabItem value="AKS" label="AKS">
-
 Here's an example of a dynamic provisioning script using Terraform and how to map its namespace output to the required Harness Infrastructure Definition settings for the connection method.
 
 <details>
+
 <summary>Terraform provisioner example</summary>
 
 ```yaml
@@ -767,14 +682,12 @@ value = azurerm_kubernetes_namespace.aks_namespace.name
 
 Here is what the mapping looks like in the Harness Infrastructure Definition:
 
-<DocImage path={require('./static/b399a58dc5fb00b5670df32610747574b0942bcf8c2aba1da3e3a2be568d6106.png')} width="60%" height="60%" title="Click to view full size image" />
-
-</TabItem>
-  <TabItem value="EKS" label="EKS">
+\<DocImage path={require('./static/b399a58dc5fb00b5670df32610747574b0942bcf8c2aba1da3e3a2be568d6106.png')} width="60%" height="60%" title="Click to view full size image" />
 
 Here's an example of a dynamic provisioning script using Terraform and how to map its namespace output to the required Harness Infrastructure Definition settings for the connection method.
 
 <details>
+
 <summary>Terraform provisioner example</summary>
 
 ```yaml
@@ -832,17 +745,11 @@ Here is what the mapping looks like in the Harness Infrastructure Definition:
 
 ![picture 5](static/b153b60e4c0071d77951c84c982e0c66923dc2eaa1e42fd659001efb65891993.png)
 
-</TabItem>
-  <TabItem value="Rancher" label="Rancher">
-
 Here is what the mapping looks like in the Harness Infrastructure Definition:
 
 ![picture 6](static/b66676514c00face40380bb00b408ccda8aa27b56f2c6e747e252cfaff882280.png)
 
-</TabItem>  
-</Tabs>
-
-## Namespaces
+### Namespaces
 
 You can use the value of the Infrastructure Definition **Namespace** setting in your manifest.
 
@@ -873,15 +780,15 @@ metadata:
 
 Now your values YAML and manifest are templated for use with any stage.
 
-For more information about manifests in Harness, see [Add Kubernetes Manifests](/docs/continuous-delivery/deploy-srv-diff-platforms/kubernetes/cd-kubernetes-category/define-kubernetes-manifests.md).
+For more information about manifests in Harness, see [Add Kubernetes Manifests](cd-kubernetes-category/define-kubernetes-manifests.md).
 
 :::info
 
-If you omit the `namespace` key and value from a manifest in your Service Definition, Harness automatically uses the namespace you entered in the Harness Environment  **Infrastructure Definition** settings **Namespace** field.
+If you omit the `namespace` key and value from a manifest in your Service Definition, Harness automatically uses the namespace you entered in the Harness Environment  **Infrastructure Definition** settings **Namespace** field.
 
 :::
 
-## Release Name
+### Release Name
 
 The **Release name** setting is located in **Advanced** section of the **Cluster Details** in the Infrastructure Definition. You do not need to edit it.
 
@@ -893,12 +800,12 @@ For example, in a Kubernetes deployment you can see `harness.io/release-name=rel
 
 In Harness, the **Release Name** is displayed in the logs of the deployment step:
 
-![](./static/define-your-kubernetes-target-infrastructure-00.png)
+![](static/define-your-kubernetes-target-infrastructure-00.png)
 
 The release name must be unique across the cluster. `release-<+INFRA_KEY_SHORT_ID>` ensures a unique name.
 
 `release-` is used as a prefix because Kubernetes service and pod names must follow RFC-1035 and must consist of lowercase alphanumeric characters or '-', start with an alphabetic character, and end with an alphanumeric character.
 
-For more information on `INFRA_KEY` and `INFRA_KEY_SHORT_ID` please navigate to our [variables page](/docs/platform/variables-and-expressions/harness-variables.md)
+For more information on `INFRA_KEY` and `INFRA_KEY_SHORT_ID` please navigate to our [variables page](../../../platform/variables-and-expressions/harness-variables.md)
 
-See [Kubernetes Releases and Versioning](/docs/continuous-delivery/deploy-srv-diff-platforms/kubernetes/cd-k8s-ref/kubernetes-releases-and-versioning.md).
+See [Kubernetes Releases and Versioning](cd-k8s-ref/kubernetes-releases-and-versioning.md).

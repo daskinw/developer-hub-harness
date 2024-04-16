@@ -1,12 +1,14 @@
 ---
 title: Use Metrics Collection API for Custom Dashboards
-description: This topic describes how to collect metrics for Custom Dashboards.
 sidebar_position: 420
 helpdocs_topic_id: s4cu5zfola
 helpdocs_category_id: l2p3i03l4a
 helpdocs_is_private: false
 helpdocs_is_published: true
+description: This topic describes how to collect metrics for Custom Dashboards.
 ---
+
+# Use Metrics Collection API for Custom Dashboards
 
 Custom Dashboards provide a toolbox for building your own visual interface around Harness data using flexible filtering and criteria. By creating and fine-tuning visualizations that slice and dice your data, you can identify and optimize:
 
@@ -20,7 +22,7 @@ Once you create your Custom Dashboard, you can use its metrics for performance a
 
 This topic lists the queries to collect metrics from a custom dashboard.
 
-## Before You Begin
+### Before You Begin
 
 * [See Custom Dashboards Overview](../../fg-monitoring/custom-dashboards.md)
 * [Create and Manage Custom Dashboards](../../fg-monitoring/create-and-manage-dashboards.md)
@@ -28,14 +30,13 @@ This topic lists the queries to collect metrics from a custom dashboard.
 * [Harness API Explorer](harness-api-explorer.md)
 * [API Schema and Structure](api-schema-and-structure.md)
 
-## Get Statistics of Harness Applications
+### Get Statistics of Harness Applications
 
 For steps on configuring Applications Widget, see [Configure Applications Widget](../../fg-monitoring/configure-custom-widgets.md#step-configure-applications-widget).
 
-This sample returns `name`,  `id`, and `type` values for the application.
+This sample returns `name`,  `id`, and `type` values for the application.
 
-### Request
-
+#### Request
 
 ```
 {  
@@ -53,8 +54,8 @@ This sample returns `name`,  `id`, and `type` values for the application.
   }  
 }
 ```
-### Response
 
+#### Response
 
 ```
 {  
@@ -72,14 +73,14 @@ This sample returns `name`,  `id`, and `type` values for the application.
   }  
 }
 ```
-## Get Statistics of Deployments
+
+### Get Statistics of Deployments
 
 For steps on configuring Deployments Widget, see [Configure Deployments Widget](../../fg-monitoring/configure-custom-widgets.md#step-configure-deployments-widget).
 
-This sample returns `id`, `name`, and `type` values for the deployments.
+This sample returns `id`, `name`, and `type` values for the deployments.
 
-### Request
-
+#### Request
 
 ```
 {  
@@ -100,8 +101,8 @@ This sample returns `id`, `name`, and `type` values for the deployments.
   }  
 }
 ```
-### Response
 
+#### Response
 
 ```
 {  
@@ -127,14 +128,14 @@ This sample returns `id`, `name`, and `type` values for the deployments.
 }  
 
 ```
-## Get Statistics of Harness Environments
+
+### Get Statistics of Harness Environments
 
 For steps on configuring a custom widget, see [Add and Configure Custom Widgets](../../fg-monitoring/configure-custom-widgets.md#step-add-custom-widgets).
 
-This sample queries by `EnvironmentFilter` and returns `id` and `name` values for the environments.
+This sample queries by `EnvironmentFilter` and returns `id` and `name` values for the environments.
 
-### Request
-
+#### Request
 
 ```
 {  
@@ -158,8 +159,8 @@ This sample queries by `EnvironmentFilter` and returns `id` and `name` values f
 }  
   
 ```
-### Response
 
+#### Response
 
 ```
 {  
@@ -186,14 +187,14 @@ This sample queries by `EnvironmentFilter` and returns `id` and `name` values f
   }  
 }
 ```
-## Get Statistics of Harness Instances
+
+### Get Statistics of Harness Instances
 
 For steps on configuring a custom widget, see [Add and Configure Custom Widgets](../../fg-monitoring/configure-custom-widgets.md#step-add-custom-widgets).
 
 This sample queries by `InstanceFilter` and returns `id`, `name`, and `type` values of the instances.
 
-### Request
-
+#### Request
 
 ```
 {  
@@ -214,8 +215,8 @@ This sample queries by `InstanceFilter` and returns `id`, `name`, and `type` val
   }  
 }
 ```
-### Response
 
+#### Response
 
 ```
 {  
@@ -253,14 +254,14 @@ This sample queries by `InstanceFilter` and returns `id`, `name`, and `type` val
   }  
 }
 ```
-## Get Statistics of Harness Pipelines
+
+### Get Statistics of Harness Pipelines
 
 For steps on configuring a custom widget, see [Add and Configure Custom Widgets](../../fg-monitoring/configure-custom-widgets.md#step-add-custom-widgets).
 
 This sample queries by `PipelineFilter` and returns `id` and `name` values of the pipelines.
 
-### Request
-
+#### Request
 
 ```
 {  
@@ -288,8 +289,8 @@ This sample queries by `PipelineFilter` and returns `id` and `name` values of th
   }  
 }
 ```
-### Response
 
+#### Response
 
 ```
 {  
@@ -316,14 +317,14 @@ This sample queries by `PipelineFilter` and returns `id` and `name` values of th
   }  
 }
 ```
-## Get Statistics of Harness Services
+
+### Get Statistics of Harness Services
 
 For steps on configuring a custom widget, see [Add and Configure Custom Widgets](../../fg-monitoring/configure-custom-widgets.md#step-add-custom-widgets).
 
 This sample queries by `ServiceFilter` and returns `id` and `name` values of the services.
 
-### Request
-
+#### Request
 
 ```
 {  
@@ -346,8 +347,8 @@ This sample queries by `ServiceFilter` and returns `id` and `name` values of the
   }  
 }
 ```
-### Response
 
+#### Response
 
 ```
 {  
@@ -374,14 +375,14 @@ This sample queries by `ServiceFilter` and returns `id` and `name` values of the
   }  
 }
 ```
-## Get Statistics of Triggers
+
+### Get Statistics of Triggers
 
 For steps on configuring a custom widget, see [Add and Configure Custom Widgets](../../fg-monitoring/configure-custom-widgets.md#step-add-custom-widgets).
 
 This sample queries by `TriggerFilter` and returns `id` and `name` values of the triggers.
 
-### Request
-
+#### Request
 
 ```
 {  
@@ -404,8 +405,8 @@ This sample queries by `TriggerFilter` and returns `id` and `name` values of the
   }  
 }
 ```
-### Response
 
+#### Response
 
 ```
 {  
@@ -432,14 +433,14 @@ This sample queries by `TriggerFilter` and returns `id` and `name` values of the
   }  
 }
 ```
-## Get Statistics of Workflows
+
+### Get Statistics of Workflows
 
 For steps to configure Workflows Widget, see [Configure Workflows Widget](../../fg-monitoring/configure-custom-widgets.md#step-configure-workflows-widget).
 
 This sample queries by `WorkflowFilter` and returns `id` and `name` values of the workflows.
 
-### Request
-
+#### Request
 
 ```
 {  
@@ -462,8 +463,8 @@ This sample queries by `WorkflowFilter` and returns `id` and `name` values of th
   }  
 }
 ```
-### Response
 
+#### Response
 
 ```
 {  

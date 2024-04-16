@@ -1,8 +1,10 @@
 ---
 title: Overriding services at the environment level
-description: Change service settings when they are used with different environments.
 sidebar_position: 4
+description: Change service settings when they are used with different environments.
 ---
+
+# Overriding services at the environment level
 
 In DevOps, it is common to have multiple environments, such as development, testing, staging, and production. Each environment might require different configurations or settings for the same service. For example, in the development environment, a service may need to use a local database for testing, while in the production environment, it should use a high-availability database cluster.
 
@@ -10,46 +12,37 @@ To enable the same service to use different environment settings, DevOps teams c
 
 This topic explains what service settings can be overridden by environments.
 
-## Limitations
+### Limitations
 
 * Runtime inputs are not supported if you are trying to override services in multi-service and multi-environment set ups.
 
-## Override types
+### Override types
 
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-
-
-<Tabs>
-<TabItem value="Manifests" label="Manifests" default>
+import Tabs from '@theme/Tabs'; import TabItem from '@theme/TabItem';
 
 You can override the following manifest types.
 
-<DocImage path={require('./static/f3298b583d8308e026c05f7dd544195756bb080b43438c0a83ab389c97af794a.png')} width="60%" height="60%" title="Click to view full size image" />
+\<DocImage path={require('./static/f3298b583d8308e026c05f7dd544195756bb080b43438c0a83ab389c97af794a.png')} width="60%" height="60%" title="Click to view full size image" />
 
-- Values YAML
-- OpenShift Param
-- Kustomize
-- Helm Repo
-- Tanzu Application Service (TAS) manifest
-- TAS vars
-- TAS AutoScalar
+* Values YAML
+* OpenShift Param
+* Kustomize
+* Helm Repo
+* Tanzu Application Service (TAS) manifest
+* TAS vars
+* TAS AutoScalar
 
-### Notes
+#### Notes
 
-- Helm Repo:
-  - You can only override Helm Repo for HTTP Helm, GCS, S3, and OCI store types. 
-  - Unlike other overrides, you can only override the Harness connector used for Helm Repo. Consequently, when you override the Helm Repo for a service, you must select the same store type used in the service. So, if the service uses HTTP Helm as the store type, the environment override must also use HTTP Helm as the store type. If you select a different store type, Harness will throw an exception during execution.
-
-</TabItem>
-
-<TabItem value="Values YAML" label="Values YAML">
+* Helm Repo:
+  * You can only override Helm Repo for HTTP Helm, GCS, S3, and OCI store types.
+  * Unlike other overrides, you can only override the Harness connector used for Helm Repo. Consequently, when you override the Helm Repo for a service, you must select the same store type used in the service. So, if the service uses HTTP Helm as the store type, the environment override must also use HTTP Helm as the store type. If you select a different store type, Harness will throw an exception during execution.
 
 You can specify values YAML files at the environment's **Service Overrides** and **Configuration**, and the service itself.
 
 Here is an example of specifying it at the environment's **Configuration**:
 
-![](./static/services-and-environments-overview-17.png)
+![](static/services-and-environments-overview-17.png)
 
 When you have a values YAML file at two or more of the environment **Service Overrides**, **Environment Configuration**, and the service itself, Harness merges the files into a single values YAML for deployment. This merging is performed at pipeline execution runtime.
 
@@ -57,7 +50,7 @@ When you have a values YAML file at two or more of the environment **Service Ove
 
 You cannot check the parametrized values in the values YAML. However, you can view these values in the pipeline execution console view for any deployment type under the Initialize section, when referencing the values YAML in the corresponding manifest.
 
-![parametrized value](./static/values-yaml-parametrized-values.png)
+![parametrized value](static/values-yaml-parametrized-values.png)
 
 :::
 
@@ -65,30 +58,27 @@ Overriding occurs when the higher priority setting has the same `name:value` pai
 
 Let's look at two examples.
 
-#### Merging values YAML name:value pairs
+**Merging values YAML name:value pairs**
 
 An environment's **Service Overrides** values YAML has the name:value pair `servicePort: 80` but no `replicas` name:value.
 
-A service's **Service Definition** has a values YAML with `replicas: 2` but no `servicePort` name:value.
+A service's **Service Definition** has a values YAML with `replicas: 2` but no `servicePort` name:value.
 
 At runtime, the two values YAML files are merged into one.
 
 The `servicePort: 80` from the environment **Service Overrides** values YAML is merged with the **Service Definition**'s `replicas: 2` in the values YAML:
 
-![](./static/service-override.png)
+![](static/service-override.png)
 
-#### Fully overriding values YAML name:value pairs
+**Fully overriding values YAML name:value pairs**
 
-An environment's **Service Overrides** values YAML has the name:value pairs `replicas: 2` and `servicePort: 80`. 
+An environment's **Service Overrides** values YAML has the name:value pairs `replicas: 2` and `servicePort: 80`.&#x20;
 
-A service's **Service Definition** has a values YAML with `replicas: 4` and `servicePort: 8080`. 
+A service's **Service Definition** has a values YAML with `replicas: 4` and `servicePort: 8080`.&#x20;
 
 At runtime, the name:value pairs from the environment **Service Overrides** values YAML fully override the service values YAML. The `replicas: 2` and `servicePort: 80` from the environment **Service Overrides** are used.
 
-![](./static/service-override2.png)
-
-</TabItem>
-<TabItem value="Config files and Variables" label="Config files and Variables">
+![](static/service-override2.png)
 
 Config files and variables are completely overridden.
 
@@ -100,28 +90,17 @@ When you have **Config files** at two or more of the environment **Service Overr
 
 When you have **Variables** with the same name at two or more of the environment **Service Overrides**, **Configuration**, and the service itself, the standard override priority is applied.
 
-</TabItem>
-</Tabs>
-
-## Override methods
+### Override methods
 
 In an environment, you can override one or more settings for **all services** that use the environment and you can override settings for **specific services** that use the environment.
 
-import Tabs1 from '@theme/Tabs';
-import TabItem1 from '@theme/TabItem';
-
-<Tabs1>
-  <TabItem1 value="Override all services" label="Override all services" default>
+import Tabs1 from '@theme/Tabs'; import TabItem1 from '@theme/TabItem';
 
 In the environment **Configuration**, you can also set the default manifests, config files, and variables to use whenever Harness deploys a service to this environment.
 
-![](./static/services-and-environments-overview-15.png)
-
+![](static/services-and-environments-overview-15.png)
 
 For example, a stage has a Kubernetes service with a manifest but whenever that service is deployed to the **QA** environment, the manifest in that environment's **Configuration** overwrites the namespace of with the manifest in the service with `QA`.
-
-  </TabItem1>
-  <TabItem1 value="Override specific services" label="Override specific services">
 
 **Service Overrides** is different from **Configuration** in the following ways:
 
@@ -137,10 +116,7 @@ To override a specific service's setting, do the following:
 5. Select **New Variable/Manifest/Config File Override**.
 6. Override the setting.
 
-  </TabItem1>
-</Tabs1>
-
-## Override priority
+### Override priority
 
 When you are using environment configuration and service override to override service settings, it's important to understand the priority of the overrides.
 
@@ -150,4 +126,4 @@ The priority from top to bottom is:
 2. Environment **Configuration**.
 3. Service settings.
 
-![](./static/override-priority.png)
+![](static/override-priority.png)

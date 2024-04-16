@@ -1,14 +1,16 @@
 ---
 title: 3 - Define Your AKS Target Infrastructure
-description: Define the target deployment environment for your application.
 sidebar_position: 40
 helpdocs_topic_id: 7qsyj7wvpq
 helpdocs_category_id: mkyr84ulx3
 helpdocs_is_private: false
 helpdocs_is_published: true
+description: Define the target deployment environment for your application.
 ---
 
-This content is for [Harness FirstGen](/docs/continuous-delivery/get-started/upgrading/upgrade-nextgen-cd.md). Switch to [NextGen](/docs/continuous-delivery/deploy-srv-diff-platforms/azure/azure-cd-quickstart.md).
+# 3 - Define Your AKS Target Infrastructure
+
+This content is for [Harness FirstGen](../../../../continuous-delivery/get-started/upgrading/upgrade-nextgen-cd.md). Switch to [NextGen](../../../../continuous-delivery/deploy-srv-diff-platforms/azure/azure-cd-quickstart.md).
 
 Once you've added a Service to your Application, you can define Environments where your Service can be deployed.
 
@@ -16,7 +18,7 @@ Once you've added a Service to your Application, you can define Environments whe
 * [Add an Infrastructure Definition](3-azure-environment.md#add-an-infrastructure-definition)
 * [Next Step](3-azure-environment.md#next-step)
 
-### Create a New Harness Environment
+#### Create a New Harness Environment
 
 In an Environment, you specify the following:
 
@@ -33,9 +35,9 @@ The following procedure creates an Environment for the Service we set up earlier
 4. In **Environment Type**, select **Non-Production**.
 5. Click **SUBMIT**. The new **Environment** page appears.
 
-### Add an Infrastructure Definition
+#### Add an Infrastructure Definition
 
-[​Infrastructure Definitions](../../model-cd-pipeline/environments/infrastructure-definitions.md) specify the target deployment infrastructure for your Harness Services, and the specific infrastructure details for the deployment, like VPC settings. 
+[​Infrastructure Definitions](../../model-cd-pipeline/environments/infrastructure-definitions.md) specify the target deployment infrastructure for your Harness Services, and the specific infrastructure details for the deployment, like VPC settings.&#x20;
 
 To add the Infrastructure Definition, do the following:
 
@@ -43,10 +45,10 @@ To add the Infrastructure Definition, do the following:
 2. In **Name**, enter the name you will to select this Infrastructure Definition when you create a Workflow.
 3. In **Cloud Provider Type**, select **Kubernetes Cluster**.
 4. In **Deployment Type**, select **Kubernetes**.
-5. Click **Use Already Provisioned Infrastructure**. If you were using a Harness [Infrastructure Provisioner](../../model-cd-pipeline/infrastructure-provisioner/add-an-infra-provisioner.md), you would select **Map Dynamically Provisioned Infrastructure**.
+5. Click **Use Already Provisioned Infrastructure**. If you were using a Harness [Infrastructure Provisioner](../../model-cd-pipeline/infrastructure-provisioner/add-an-infra-provisioner.md), you would select **Map Dynamically Provisioned Infrastructure**.
 6. In **Cloud Provider**, select the Cloud Provider you added earlier. Ensure that you select the **Kubernetes Cluster Cloud Provider** you set up for the AKS connection and not the Azure Cloud Provider you set up for the ACR connection.
 7. In **Namespace**, enter the name of the cluster namespace you want to use. As we noted in [Namespace Variable](2-service-and-artifact-source.md#namespace-variable), you can enter any value here and the Service will use it in its Namespace manifest to create the namespace at runtime.
-8. In **Release Name**, you can see the expression Harness uses for tracking a release. The release name must be unique across the cluster. The Harness-generated unique identifier `${infra.kubernetes.infraId}` can be used as a suffix to ensure a unique release name.
+8. In **Release Name**, you can see the expression Harness uses for tracking a release. The release name must be unique across the cluster. The Harness-generated unique identifier `${infra.kubernetes.infraId}` can be used as a suffix to ensure a unique release name.
 9. In **Scope to specific Services**, select the Harness Service you created earlier.
 10. Click **Submit**.
 
@@ -54,9 +56,8 @@ That is all you have to do to set up the deployment Environment in Harness.
 
 Now that you have the Service and Environment set up. Now you can create the deployment Workflow in Harness.
 
-Your Environment can overwrite Service Config Variables, Config Files, and other settings. This enables you to have a Service keep its settings but have them changed when used with this Environment. For example, you might have a single Service but an Environment for QA and an Environment for Production, and you want to overwrite the values.yaml setting in the Service depending on the Environment. We don't overwrite any Services variables in this guide. For more information, see [Override Service Settings](/docs/first-gen/continuous-delivery/kubernetes-deployments/override-harness-kubernetes-service-settings.md) in the [Kubernetes Deployments](/docs/continuous-delivery/deploy-srv-diff-platforms/kubernetes/kubernetes-deployments-overview.md) doc.
+Your Environment can overwrite Service Config Variables, Config Files, and other settings. This enables you to have a Service keep its settings but have them changed when used with this Environment. For example, you might have a single Service but an Environment for QA and an Environment for Production, and you want to overwrite the values.yaml setting in the Service depending on the Environment. We don't overwrite any Services variables in this guide. For more information, see [Override Service Settings](../../kubernetes-deployments/override-harness-kubernetes-service-settings.md) in the [Kubernetes Deployments](../../../../continuous-delivery/deploy-srv-diff-platforms/kubernetes/kubernetes-deployments-overview.md) doc.
 
-### Next Step
+#### Next Step
 
 * [4 - Azure Workflows and Deployments](4-azure-workflows-and-deployments.md)
-

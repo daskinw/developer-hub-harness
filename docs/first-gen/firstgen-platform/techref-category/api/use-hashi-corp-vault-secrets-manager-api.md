@@ -1,31 +1,35 @@
 ---
 title: Use HashiCorp Vault Secrets Manager API
-description: Harness includes a built-in Secrets Management feature that enables you to store encrypted secrets, such as access keys, and use them in your Harness Applications. This topic describes how to create,…
 sidebar_position: 320
 helpdocs_topic_id: ehovbje4p1
 helpdocs_category_id: l2p3i03l4a
 helpdocs_is_private: false
 helpdocs_is_published: true
+description: >-
+  Harness includes a built-in Secrets Management feature that enables you to
+  store encrypted secrets, such as access keys, and use them in your Harness
+  Applications. This topic describes how to create,…
 ---
+
+# Use HashiCorp Vault Secrets Manager API
 
 Harness includes a built-in Secrets Management feature that enables you to store encrypted secrets, such as access keys, and use them in your Harness Applications.
 
-This topic describes how to create, read, update, and delete HashiCorp Vault Secrets Manager using Harness API.
+This topic describes how to create, read, update, and delete HashiCorp Vault Secrets Manager using Harness API.
 
-### Before You Begin
+#### Before You Begin
 
-* Review the [Harness API](harness-api.md)
-* Review [Secrets Management Overview](../../security/secrets-management/secret-management.md)
+* Review the [Harness API](harness-api.md)
+* Review [Secrets Management Overview](../../security/secrets-management/secret-management.md)
 * [Add a HashiCorp Vault Secrets Manager](../../security/secrets-management/add-a-hashi-corp-vault-secrets-manager.md)
 
-### Create a Secret Manager Using HashiCorp Vault
+#### Create a Secret Manager Using HashiCorp Vault
 
 Use this sample query to create a Secret Manager.
 
-#### Request
+**Request**
 
-You create a Secret Manager using the mutation `createSecretManager`.
-
+You create a Secret Manager using the mutation `createSecretManager`.
 
 ```
 mutation CreateSecretManagerMutation($secretManagerInput: CreateSecretManagerInput!) {  
@@ -36,13 +40,13 @@ mutation CreateSecretManagerMutation($secretManagerInput: CreateSecretManagerInp
   }  
 }
 ```
-#### Query Variables
 
-The Query Variables follow this syntax, with `secretManagerType` identifying the Secret Manager to create.
+**Query Variables**
+
+The Query Variables follow this syntax, with `secretManagerType` identifying the Secret Manager to create.
 
 * **Authentication**: To get the authentication token, you can use [Token](../../security/secrets-management/add-a-hashi-corp-vault-secrets-manager.md#option-token) or [App Role](../../security/secrets-management/add-a-hashi-corp-vault-secrets-manager.md#option-app-role-method) method.
 * **Secret Engine**: Identify the engine name and version of the Secret Manager in Vault. See [Manually Enter Secret Engine](../../security/secrets-management/add-a-hashi-corp-vault-secrets-manager.md#manually-enter-secret-engine).
-
 
 ```
 {  
@@ -72,14 +76,14 @@ The Query Variables follow this syntax, with `secretManagerType` identifying t
   }  
 }
 ```
-### Update a Secret Manager Using HashiCorp Vault
+
+#### Update a Secret Manager Using HashiCorp Vault
 
 Use this sample query to update a Secret Manager.
 
-#### Request
+**Request**
 
-You update a Secret Manager using the mutation `updateSecretManager`.
-
+You update a Secret Manager using the mutation `updateSecretManager`.
 
 ```
 mutation UpdateSecretManagerMutation($input: UpdateSecretManagerInput!) {  
@@ -92,10 +96,10 @@ mutation UpdateSecretManagerMutation($input: UpdateSecretManagerInput!) {
 }  
 
 ```
-#### Query Variable
 
-The Query Variables follow this syntax, with `secretManagerId` and `secretManagerType` identifying the Secret Manager to update.
+**Query Variable**
 
+The Query Variables follow this syntax, with `secretManagerId` and `secretManagerType` identifying the Secret Manager to update.
 
 ```
 {  
@@ -110,14 +114,14 @@ The Query Variables follow this syntax, with `secretManagerId` and `secretManage
   }  
 }
 ```
-### Delete a Secret Manager Using HashiCorp Vault
+
+#### Delete a Secret Manager Using HashiCorp Vault
 
 Use this sample query to delete a Secret Manager.
 
-#### Request
+**Request**
 
-You delete a Secret Manager using the mutation `deleteSecretManager`.
-
+You delete a Secret Manager using the mutation `deleteSecretManager`.
 
 ```
 mutation DeleteSecretManagerMutation($input: DeleteSecretManagerInput!){  
@@ -126,10 +130,10 @@ mutation DeleteSecretManagerMutation($input: DeleteSecretManagerInput!){
   }  
 }
 ```
-#### Query Variable
 
-The Query Variables follow this syntax, with `secretManagerId`  identifying the Secret Manager to delete.
+**Query Variable**
 
+The Query Variables follow this syntax, with `secretManagerId`  identifying the Secret Manager to delete.
 
 ```
 {  

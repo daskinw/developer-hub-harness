@@ -1,18 +1,23 @@
 ---
 title: Deployment Logging Limitations
-description: This content is for Harness FirstGen. Switch to NextGen. This topic lists the deployment log size, export, and viewing limits. Limitations. Harness deployment logging has the following limitations --  A…
 sidebar_position: 90
 helpdocs_topic_id: h3b4wttuk5
 helpdocs_category_id: cwefyz0jos
 helpdocs_is_private: false
 helpdocs_is_published: true
+description: >-
+  This content is for Harness FirstGen. Switch to NextGen. This topic lists the
+  deployment log size, export, and viewing limits. Limitations. Harness
+  deployment logging has the following limitations --
 ---
 
-This content is for [Harness FirstGen](/docs/continuous-delivery/get-started/upgrading/upgrade-nextgen-cd.md). Switch to [NextGen](/docs/continuous-delivery/manage-deployments/deployment-logs-and-limitations.md).
+# Deployment Logging Limitations
+
+This content is for [Harness FirstGen](../../../../continuous-delivery/get-started/upgrading/upgrade-nextgen-cd.md). Switch to [NextGen](../../../../continuous-delivery/manage-deployments/deployment-logs-and-limitations.md).
 
 This topic lists the deployment log size, export, and viewing limits.
 
-### Limitations
+#### Limitations
 
 Harness deployment logging has the following limitations:
 
@@ -20,11 +25,10 @@ Harness deployment logging has the following limitations:
 * Harness always saves the final log line that contains the status (Success, Failure, etc) even if logs go beyond the limit.
 * In cases where the final log line is itself very large and logs are already beyond max limit (25MB), Harness shows a limited portion of the line from the end (10KB of data for the log line).
 
-### Viewing Large Logs
+#### Viewing Large Logs
 
 For any completed Workflow displayed in **Deployments**, you can expand the log section. The most recent log information is displayed first. You can scroll to see older logs information.
 
-### See Also
+#### See Also
 
 [Export Deployment Logs](export-deployment-logs.md)
-

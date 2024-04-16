@@ -1,14 +1,18 @@
 ---
 title: Best practices for building dashboards
-description: To create dashboards that are effective and efficient, you need to consider their performance. As our dashboards can load large amounts of data, building them for optimal performance will save you ti…
-# sidebar_position: 2
 helpdocs_topic_id: qydl5ju9lx
 helpdocs_category_id: id0hnxv6sg
 helpdocs_is_private: false
 helpdocs_is_published: true
+description: >-
+  To create dashboards that are effective and efficient, you need to consider
+  their performance. As our dashboards can load large amounts of data, building
+  them for optimal performance will save you ti…
 ---
 
-To create dashboards that are effective and efficient, you need to consider their performance. As our dashboards can load large amounts of data, building them for optimal performance will save you time and energy. 
+# Best practices for building dashboards
+
+To create dashboards that are effective and efficient, you need to consider their performance. As our dashboards can load large amounts of data, building them for optimal performance will save you time and energy.&#x20;
 
 Here are some best practices you can follow for building your dashboards:
 
@@ -21,4 +25,3 @@ Here are some best practices you can follow for building your dashboards:
 * **Columns and rows**: Having a lot of columns and rows can also slow down your dashboards due to memory issues. Be mindful of how many you need and also filter at the dashboard level to reduce the number of results in an element.
 * **Shared filters**: By using shared filters across multiple tiles, you can reduce the total number of queries the dashboard runs, which can help speed it up.
 * **Testing the dashboard**: Always test your dashboard after you’ve updated it to make sure you don’t miss any changes in its performance.
-

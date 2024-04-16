@@ -1,13 +1,17 @@
 ---
 title: Control resource usage with Queue steps
-description: This topic describes how to use the Queue step to control the access order to the resources Harness requests during a deployment and prevent multiple Pipelines from requesting the same resources at the same time.
 sidebar_position: 3
 helpdocs_topic_id: 5n96cc7cyo
 helpdocs_category_id: etz0u5kujd
 helpdocs_is_private: false
 helpdocs_is_published: true
+description: >-
+  This topic describes how to use the Queue step to control the access order to
+  the resources Harness requests during a deployment and prevent multiple
+  Pipelines from requesting the same resources at th
 ---
 
+# Control resource usage with Queue steps
 
 This topic describes how to use the **Queue** step to control the access order to the resources Harness requests during a deployment and prevent multiple pipelines from requesting the same resources at the same time.
 
@@ -19,39 +23,38 @@ Queue steps can be used on different Pipelines or even multiple executions of th
 
 In this topic, you will learn how to use the Queue step to control the order in which Pipelines access resources.
 
-Harness provide multiple options for controlling resource usage and protecting capacity limits. See [Controlling Resource Usage with Barriers, Resource Constraints, and Queue Steps](./controlling-deployments-with-barriers-resource-constraints-and-queue-steps.md).
+Harness provide multiple options for controlling resource usage and protecting capacity limits. See [Controlling Resource Usage with Barriers, Resource Constraints, and Queue Steps](controlling-deployments-with-barriers-resource-constraints-and-queue-steps.md).
 
-## Add Queue Steps
+### Add Queue Steps
 
 1. In the stage **Execution**, determine where you want to queue deployments and click **Add Step**.
 2. In **Flow Control**, click **Queue**.
 3. Enter a name and timeout for the Queue step.
 4. In **Resource Key**, enter a unique key. This is the same key you will add to the Queue steps in other Pipelines.
-5. The **Resource Key** supports Fixed Values, Runtime Inputs, and Expressions. See [Fixed Values, Runtime Inputs, and Expressions](/docs/platform/variables-and-expressions/runtime-inputs).
+5. The **Resource Key** supports Fixed Values, Runtime Inputs, and Expressions. See [Fixed Values, Runtime Inputs, and Expressions](../../platform/variables-and-expressions/runtime-inputs/).
 6. In **Run next queued execution after completion of**, select one of the following:
-   + **Pipeline:** the entire Pipeline must complete before the queued Pipelines can deploy.
-   + **Stage:** the current Stage must complete before the queued Pipelines can deploy.
+   * **Pipeline:** the entire Pipeline must complete before the queued Pipelines can deploy.
+   * **Stage:** the current Stage must complete before the queued Pipelines can deploy.
 
 Queue steps can be used on different Pipelines or even multiple executions of the same Pipeline.
 
-## Advanced settings
+### Advanced settings
 
 In **Advanced**, you can use the following options:
 
-* [Delegate Selector](/docs/platform/delegates/manage-delegates/select-delegates-with-selectors)
-* [Conditional Execution](/docs/platform/pipelines/step-skip-condition-settings)
-* [Failure Strategy](/docs/platform/pipelines/failure-handling/define-a-failure-strategy-on-stages-and-steps)
-* [Looping Strategy](/docs/platform/pipelines/looping-strategies/looping-strategies-matrix-repeat-and-parallelism)
-* [Policy Enforcement](/docs/platform/governance/policy-as-code/harness-governance-overview)
+* [Delegate Selector](../../platform/delegates/manage-delegates/select-delegates-with-selectors/)
+* [Conditional Execution](../../platform/pipelines/step-skip-condition-settings/)
+* [Failure Strategy](../../platform/pipelines/failure-handling/define-a-failure-strategy-on-stages-and-steps/)
+* [Looping Strategy](../../platform/pipelines/looping-strategies/looping-strategies-matrix-repeat-and-parallelism/)
+* [Policy Enforcement](../../platform/governance/policy-as-code/harness-governance-overview/)
 
-### Test
+#### Test
 
 Let's look at a simple example to show how Queue steps work.
 
-Here's the YAML for the Pipeline that contains a Custom Stage with a Queue Step followed by a [Shell Script step](/docs/continuous-delivery/x-platform-cd-features/cd-steps/utilities/shell-script-step) step that runs a Bash `sleep 30`.
+Here's the YAML for the Pipeline that contains a Custom Stage with a Queue Step followed by a [Shell Script step](../x-platform-cd-features/cd-steps/utilities/shell-script-step/) step that runs a Bash `sleep 30`.
 
 You can copy it and paste it into your Harness Project. You simply need to update the `projectIdentifier` and `orgIdentifier` settings to match your current [Project and Org](../../platform/organizations-and-projects/projects-and-organizations.md).
-
 
 ```yaml
 pipeline:  
@@ -125,19 +128,18 @@ Here's another Pipeline, **queue 2**, with the same Queue step Resource Key. You
 
 ![](../cd-deployments-category/static/control-resource-usage-with-queue-steps-07.png)
 
-## Queue Step Scope
+### Queue Step Scope
 
 Queue steps are account-wide. This ensures that if a Queue step is placed in one Pipeline, it will restrict any other Pipeline in the account from using resources until it is safe to use.
 
-## Barriers, Resource Constraints, and Queue Steps
+### Barriers, Resource Constraints, and Queue Steps
 
 Harness has a number of ways to control deployments and resource usage. It's important to understand their differences.
 
-See [Controlling Resource Usage with Barriers, Resource Constraints, and Queue Steps](./controlling-deployments-with-barriers-resource-constraints-and-queue-steps.md).
+See [Controlling Resource Usage with Barriers, Resource Constraints, and Queue Steps](controlling-deployments-with-barriers-resource-constraints-and-queue-steps.md).
 
-## When to Queue
+### When to Queue
 
 Queue steps can be added anywhere in your Stage, so it's important to add them whenever the resource you want to protect is being used.
 
 For example, if Pipeline A will perform some Terraform provisioning and Pipeline B will deploy to the provisioned infrastructure, you will want to place the Queue step before the [Terraform Apply](../cd-infrastructure/terraform-infra/run-a-terraform-plan-with-the-terraform-apply-step.md) step in Pipeline A, and before the deployment step in Pipeline B (such as a Kubernetes [Rolling step](../deploy-srv-diff-platforms/kubernetes/kubernetes-executions/create-a-kubernetes-rolling-deployment.md)).
-

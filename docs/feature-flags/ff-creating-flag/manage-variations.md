@@ -1,23 +1,22 @@
 ---
 title: Change the variations of your flags
-description: This topic describes how to edit the default variations of your feature flag.
-tags: 
-   - helpDocs
-   - feature flag
-   - variation
+tags:
+  - helpDocs
+  - feature flag
+  - variation
 sidebar_position: 50
 helpdocs_topic_id: 8bf3us11kz
 helpdocs_category_id: skrwlcueml
 helpdocs_is_private: false
 helpdocs_is_published: true
+description: This topic describes how to edit the default variations of your feature flag.
 ---
 
-import edit_vars from './static/3-manage-variations-00.png'
-import edit_var_form from './static/3-manage-variations-01.png'
-import manage_vars from './static/3-manage-variations-02.png'
+# Change the variations of your flags
 
+import edit\_vars from './static/3-manage-variations-00.png' import edit\_var\_form from './static/3-manage-variations-01.png' import manage\_vars from './static/3-manage-variations-02.png'
 
-When you create a Feature Flag, it has default Variations that are served when the Flag is toggled `ON` or `OFF`. You can accept these default Variations or you can change them. 
+When you create a Feature Flag, it has default Variations that are served when the Flag is toggled `ON` or `OFF`. You can accept these default Variations or you can change them.&#x20;
 
 For example:
 
@@ -26,41 +25,28 @@ For example:
 
 You can edit the Variations of your Flags on the Harness Platform even after using the Harness Feature Flag SDKs in your application.This topic describes how to edit the default Variations of your Feature Flag and how to edit the Variations that are served for your current Environment.
 
-## Edit the default Flag Variations
+### Edit the default Flag Variations
 
-:::info note
- When you change the default Variation of a Flag, the change is applied to **only** the current Environment you are in and any new Environments you create. To change the Variations in other pre-existing Environments, follow the steps in Option 1: Edit the Variations for a Specific Environment.
-:::
+:::info note When you change the default Variation of a Flag, the change is applied to **only** the current Environment you are in and any new Environments you create. To change the Variations in other pre-existing Environments, follow the steps in Option 1: Edit the Variations for a Specific Environment. :::
 
 1. Go to the Feature Flag you want to edit the Variations for.
-2. In **Variations**, click the edit icon.
+2.  In **Variations**, click the edit icon.
 
-   
-   <img src={edit_vars} alt="The Edit Variations icon." height="500" width="300" />
-    
-
+    ![The Edit Variations icon.](%7Bedit\_vars%7D)
 3. In **Edit Variations**, you can add or delete a Variation and also edit the following:
    * **Name**: The name of the Variation, for example `Enabled`. The identifier is not changed if you change the name.
    * **Value**: The value of the Variation, for example `Feature_Enabled`.
    * **Description**: An optional description for the Variation.
-   * **Default rules for the flag**: The rules that are served by default for this Flag, for example, when the Flag is enabled, serve the `Enabled` Variation.
+   *   **Default rules for the flag**: The rules that are served by default for this Flag, for example, when the Flag is enabled, serve the `Enabled` Variation.
 
-      
-      <img src={edit_var_form} alt="A screenshot of the Edit Variations page." height="500" width="400" />
-       
+       ![A screenshot of the Edit Variations page.](%7Bedit\_var\_form%7D)
 
-## Edit the Variations served for your current Environment
+### Edit the Variations served for your current Environment
 
 1. Go to the Feature Flag you want to edit the Variations for.
-2. In the **Targeting** tab, under **When the Default Flag is Enabled** and **When the Default Flag is Disabled**, select the Variations you want to set as the default.
+2.  In the **Targeting** tab, under **When the Default Flag is Enabled** and **When the Default Flag is Disabled**, select the Variations you want to set as the default.
 
-   
-   <img src={manage_vars} alt="A screenshot of the Targeting tab of a Flag, which highlights where you can change which Flag Variation is served." height="500" width="400" />
-    
+    ![A screenshot of the Targeting tab of a Flag, which highlights where you can change which Flag Variation is served.](%7Bmanage\_vars%7D)
 
-   :::info note
-    For information about Specific Targeting, go to [Targeting Users with Flags](/docs/feature-flags/ff-target-management/targeting-users-with-flags)
-   :::
-   
+    :::info note For information about Specific Targeting, go to [Targeting Users with Flags](../ff-target-management/targeting-users-with-flags/) :::
 3. Click **Save** to save your changes.
-

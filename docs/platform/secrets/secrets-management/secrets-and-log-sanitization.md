@@ -1,45 +1,48 @@
 ---
 title: Secrets and log sanitization
-description: This topic describes how Harness sanitizes logs and outputs to prevent secrets from being exposed.
-# sidebar_position: 2
 helpdocs_topic_id: j07l1tbx5t
 helpdocs_category_id: 59dnj7vtao
 helpdocs_is_private: false
 helpdocs_is_published: true
+description: >-
+  This topic describes how Harness sanitizes logs and outputs to prevent secrets
+  from being exposed.
 ---
+
+# Secrets and log sanitization
 
 Harness sanitizes deployment logs and any script outputs to mask text secret values and JSON web tokens (JWTs).
 
 First, let's review secrets in Harness, and then look at how Harness sanitizes logs and outputs to prevent secrets from being exposed.
 
-### Review: Secrets in Harness
+#### Review: Secrets in Harness
 
 You can create secrets in Harness as described in:
 
-* [Add and Reference Text Secrets](/docs/platform/secrets/add-use-text-secrets)
-* [Add and Reference File Secrets](/docs/platform/secrets/add-file-secrets)
-* [Add SSH Secrets](/docs/platform/secrets/add-use-ssh-secrets.md)
+* [Add and Reference Text Secrets](../add-use-text-secrets/)
+* [Add and Reference File Secrets](../add-file-secrets/)
+* [Add SSH Secrets](../add-use-ssh-secrets.md)
 
-For text and file secrets, the secrets are stored in the Secrets Manager. For steps to add a Secret Manager, go to [Add a Secret Manager](/docs/platform/get-started/tutorials/add-secrets-manager.md).
+For text and file secrets, the secrets are stored in the Secrets Manager. For steps to add a Secret Manager, go to [Add a Secret Manager](../../get-started/tutorials/add-secrets-manager.md).
 
 Once a secret is added, you can use other Harness entities instead of settings.
 
-You can reference an Encrypted Text secret created in the Org [scope](/docs/platform/role-based-access-control/rbac-in-harness#permissions-hierarchy-scopes) using the secret identifier in the expression: `<+secrets.getValue("org.your_secret_Id")>`.
+You can reference an Encrypted Text secret created in the Org [scope](../../role-based-access-control/rbac-in-harness/#permissions-hierarchy-scopes) using the secret identifier in the expression: `<+secrets.getValue("org.your_secret_Id")>`.
 
-You can reference a file secret created in the Org [scope](/docs/platform/role-based-access-control/rbac-in-harness#permissions-hierarchy-scopes) using the expression `<+secrets.getValue(“org.file-secret-Id”)>`.
+You can reference a file secret created in the Org [scope](../../role-based-access-control/rbac-in-harness/#permissions-hierarchy-scopes) using the expression `<+secrets.getValue(“org.file-secret-Id”)>`.
 
 At deployment runtime, the Harness Delegate uses the Secrets Manager to decrypt and read the secret only when it is needed.
 
-Harness sends only encrypted data to the Secrets Manager, as follows: 
+Harness sends only encrypted data to the Secrets Manager, as follows:&#x20;
 
 1. Your browser sends data over HTTPS to Harness Manager.
 2. Harness Manager relays encrypted data to the Harness Delegate, also over HTTPS.
 3. The delegate exchanges a key pair with the secrets manager, over an encrypted connection.
 4. The Harness Delegate uses the encrypted key and the encrypted secret, and then discards them. The keys never leave the delegate.
 
-Any secrets manager requires a running Harness Delegate to encrypt and decrypt secrets. Any delegate that references a secret requires direct access to the secrets manager. You can manage your secrets in Harness using either a Key Management Service or third-party Secrets Managers.
+Any secrets manager requires a running Harness Delegate to encrypt and decrypt secrets. Any delegate that references a secret requires direct access to the secrets manager. You can manage your secrets in Harness using either a Key Management Service or third-party Secrets Managers.
 
-### Sanitization
+#### Sanitization
 
 When a text secret or a JWT is displayed in a deployment log, Harness substitutes the value with asterisks (\*) so that the secret value is never displayed.​
 
@@ -50,6 +53,7 @@ You can reference it in a Shell Script step like this:​
 ```
 echo "text secret is: " <+secrets.getValue("doc-secret")>
 ```
+
 When you deploy the Pipeline, the log is sanitized and the output is:​
 
 ```
@@ -57,9 +61,10 @@ Executing command ...
 text secret is:  **************  
 Command completed with ExitCode (0)​
 ```
+
 File secrets are not masked in Harness logs. As noted above they can be encoded in different formats, but they are not masked from users.​
 
-#### Quotes and secrets in a script
+**Quotes and secrets in a script**
 
 By default, secret expressions use quotes for the secret identifier:​ `<+secrets.getValue("secret_identifier")>`.
 
@@ -79,16 +84,15 @@ Here, the secret value is `"mysecret"` and the identifier is `secret_identifier`
 
 `echo '<+secrets.getValue('secret_identifier')>'`
 
-Avoid using `$` in your secret value. ​If your secret value includes `$`, you must use single quotes when you use the expression in a script.  
-For example, if your secret value is `'my$secret'`, and the identifier is `secret_identifier`, to echo, use single quotes:  
+Avoid using `$` in your secret value. ​If your secret value includes `$`, you must use single quotes when you use the expression in a script.\
+For example, if your secret value is `'my$secret'`, and the identifier is `secret_identifier`, to echo, use single quotes:\
 `echo '<+secrets.getValue("secret_identifier")>'`
 
-#### Kubernetes secret objects
+**Kubernetes secret objects**
 
 When you deploy a [Kubernetes Secret object](https://kubernetes.io/docs/concepts/configuration/secret/) using Harness, Harness substitutes the secret values with asterisks (\*).​
 
 Here is a Secret example from the manifest in the Harness Service (using Go templating):​
-
 
 ```
 {{- if .Values.dockercfg}}​  
@@ -104,8 +108,8 @@ type: kubernetes.io/dockercfg
 ---  
 {{- end}}
 ```
-Here is the deployed Secret in the log:​
 
+Here is the deployed Secret in the log:​
 
 ```yaml
 apiVersion: v1​  
@@ -116,7 +120,7 @@ stringData:
     key2: '***'
 ```
 
-### Changing secrets in scripts and RBAC
+#### Changing secrets in scripts and RBAC
 
 Harness log sanitizing only detects exact matches of a secret or any line of it if it is multi-line.
 
@@ -126,6 +130,6 @@ If the modification is minor, the secret value can be easily deciphered which is
 
 To avoid this issue, use Harness RBAC to control which users can access a secret.​
 
-### Log sanitizer detects exact matches only
+#### Log sanitizer detects exact matches only
 
 The log sanitizer detects only exact matches of the secret or any line of the secret if the secret is multiline.

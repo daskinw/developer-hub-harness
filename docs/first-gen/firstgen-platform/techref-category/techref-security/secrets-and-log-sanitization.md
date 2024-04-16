@@ -1,22 +1,24 @@
 ---
 title: Secrets and Log Sanitization (FirstGen)
-description: This content is for Harness FirstGen. Switch to NextGen. Harness sanitizes deployment logs and any script outputs to mask text secret values. First, let's review secrets in Harness, and then look at…
-# sidebar_position: 2
 helpdocs_topic_id: o5ec7vvtju
 helpdocs_category_id: zzl3fqee2p
 helpdocs_is_private: false
 helpdocs_is_published: true
+description: >-
+  This content is for Harness FirstGen. Switch to NextGen. Harness sanitizes
+  deployment logs and any script outputs to mask text secret values. First,
+  let's review secrets in Harness, and then look at…
 ---
 
-:::warning
-This content is for [Harness FirstGen](/docs/continuous-delivery/get-started/upgrading/upgrade-nextgen-cd.md). Switch to [NextGen](https://docs.harness.io).
-:::
+# Secrets and Log Sanitization (FirstGen)
+
+:::warning This content is for [Harness FirstGen](../../../../continuous-delivery/get-started/upgrading/upgrade-nextgen-cd.md). Switch to [NextGen](https://docs.harness.io). :::
 
 Harness sanitizes deployment logs and any script outputs to mask text secret values.
 
 First, let's review secrets in Harness, and then look at how Harness sanitizes logs and outputs to prevent secrets from being exposed.
 
-## Review: Secrets in Harness
+### Review: Secrets in Harness
 
 The following information is also covered in [What is Secrets Management?](../../security/secrets-management/secret-management.md).
 
@@ -31,9 +33,7 @@ For text and file secrets, the secrets are stored in the Secrets Manager you sel
 
 Once a secret is added, you can then reference a secret in Harness Connectors and other Harness settings, such as Service specifications and commands, and scripts in a Workflow.
 
-:::note 
-You can also create text and file secrets in a Service **Configuration** section.
-:::
+:::note You can also create text and file secrets in a Service **Configuration** section. :::
 
 You reference a text secret in a script using the expression `${secrets.getValue("secret_name")}`.
 
@@ -41,21 +41,18 @@ You can reference a file secret using the expression `${configFile.getAsBase64("
 
 At deployment runtime, the Harness Delegate uses the Secrets Manager to decrypt and read the secret only when it is needed.
 
-![](./static/secrets-and-log-sanitization-00.png)
-Harness sends only encrypted data to the Secrets Manager, as follows: 
+![](static/secrets-and-log-sanitization-00.png) Harness sends only encrypted data to the Secrets Manager, as follows:&#x20;
 
 1. Your browser sends data over HTTPS to Harness Manager.
 2. Harness Manager relays encrypted data to the Harness Delegate, also over HTTPS.
 3. The Delegate exchanges a key pair with the secrets manager, over an encrypted connection.
 4. The Harness Delegate uses the encrypted key and the encrypted secret, and then discards them. The keys never leave the Delegate.
 
-:::note 
-Any secrets manager requires a running Harness Delegate to encrypt and decrypt secrets. Any Delegate that references a secret requires direct access to the secrets manager.
-:::
+:::note Any secrets manager requires a running Harness Delegate to encrypt and decrypt secrets. Any Delegate that references a secret requires direct access to the secrets manager. :::
 
-You can manage your secrets in Harness using either a Key Management Service or third party Secrets Managers.
+You can manage your secrets in Harness using either a Key Management Service or third party Secrets Managers.
 
-## Sanitization
+### Sanitization
 
 When a text secret is displayed in a deployment log, Harness substitutes the text secret value with asterisks (\*) so that the secret value is never displayed.
 
@@ -63,33 +60,29 @@ For example, if you have a Harness text secret named **doc-secret** containing `
 
 You can reference it in a Workflow [Shell Script](../../../continuous-delivery/model-cd-pipeline/workflows/capture-shell-script-step-output.md) step like this:
 
-
 ```
 echo "text secret is: " ${secrets.getValue("doc-secret")}
 ```
-When you deploy the Workflow, the log is sanitized and the output is:
 
+When you deploy the Workflow, the log is sanitized and the output is:
 
 ```
 Executing command ...  
 text secret is:  **************  
 Command completed with ExitCode (0)
 ```
+
 You can also reference the encrypted text used in a Service's **Config Variables** in the Workflow using the Service with the variable `${serviceVariable.var_name}`.
 
-:::note 
-File secrets are not masked in Harness logs. As noted above they can be encoded in different formats, but they are not masked from users.
-:::
+:::note File secrets are not masked in Harness logs. As noted above they can be encoded in different formats, but they are not masked from users. :::
 
-### Quotes and Secrets in a Script
+#### Quotes and Secrets in a Script
 
 By default, secret expressions use quotes for the secret name: `${secrets.getValue("secret_name")}`.
 
 If the secret value itself includes quotes, either single or double, and anywhere in the secret value, you must use the opposite quote when you use the expression in a script (echo, etc).
 
-:::danger 
-If you do not use the opposite quote you will expose the secret value.
-:::
+:::danger If you do not use the opposite quote you will expose the secret value. :::
 
 Single quote example:
 
@@ -105,18 +98,15 @@ Here, the secret value is `"mysecret"` and the name is `secret_name` .
 
 `echo '${secrets.getValue('secret_name')}'`
 
-:::danger 
-Avoid using `$` in your secret value. If your secret value includes `$`, you must use single quotes when you use the expression in a script.  
-For example, if your secret value is `'my$secret'` , and the name is `secret_name`, to echo, use single quotes:  
- `echo '${secrets.getValue("secret_name")}'`
-:::
+:::danger Avoid using `$` in your secret value. If your secret value includes `$`, you must use single quotes when you use the expression in a script.\
+For example, if your secret value is `'my$secret'` , and the name is `secret_name`, to echo, use single quotes:\
+`echo '${secrets.getValue("secret_name")}'` :::
 
-### Kubernetes Secret Objects
+#### Kubernetes Secret Objects
 
 When you deploy a [Kubernetes Secret object](https://kubernetes.io/docs/concepts/configuration/secret/) using Harness, Harness substitutes the secret values with asterisks (\*).
 
 Here is a Secret example from the manifest in the Harness Service (using Go templating):
-
 
 ```
 {{- if .Values.dockercfg}}  
@@ -132,8 +122,8 @@ type: kubernetes.io/dockercfg
 ---  
 {{- end}}
 ```
-Here is the deployed Secret in the log:
 
+Here is the deployed Secret in the log:
 
 ```
 apiVersion: v1  
@@ -143,7 +133,8 @@ metadata:
 stringData:  
   key2: '***'
 ```
-## Changing Secrets in Scripts and RBAC
+
+### Changing Secrets in Scripts and RBAC
 
 Harness log sanitizing only detects exact matches of a secret or any line of it if it is multi-line.
 
@@ -155,16 +146,15 @@ To avoid this issue, use Harness RBAC to control which users can access a secret
 
 See [Restrict Secrets Usage](../../security/secrets-management/restrict-secrets-usage.md).
 
-## Log Sanitizer Detects Exact Matches Only
+### Log Sanitizer Detects Exact Matches Only
 
 The log sanitizer detects only exact matches of the secret or any line of the secret if the secret is multiline.
 
-## Secrets 3 Character Minimum
+### Secrets 3 Character Minimum
 
 The log sanitizer only works on secrets that are three characters or longer.
 
 If the secret value is `ab`, then the log will show:
-
 
 ```
 Executing command ...  

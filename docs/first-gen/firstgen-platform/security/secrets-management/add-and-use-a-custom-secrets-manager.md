@@ -1,62 +1,64 @@
 ---
 title: Add and Use a Custom Secrets Manager
-description: To store and use encrypted secrets (such as access keys) with third party secrets managers, you can add Custom Secrets Managers.
-# sidebar_position: 2
 helpdocs_topic_id: ejaddm3ddb
 helpdocs_category_id: o9x167at52
 helpdocs_is_private: false
 helpdocs_is_published: true
+description: >-
+  To store and use encrypted secrets (such as access keys) with third party
+  secrets managers, you can add Custom Secrets Managers.
 ---
 
-This content is for [Harness FirstGen](/docs/continuous-delivery/get-started/upgrading/upgrade-nextgen-cd.md). Switch to [NextGen](/docs/platform/secrets/secrets-management/custom-secret-manager).
+# Add and Use a Custom Secrets Manager
+
+This content is for [Harness FirstGen](../../../../continuous-delivery/get-started/upgrading/upgrade-nextgen-cd.md). Switch to [NextGen](../../../../platform/secrets/secrets-management/custom-secret-manager/).
 
 Harness provides first-class support and built-in integration for some of the third party Secret Managers. You can configure and make use of other Secrets Managers using the Custom Secrets Manager. It's a shell script that you can execute anywhere that fetches the secret and shares it with Harness. It can be run on a Delegate or a remote machine connected to a Delegate.
 
 In this topic:
 
-- [Before You Begin](#before-you-begin)
-- [Limitations](#limitations)
-- [Review: Read-Only Secret Manager](#review-read-only-secret-manager)
-- [Step 1. Create an Encrypted Text Secret](#step-1-create-an-encrypted-text-secret)
-- [Step 2: Add Connection Attributes for Target Hosts](#step-2-add-connection-attributes-for-target-hosts)
-- [Step 3. Create a Shell Script Template](#step-3-create-a-shell-script-template)
-- [Step 4. Configure Custom Secrets Manager](#step-4-configure-custom-secrets-manager)
-  - [Display Name](#display-name)
-  - [Shell Script](#shell-script)
-  - [Execute on Delegate](#execute-on-delegate)
-  - [Target Host](#target-host)
-  - [Templatize Connection Attribute](#templatize-connection-attribute)
-  - [Connection Attribute](#connection-attribute)
-  - [Working Directory](#working-directory)
-  - [Test Variables](#test-variables)
-- [Step 5. Use the Custom Secrets Manager](#step-5-use-the-custom-secrets-manager)
+* [Before You Begin](add-and-use-a-custom-secrets-manager.md#before-you-begin)
+* [Limitations](add-and-use-a-custom-secrets-manager.md#limitations)
+* [Review: Read-Only Secret Manager](add-and-use-a-custom-secrets-manager.md#review-read-only-secret-manager)
+* [Step 1. Create an Encrypted Text Secret](add-and-use-a-custom-secrets-manager.md#step-1-create-an-encrypted-text-secret)
+* [Step 2: Add Connection Attributes for Target Hosts](add-and-use-a-custom-secrets-manager.md#step-2-add-connection-attributes-for-target-hosts)
+* [Step 3. Create a Shell Script Template](add-and-use-a-custom-secrets-manager.md#step-3-create-a-shell-script-template)
+* [Step 4. Configure Custom Secrets Manager](add-and-use-a-custom-secrets-manager.md#step-4-configure-custom-secrets-manager)
+  * [Display Name](add-and-use-a-custom-secrets-manager.md#display-name)
+  * [Shell Script](add-and-use-a-custom-secrets-manager.md#shell-script)
+  * [Execute on Delegate](add-and-use-a-custom-secrets-manager.md#execute-on-delegate)
+  * [Target Host](add-and-use-a-custom-secrets-manager.md#target-host)
+  * [Templatize Connection Attribute](add-and-use-a-custom-secrets-manager.md#templatize-connection-attribute)
+  * [Connection Attribute](add-and-use-a-custom-secrets-manager.md#connection-attribute)
+  * [Working Directory](add-and-use-a-custom-secrets-manager.md#working-directory)
+  * [Test Variables](add-and-use-a-custom-secrets-manager.md#test-variables)
+* [Step 5. Use the Custom Secrets Manager](add-and-use-a-custom-secrets-manager.md#step-5-use-the-custom-secrets-manager)
 
-### Before You Begin
+#### Before You Begin
 
-* See [Harness Key Concepts](../../../starthere-firstgen/harness-key-concepts.md).
-* See [Secrets Management Overview](secret-management.md).
+* See [Harness Key Concepts](../../../starthere-firstgen/harness-key-concepts.md).
+* See [Secrets Management Overview](secret-management.md).
 
-### Limitations
+#### Limitations
 
 * You cannot migrate secrets to or from Custom Secrets Managers.
 * If you make any changes to the Shell Script Template they are not automatically updated in the Custom Secrets Manager that uses that Shell Script Template. To update the Custom Secrets Manager, reselect the Shell Script Template in the Custom Secrets Manager's **Shell Script** setting.
 
-### Review: Read-Only Secret Manager
+#### Review: Read-Only Secret Manager
 
 Harness Custom Secrets Manager is a read-only Secrets Manager. Harness can read/decrypt secrets, but it cannot write secrets to the Custom Secrets Manager.
 
-### Step 1. Create an Encrypted Text Secret
+#### Step 1. Create an Encrypted Text Secret
 
 Using a configured Secrets Manager, create an Encrypted Text secret to access the third party Secrets Manager.
 
 Ensure that **Usage Scope** is set to **Scope to Account**.
 
-![](./static/add-and-use-a-custom-secrets-manager-20.png)
-For more information on creating Encrypted Text Secret, see [Add Encrypted Text](use-encrypted-text-secrets.md#step-1-add-encrypted-text).
+![](static/add-and-use-a-custom-secrets-manager-20.png) For more information on creating Encrypted Text Secret, see [Add Encrypted Text](use-encrypted-text-secrets.md#step-1-add-encrypted-text).
 
 Make sure that the secret you create to access your third party Secrets Manager is selected as Scope to Account. It will not be used for any Application.
 
-### Step 2: Add Connection Attributes for Target Hosts
+#### Step 2: Add Connection Attributes for Target Hosts
 
 If you want to run the Shell Script on a target host and not on the Harness Delegate, you must first create the required connection attributes.
 
@@ -65,7 +67,7 @@ If you want to run the Shell Script on a target host and not on the Harness Dele
 
 This does not apply if you want to run the Custom Secrets Manager on the Harness Delegate.
 
-### Step 3. Create a Shell Script Template
+#### Step 3. Create a Shell Script Template
 
 Create a Shell Script Template. For more information on creating a Shell Script Template and adding it to the Template Library, see [Create Shell Script Template](../../../continuous-delivery/concepts-cd/deployment-types/use-templates.md#create-shell-script-template).
 
@@ -76,8 +78,7 @@ Note the following points while creating the template.
 
 Here’s an example Shell Script Template created for Custom Secrets Manager.
 
-![](./static/add-and-use-a-custom-secrets-manager-21.png)
-In this example, this script assigns the secret variable to your final value. Here are the details of the entries in the script.
+![](static/add-and-use-a-custom-secrets-manager-21.png) In this example, this script assigns the secret variable to your final value. Here are the details of the entries in the script.
 
 * This script makes a cURL call to the API URL of the third party Secrets Manager and gets the output to the file secret.json.
 * It includes some parameters such as engine name and path.
@@ -88,54 +89,52 @@ All the parameters (engine name, path, and key in this case) can be defined as V
 
 Note: Template library add ons like default variable values, script output, and default timeout are not supported in Custom Secrets Manager configuration.
 
-### Step 4. Configure Custom Secrets Manager
+#### Step 4. Configure Custom Secrets Manager
 
 Make sure you enter the following details.
 
-![](./static/add-and-use-a-custom-secrets-manager-22.png)
+![](static/add-and-use-a-custom-secrets-manager-22.png)
 
-
-#### Display Name
+**Display Name**
 
 Enter a name for the Custom Secrets Manager.
 
-#### Shell Script
+**Shell Script**
 
 Select the Shell Script from the Template Library that you have created for running the Custom Secrets Manager.
 
-#### Execute on Delegate
+**Execute on Delegate**
 
-Select this if you want to run the Shell Script on Harness Delegate. 
+Select this if you want to run the Shell Script on Harness Delegate.&#x20;
 
 If you want to run it in another host, enter the following details.
 
-#### Target Host
+**Target Host**
 
 Enter the name of the Target Host.
 
-#### Templatize Connection Attribute
+**Templatize Connection Attribute**
 
-If you select this option, the Connection Attribute will be a part of the Test Variables. 
+If you select this option, the Connection Attribute will be a part of the Test Variables.&#x20;
 
 For example, on a single target host, if you want to access different secrets with different keys for different users with a single Shell Script, you can templatize the connection attribute and enter its value while creating the secret.
 
-#### Connection Attribute
+**Connection Attribute**
 
 Select an SSH key/WinRM Connection Credential to access the Target Host.
 
-#### Working Directory
+**Working Directory**
 
 Enter the path to the directory on the Target Host.
 
-#### Test Variables
+**Test Variables**
 
 Enter test values for the variables defined while creating the Shell Script Template. You must enter these values to verify if the custom Secrets Manager can be accessed and the script within can be executed to get the secret value. You can use a dummy secret or one of the secrets that are already configured for this validation.
 
-### Step 5. Use the Custom Secrets Manager
+#### Step 5. Use the Custom Secrets Manager
 
-Create an Encrypted Text using the Custom Secrets Manager you created earlier. Enter the name and values of all the Input Variables defined while creating the Shell Script Template. 
+Create an Encrypted Text using the Custom Secrets Manager you created earlier. Enter the name and values of all the Input Variables defined while creating the Shell Script Template.&#x20;
 
 For more information on creating Encrypted Text Secret, see [Add Encrypted Text](use-encrypted-text-secrets.md#step-1-add-encrypted-text).
 
 If you want to create a secret on a Target Host Custom Secrets Manager, you must also select the Connection Attribute.
-

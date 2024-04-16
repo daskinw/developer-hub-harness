@@ -1,19 +1,21 @@
 ---
 title: Link Resource Files or Helm Charts in Git Repos
-description: Use your Git repo for configuration files and Helm charts.
 sidebar_position: 100
 helpdocs_topic_id: yjkkwi56hl
 helpdocs_category_id: n03qfofd5w
 helpdocs_is_private: false
 helpdocs_is_published: true
+description: Use your Git repo for configuration files and Helm charts.
 ---
 
-This content is for [Harness FirstGen](/docs/continuous-delivery/get-started/upgrading/upgrade-nextgen-cd.md). Switch to [NextGen](/docs/category/kubernetes).
+# Link Resource Files or Helm Charts in Git Repos
 
-You can use your Git repo for the configuration files in **Manifests** and Harness will use them at runtime. You have two options for remote files:
+This content is for [Harness FirstGen](../../../continuous-delivery/get-started/upgrading/upgrade-nextgen-cd.md). Switch to [NextGen](../../../category/kubernetes/).
 
-* **Standard Kubernetes Resources in YAML** - These files are simply the YAML manifest files stored on a remote Git repo.
-* **Helm Chart from Source Repository** - These are Helm chart files stored in standard Helm syntax in YAML on a remote Git repo.
+You can use your Git repo for the configuration files in **Manifests** and Harness will use them at runtime. You have two options for remote files:
+
+* **Standard Kubernetes Resources in YAML** - These files are simply the YAML manifest files stored on a remote Git repo.
+* **Helm Chart from Source Repository** - These are Helm chart files stored in standard Helm syntax in YAML on a remote Git repo.
 
 For steps on other options, see:
 
@@ -22,15 +24,14 @@ For steps on other options, see:
 * **Kustomization Configuration** — See [Use Kustomize for Kubernetes Deployments](use-kustomize-for-kubernetes-deployments.md).
 * **OpenShift Template** — See [Using OpenShift with Harness Kubernetes](using-open-shift-with-harness-kubernetes.md).
 
-
-### Before You Begin
+#### Before You Begin
 
 * [Define Kubernetes Manifests](define-kubernetes-manifests.md)
 * [Use a Helm Repository with Kubernetes](use-a-helm-repository-with-kubernetes.md)
 
-You can also use a Git repo for your entire Harness Application, and sync it unidirectionally or bidirectionally. For more information, see  [Configuration as Code](../../firstgen-platform/config-as-code/configuration-as-code.md). There is no conflict between the Git repo used for remote **Manifests** files and the Git repo used for the entire Harness Application.
+You can also use a Git repo for your entire Harness Application, and sync it unidirectionally or bidirectionally. For more information, see  [Configuration as Code](../../firstgen-platform/config-as-code/configuration-as-code.md). There is no conflict between the Git repo used for remote **Manifests** files and the Git repo used for the entire Harness Application.
 
-### Step 1: Add a Source Repo Provider
+#### Step 1: Add a Source Repo Provider
 
 To use a remote Git repo for your resource files or Helm charts, you must set up a Harness Source Repo Provider to connect to your repo. To set up the connection, see one of the following:
 
@@ -38,17 +39,17 @@ To use a remote Git repo for your resource files or Helm charts, you must set up
 * [Add a GitLab Repo](../../firstgen-platform/account/manage-connectors/add-a-gitlab-repo.md)
 * [Add a Bitbucket Repo](../../firstgen-platform/account/manage-connectors/add-bitbucket-repo.md)
 
-### Step 2: Link Remote Manifests
+#### Step 2: Link Remote Manifests
 
-In your Harness Kubernetes Service, in **Manifests**, click the vertical ellipsis and click **Link Remote Manifests**.
+In your Harness Kubernetes Service, in **Manifests**, click the vertical ellipsis and click **Link Remote Manifests**.
 
-![](./static/link-resource-files-or-helm-charts-in-git-repos-203.png)
+![](static/link-resource-files-or-helm-charts-in-git-repos-203.png)
 
-The **Remote Manifests** dialog appears.
+The **Remote Manifests** dialog appears.
 
-![](./static/link-resource-files-or-helm-charts-in-git-repos-204.png)
+![](static/link-resource-files-or-helm-charts-in-git-repos-204.png)
 
-### Step 3: Select a Manifest Format
+#### Step 3: Select a Manifest Format
 
 In **Manifest Format**, select one of the following options:
 
@@ -61,19 +62,19 @@ Helm Dependencies are supported with charts in [Helm Chart from Helm Repository]
 * **Kustomization Configuration** — See [Use Kustomize for Kubernetes Deployments](use-kustomize-for-kubernetes-deployments.md).
 * **OpenShift Template** — See [Using OpenShift with Harness Kubernetes](using-open-shift-with-harness-kubernetes.md).
 
-### Step 4: Configure the Repo Settings
+#### Step 4: Configure the Repo Settings
 
-In **Source Repository**, select a SourceRepo Provider for the Git repo you added to your Harness account. For more information, see  [Add Source Repo Providers](../../firstgen-platform/account/manage-connectors/add-source-repo-providers.md).
+In **Source Repository**, select a SourceRepo Provider for the Git repo you added to your Harness account. For more information, see  [Add Source Repo Providers](../../firstgen-platform/account/manage-connectors/add-source-repo-providers.md).
 
-In **Commit ID** , select **Latest from Branch** or **Specific Commit ID**.
+In **Commit ID** , select **Latest from Branch** or **Specific Commit ID**.
 
-For Canary deployments: to ensure that the identical manifest is deployed in both the Canary and Primary phases, use **Specific Commit ID**. If you use **Latest from Branch**, when Harness fetches the manifest for each phase there is the possibility that the manifest could change between fetches for the Canary and Primary phases.In **Branch/Commit ID** (required), enter the branch or commit ID for the remote repo.
+For Canary deployments: to ensure that the identical manifest is deployed in both the Canary and Primary phases, use **Specific Commit ID**. If you use **Latest from Branch**, when Harness fetches the manifest for each phase there is the possibility that the manifest could change between fetches for the Canary and Primary phases.In **Branch/Commit ID** (required), enter the branch or commit ID for the remote repo.
 
-In **File/Folder path(s)**,  enter the repo file and folder path.
+In **File/Folder path(s)**,  enter the repo file and folder path.
 
-If you want to use Go templating in your remote repo for your configuration files in **Manifests**, ensure that the **values.yaml** file is at the root of the folder path you select.When the remote manifests are added, the **Manifests** section displays the connection details.
+If you want to use Go templating in your remote repo for your configuration files in **Manifests**, ensure that the **values.yaml** file is at the root of the folder path you select.When the remote manifests are added, the **Manifests** section displays the connection details.
 
-### Option: Skip Versioning for Service
+#### Option: Skip Versioning for Service
 
 By default, Harness versions ConfigMaps and Secrets deployed into Kubernetes clusters. In some cases, you might want to skip versioning.
 
@@ -83,13 +84,13 @@ In some cases, such as when using public manifests or Helm charts, you cannot ad
 
 Instead, enable the **Skip Versioning for Service** option in **Remote Manifests**.
 
-![](./static/link-resource-files-or-helm-charts-in-git-repos-205.png)
+![](static/link-resource-files-or-helm-charts-in-git-repos-205.png)
 
 When you enable **Skip Versioning for Service**, Harness will not perform versioning of ConfigMaps and Secrets for the Service.
 
 If you have enabled **Skip Versioning for Service** for a few deployments and then disable it, Harness will start versioning ConfigMaps and Secrets.
 
-### Option: Helm Command Flags
+#### Option: Helm Command Flags
 
 You can extend the Helm commands that Harness runs when deploying your Helm chart.
 
@@ -109,16 +110,15 @@ You will see the outputs for the commands you select in the Harness deployment l
 
 If you use Helm commands in the Harness Service and in a Workflow deploying that Service, the Helm commands in the Harness Service override the commands in the Workflow.
 
-#### Harness Variable Expressions are Supported
+**Harness Variable Expressions are Supported**
 
 You can use [Harness variable expressions](../../firstgen-platform/techref-category/variables/variables.md) in any of the command options settings. For example, [Service Config variables](../model-cd-pipeline/setup-services/add-service-level-config-variables.md) and [Workflow variables](../model-cd-pipeline/workflows/add-workflow-variables-new-template.md).
 
-### How Does Harness Use the Remote Files?
+#### How Does Harness Use the Remote Files?
 
 At deployment runtime, the Harness Delegate pulls the remote configuration files from the repo and then uses them to create resources via the Kubernetes API. It does not matter if the Delegate runs in the same Kubernetes cluster as the deployed pods. The Kubernetes API is used by the Delegate regardless of the cluster networking topology.
 
-When you deploy a Workflow or Pipeline that uses this Service, you can see the Delegate fetch the **Manifests** files from the repo in the **Fetch Files** section of the log Harness **Deployments**:
-
+When you deploy a Workflow or Pipeline that uses this Service, you can see the Delegate fetch the **Manifests** files from the repo in the **Fetch Files** section of the log Harness **Deployments**:
 
 ```
 Fetching files from git  
@@ -139,13 +139,13 @@ Successfully fetched following manifest [.yaml] files:
     
 Done.
 ```
-If you experience errors fetching the remote files, it is most likely because the wrong branch has been configured in the **Branch/Commit ID**.
 
-To return to local configuration files, click the vertical ellipsis and select **Use Inline Manifests**.
+If you experience errors fetching the remote files, it is most likely because the wrong branch has been configured in the **Branch/Commit ID**.
+
+To return to local configuration files, click the vertical ellipsis and select **Use Inline Manifests**.
 
 Your remote files are not copied locally. You are simply presented with the local configuration files you used last.
 
-### Next Steps
+#### Next Steps
 
 * [Use a Helm Repository with Kubernetes](use-a-helm-repository-with-kubernetes.md)
-

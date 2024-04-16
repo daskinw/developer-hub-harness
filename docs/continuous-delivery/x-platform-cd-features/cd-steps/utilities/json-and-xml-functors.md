@@ -1,19 +1,20 @@
 ---
 title: JSON and XML functors
-description: Use functors to select info from JSON/XML sources.
 sidebar_position: 2
+description: Use functors to select info from JSON/XML sources.
 ---
+
+# JSON and XML functors
 
 This topic describes how to use JSON and XML functors to select contents from JSON and XML sources.
 
 These functors reduce the amount of shell scripting needed to pull JSON and XML information into your Harness Pipeline steps.
 
-
-## JSON Functor
+### JSON Functor
 
 The JSON functor uses the JSON library [JsonPath](https://github.com/json-path/JsonPath). The JSON functor methods are described below.
 
-### select()
+#### select()
 
 * **Syntax:** `select(string, string)`
 * **Description:** Select attribute values using a path.
@@ -22,7 +23,6 @@ The JSON functor uses the JSON library [JsonPath](https://github.com/json-path/J
 **Example:**
 
 Here is the JSON array that we want to select a value from:
-
 
 ```json
 {  
@@ -41,25 +41,23 @@ You can find this example at [https://raw.githubusercontent.com/wings-software/h
 
 To select the value `0.0.253-feature_NC-6595.8d268cd~nc1.6312a66`, you would use `select()` to specify the path to the value, like this:
 
-
 ```json
 <+json.select("data.attributes.version_pins.mvn-service://new-construction-api", httpResponseBody)>
 ```
 
-The `httpResponseBody` argument is used to indicate that we want to select the path *within* the HTTP response body. `httpResponseBody` is propagated from the HTTP request.
+The `httpResponseBody` argument is used to indicate that we want to select the path _within_ the HTTP response body. `httpResponseBody` is propagated from the HTTP request.
 
 A common use of `select()` is in an HTTP step.
 
 For example, the following HTTP step uses a variable named **book** and the `select()` method in **Value** to obtain the value `0.0.253-feature_NC-6595.8d268cd~nc1.6312a66` from the HTTP response payload at the URL specified in **URL**.
 
-![](./static/json-and-xml-functors-06.png)
+![](static/json-and-xml-functors-06.png)
 
 When this HTTP step is executed, in its **Output** tab, you can see the HTTP response in **HTTP Response Body** and the selection in the **Output Variables**:
 
-![](./static/json-and-xml-functors-07.png)
+![](static/json-and-xml-functors-07.png)
 
 You can also use a Shell Script step to echo the book output like this:
-
 
 ```bash
 echo <+pipeline.stages.Functors.spec.execution.steps.jsonselect.output.outputVariables.book>
@@ -67,9 +65,9 @@ echo <+pipeline.stages.Functors.spec.execution.steps.jsonselect.output.outputVar
 
 When the Pipeline is executed, the value of **book** is output:
 
-![](./static/json-and-xml-functors-08.png)
+![](static/json-and-xml-functors-08.png)
 
-### object()
+#### object()
 
 * **Syntax:** `object(string)`
 * **Description:** Selects objects from a JSON collection.
@@ -79,27 +77,27 @@ When the Pipeline is executed, the value of **book** is output:
 
 Here is the JSON we will query:
 
-
 ```json
 {"item":"value1","level1":{"level2":"value2"}}
 ```
+
 You can find this example at [https://raw.githubusercontent.com/wings-software/harness-docs/main/functors/object.json](https://raw.githubusercontent.com/wings-software/harness-docs/main/functors/object.json).
 
 Here is the query using the `object()` method to select `value1`:
 
-
 ```bash
 <+json.object(httpResponseBody).item>
 ```
+
 We can add the `object()` method to an HTTP step and output it:
 
-![](./static/json-and-xml-functors-09.png)
+![](static/json-and-xml-functors-09.png)
 
 When this HTTP step is executed, in its **Output** tab, you can see the HTTP response in **HTTP Response Body** and the object in the **Output Variables**:
 
-![](./static/json-and-xml-functors-10.png)
+![](static/json-and-xml-functors-10.png)
 
-### list()
+#### list()
 
 * **Syntax:** `list(string, string)`
 * **Description:** Returns list object.
@@ -108,7 +106,6 @@ When this HTTP step is executed, in its **Output** tab, you can see the HTTP res
 **Example:**
 
 Here is the JSON we will query:
-
 
 ```json
 {  
@@ -155,25 +152,26 @@ Here is the JSON we will query:
   ]  
 }
 ```
+
 You can find this example at [https://raw.githubusercontent.com/wings-software/harness-docs/main/functors/books.json](https://raw.githubusercontent.com/wings-software/harness-docs/main/functors/books.json).
 
 Here is the query using the `list()` method to select `pages` from the 3rd book:
 
-
 ```json
 <+json.list("books", httpResponseBody).get(2).pages>
 ```
+
 Since the JSON array starts at 0, `get(2)` returns `pages` from the third list item (`"pages": "460"`).
 
 We can add the `list()` method to an HTTP step and output it using the variable **list**:
 
-![](./static/json-and-xml-functors-11.png)
+![](static/json-and-xml-functors-11.png)
 
 When this HTTP step is executed, in its **Output** tab, you can see the HTTP response in **HTTP Response Body** and the list item in the **Output Variables**:
 
-![](./static/json-and-xml-functors-12.png)
+![](static/json-and-xml-functors-12.png)
 
-### format()
+#### format()
 
 * **Syntax:** `format(object)`
 * **Description:** Format the array passed as the string value in JSON format.
@@ -187,12 +185,11 @@ We are using the example at [https://raw.githubusercontent.com/wings-software/ha
 
 If we simply rendered the `httpResponseBody`, we would get:
 
-
 ```json
 {data:{attributes:name:new-construction-api}} {data:{attributes:version_pins:{mvn-service://new-construction-api:0.0.253-feature_NC-6595.8d268cd~nc1.6312a66}}}
 ```
-If we render it using `<+json.format(<+pipeline.stages.Functors.spec.execution.steps.jsonformat1.output.httpResponseBody>)>` we get a JSON formatted string:
 
+If we render it using `<+json.format(<+pipeline.stages.Functors.spec.execution.steps.jsonformat1.output.httpResponseBody>)>` we get a JSON formatted string:
 
 ```json
 {\n  "data": {\n    "attributes": {\n      "name": "new-construction-api",\n      "version_pins": {\n        "mvn-service://new-construction-api": "0.0.253-feature_NC-6595.8d268cd~nc1.6312a66"\n      }\n    }\n  }\n}\n
@@ -200,26 +197,24 @@ If we render it using `<+json.format(<+pipeline.stages.Functors.spec.execution.s
 
 :::important
 
-1. JSON accepts the control sequence `\n` as strings. To format JSON, use `jq` to prettify the JSON.
+1. JSON accepts the control sequence  as strings. To format JSON, use `jq` to prettify the JSON.
+2.  Conditional expressions within double quotes are considered strings.
 
-2. Conditional expressions within double quotes are considered strings.
-   
-   So, `"<+json.select("fields.status.name", httpResponseBody)>"=="In Progress"` is treated as string comparison and will not work.
-   
-   Use `<+json.select("fields.status.name", httpResponseBody)>=="In Progress"` instead.
-   
-   The keyword null, too, shouldn't be enclosed in quotes during comparison. 
-   
-   Here's an example of a null comparison:
-   `<+json.object(httpResponseBody).fields.parent>!=null`
+    So, `"<+json.select("fields.status.name", httpResponseBody)>"=="In Progress"` is treated as string comparison and will not work.
+
+    Use `<+json.select("fields.status.name", httpResponseBody)>=="In Progress"` instead.
+
+    The keyword null, too, shouldn't be enclosed in quotes during comparison.
+
+    Here's an example of a null comparison: `<+json.object(httpResponseBody).fields.parent>!=null`
 
 :::
 
-## XML Functor
+### XML Functor
 
 The [XPath](https://developer.mozilla.org/en-US/docs/Web/XPath) functor has one method: `xml.select()`.
 
-### select()
+#### select()
 
 * **Syntax:** `xml.select(string, string)`
 * **Description:** Returns XML file.
@@ -228,7 +223,6 @@ The [XPath](https://developer.mozilla.org/en-US/docs/Web/XPath) functor has one 
 **Example:**
 
 Here is the contents of the XML file we will query:
-
 
 ```xml
 <?xml version="1.0"?>  
@@ -268,22 +262,21 @@ We are using the example at [https://raw.githubusercontent.com/wings-software/ha
 
 Here is the query using the `xml.select()` method to select the title from the first book:
 
-
 ```bash
 <+xml.select("/bookstore/book[1]/title", httpResponseBody)>
 ```
+
 We can add the `xml.select()` method to an HTTP step and output it using **Response Mapping**:
 
-![](./static/json-and-xml-functors-13.png)
+![](static/json-and-xml-functors-13.png)
 
 Next, we reference the output variable **select** in a Shell Script step:
-
 
 ```bash
 echo <+pipeline.stages.Functors.spec.execution.steps.XML_select.output.outputVariables.select>
 ```
-When the Workflow is deployed, the result is:
 
+When the Workflow is deployed, the result is:
 
 ```bash
 Executing command ...  
@@ -295,9 +288,9 @@ Command completed with ExitCode (0)
 
 You can also see the entire XML file in the deployment **Details** section:
 
-![](./static/json-and-xml-functors-14.png)
+![](static/json-and-xml-functors-14.png)
 
-## YAML Pipeline Example
+### YAML Pipeline Example
 
 Here's the YAML for a Pipeline that demonstrates all of the functors.
 

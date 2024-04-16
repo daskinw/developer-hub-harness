@@ -1,29 +1,30 @@
 ---
 title: Business Alignment report
-description: Generate Alignment metrics for your Engineering Team using the Business Alignment profile.
 sidebar_position: 131
 sidebar_label: Business Alignment report
+description: >-
+  Generate Alignment metrics for your Engineering Team using the Business
+  Alignment profile.
 ---
+
+# Business Alignment report
 
 The Business Alignment Report helps you visualize where your teams are investing the majority of their effort and assist them in prioritizing their time effectively. This report displays your investment efforts across the categories outlined in the corresponding Business Alignment Profile.
 
-:::info
-The Business Alignment report feature is currently in BETA. Contact [Harness Support](mailto:support@harness.io) to enable this feature.
-:::
+:::info The Business Alignment report feature is currently in BETA. Contact [Harness Support](mailto:support@harness.io) to enable this feature. :::
 
-<DocVideo src="https://www.youtube.com/embed/f3fLqermTGo?si=qFF0PVof8Q36kkr3" />
+\
 
-<br />
 
 The Business Alignment report displays the effort invested for each Category as a percentage value along with an assigned target **Label** (**Ideal**, **Poor**, **Acceptable**) on the **Pie Chart**.
 
-The **Trend Chart** on the widget displays the detailed breakdown of the score in the **Stacked Bar Chart** format. It displays the trend of effort investment over time, based on defined **Category** and their associated **Allocation Goals** in the [Business Alignment profile](/docs/software-engineering-insights/early-access/profiles/sei-business-alignment-profile).
+The **Trend Chart** on the widget displays the detailed breakdown of the score in the **Stacked Bar Chart** format. It displays the trend of effort investment over time, based on defined **Category** and their associated **Allocation Goals** in the [Business Alignment profile](../profiles/sei-business-alignment-profile/).
 
 The Bar Chart breaks down the metric value into time intervals as configured under the widget settings.
 
-![](./static/ba-report.png)
+![](static/ba-report.png)
 
-## Calculation Parameters
+### Calculation Parameters
 
 * **Effort Allocation:** This is the calculated percentage of effort allocated to a specific contributor and investment category within the chosen effort unit. It indicates how the effort is distributed.
 * Users may choose the desired effort unit at the widget level, such as **Ticket Count**, **Story Points**, or **Ticket Time Spent**. These units represent different ways of quantifying workload:
@@ -36,32 +37,30 @@ This report supports two types of drill-down views:
 1. Drill down by Contributors
 2. Drill down by Tickets
 
-## Drill down by Contributors
+### Drill down by Contributors
 
 By selecting a category from the **Stacked Bar Chart**, you can access the drill-down report displaying data on the total completed effort, including the distribution of effort among individual contributors across all categories or just the selected one.
 
-![](./static/drilldown-contributors.png)
+![](static/drilldown-contributors.png)
 
-## Drill down by Tickets
+### Drill down by Tickets
 
 This displays the report drill down view for tickets. When viewing the selected category on the **Bar Chart**, the widget will show data for all the relevant tickets included in the selected category. Alternatively, when a particular interval is selected from the Bar Chart, the widget will display the data for items across all categories during the selected time interval.
 
 The data is represented in tabular format. Both the drill-down options support search functionality, enabling you to search for specific contributors or tickets directly.
 
-![](./static/drilldown-tickets.png)
+![](static/drilldown-tickets.png)
 
-:::info
-Please note that the **Drilldown by Contributor** option is available only if the widget is configured with **FTE (By Engineer)** settings for calculating effort.
-:::
+:::info Please note that the **Drilldown by Contributor** option is available only if the widget is configured with **FTE (By Engineer)** settings for calculating effort. :::
 
-## Calculation Example
+### Calculation Example
 
 In this example, we have a User X who is part of a team responsible for completing tasks in two different categories: Category A and Category B. These categories represent different types of work or projects within the team's scope.
 
 * **Category A:** Tasks encompassing significant effort, potentially critical features, or complex technical issues. These tasks demand substantial resources and attention from the team.
 * **Category B:** Tasks requiring comparatively lower effort, such as routine maintenance or minor enhancements. They may have a lower priority compared to Category A tasks.
 
-### Absolute Effort Calculation
+#### Absolute Effort Calculation
 
 In this scenario, we're analyzing the contributions of 3 contributors within two categories, Category A and Category B, based on the effort metric of Ticket Counts. The Ticket Counts represent the number of tasks assigned to each developer.
 
@@ -85,15 +84,15 @@ Total effort for Category B = 2+2+1 = 5
 
 This calculation offers insights into the distribution of tasks in Category B among team members.
 
-Effort metric for Category A = Total effort for Category A/Total effort across all categories * 100
+Effort metric for Category A = Total effort for Category A/Total effort across all categories \* 100
 
-6/6+5 * 100 = 54.55%
+6/6+5 \* 100 = 54.55%
 
-Effort metric for Category B = Total effort for Category B/Total effort across all categories * 100
+Effort metric for Category B = Total effort for Category B/Total effort across all categories \* 100
 
-5/6+5 * 100 = 45.45\%
+5/6+5 \* 100 = 45.45%
 
-### FTE Effort Calculation
+#### FTE Effort Calculation
 
 FTE effort allows for a standardized assessment of individual contributions by considering the proportion of each developer's workload.
 
@@ -115,23 +114,23 @@ Total FTE Effort for Category B = 0.4 + 0.5 + 0.5 = 1.4
 
 Here we convert the **Absolute Effort (Ticket Counts)** into FTE effort by considering the proportion of each developer's workload. This helps in understanding the relative contribution of each developer in terms of full-time work.
 
-### Calculation of User X's Contribution
+#### Calculation of User X's Contribution
 
 User contribution represents the percentage of tasks handled by each contributor within specific categories, aiding in assessing their involvement and impact.
 
 **For Category A:**
 
-* User X's contribution = Total effort by User X in Category A / Total effort by User X * 100
+* User X's contribution = Total effort by User X in Category A / Total effort by User X \* 100
 * User X's total effort in Category A = 3 (Ticket Counts)
 
-User X's contribution to Category A = 3/5 * 100 = 60%
+User X's contribution to Category A = 3/5 \* 100 = 60%
 
 **For Category B:**
 
-* User X's contribution = Total effort by User X in Category B / Total effort by User X * 100
+* User X's contribution = Total effort by User X in Category B / Total effort by User X \* 100
 * User X's total effort in Category B = 2 (Ticket Counts)
 
-User X's contribution to Category B = 2/5 * 100 = 40%
+User X's contribution to Category B = 2/5 \* 100 = 40%
 
 To summarize the effort calculation for User X:
 
